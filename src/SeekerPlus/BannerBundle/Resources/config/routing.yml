@@ -1,3 +1,6 @@
 show_banner:
     pattern:  /app/show-banner/{id}/
     defaults: { _controller: BannerBundle:Default:show }
+show_banner_published:
+    pattern:  /app/show-banners/
+    defaults: { _controller: BannerBundle:Default:showBanners }
