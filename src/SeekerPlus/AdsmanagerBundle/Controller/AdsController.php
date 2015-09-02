@@ -73,6 +73,36 @@ class AdsController extends Controller
 
 
 
+public function emailAdsAction(Request $request){
+
+        $request = $this->container->get('request');
+        $Subject= json_decode($request->request->get('Subject'));
+        $Messaje= json_decode($request->request->get('Message'));
+        $idAd = json_decode($request->request->get('idAd'));
+      
+
+             $dateTime = new \DateTime();
+             $date = $dateTime->format('d/m/y H:i:s');
+             $message = \Swift_Message::newInstance()
+            ->setSubject('Mensaje privado')
+            ->setFrom('fernando.ricaurte@hotmail.com')
+            ->setTo('fernando.ricaurte@hotmail.com')
+
+            ->setBody(
+                $this->renderView(
+                    'AdsmanagerBundle:Ads:email.html.twig',
+                     array('Subject' =>  $Subject ,'Messaje' => $Messaje)
+                    
+                )
+            ,'text / html')
+        ;
+        $this->get('mailer')->send($message);
+        
+          $response = array("menssage" =>   $Messaje,"subject" =>   $Subject );
+          return new JsonResponse($response);
+
+ }
+
 
 public function adCommentAction(Request $request){
 

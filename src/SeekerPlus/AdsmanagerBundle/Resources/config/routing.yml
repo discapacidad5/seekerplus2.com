@@ -75,3 +75,7 @@ date_comment:
 paginationAd:
     pattern:  /app/ad/paginationAd/
     defaults: { _controller: AdsmanagerBundle:Ads:paginationAd }
+
+emailAds:
+    pattern:  /app/ad/emailAds/
+    defaults: { _controller: AdsmanagerBundle:Ads:emailAds }

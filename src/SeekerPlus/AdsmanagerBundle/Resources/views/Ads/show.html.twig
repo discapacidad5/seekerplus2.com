@@ -90,6 +90,7 @@
 		    	<ul class="tabs">
 		       		<li><a href="#frame_1_1">Productos y/o Servicios</a></li>
 		            <li><a href="#frame_1_2">Comentarios</a></li>
+		            <li><a href="#frame_1_3">Contacto</a></li>
 		        </ul>
 		        <div class="frames bg-grayLight">
 		        	<div class="frame" id="frame_1_1" style="background-color: rgb(255, 255, 255);">
@@ -270,10 +271,80 @@ function  pagination(range){
 		            </div>
 		       </div>
 		    </div>
+
+		     <div class="frame" id="frame_1_3" style="background-color: rgb(255, 255, 255);">
+                           
+
+
+
+<form action="" method="post">
+
+
+	  <label class="header">Contactar con  {{ ad.adHeadline|e }}</label>
+	  <br>
+	   <br>
+    <label class="sub-alt-header">Asunto</label>
+    <br>
+    <div class="input-control text" style="width:50%">
+
+        <input type="text" id="asunto" placeholder="Asunto" class="sub-alt-header" value="Lorem ipsum dolor sit amet ">
+    </div>
+         <br>
+    <label class="sub-alt-header">Mensaje</label>
+	<div class="textarea-div">
+	<div class="typearea">
+		<textarea placeholder="Escribe un Mensaje..." id="mensaje" class="custom-scroll sub-alt-header"
+		  >
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</textarea>
+	</div>
+  
+    </div>
+     <br>
+   
+</form>
+ <button class="button primary" onclick="Messages($('#asunto').val(),$('#mensaje').val())"><span class="mif-mail"></span> Enviar</button>
+
+		     </div>
 			   
 	</div>
 </div>
 </div>
+
+<script type="text/javascript">
+	function Messages(subject,message){
+		alert(message);
+		setTimeout(function () {
+			$.post('{{ path('emailAds') }}',               
+			         { Subject: JSON.stringify(subject) ,
+			           Message: JSON.stringify(message) ,
+			           idAd: {{ ad.id|e }},
+			        }, 
+			        	function(response){
+			        		
+			                 console.log(response.subject);
+			                 console.log(response.menssage);         
+                	         showDialog("#contact");
+                         
+				}, "json"); 
+			 }, 1000);
+	}
+
+</script>
+
+<div data-role="dialog" id="contact" data-close-button="true" class="success">
+<br>
+    <h1>  Mensaje enviado con exito a {{ ad.adheadLine}} </h1>
+<br>
+</div> 
+
+      
+
 {% endblock content %}
 {% block footer %}
 <div style="padding: 1rem;margin-top: -8rem;margin-left: -1.5rem;" data-role="dialog" id="cities" data-close-button="true" data-overlay="true" data-overlay-color="op-dark">
@@ -404,6 +475,7 @@ $(function(){
 
 						}
 						else{
+							setTimeout(function () {
 		    $.post('{{ path('ad_comment') }}',               
 		            {idAd: {{ ad.id|e }},
 		            comment: JSON.stringify(commentUser)
@@ -438,7 +510,7 @@ $(function(){
 			      $('#comments-list li:last').insertAfter('#comments-list li:first');
 
 			}, "json"); 
-
+	 }, 1000);
 			}
 		}
 
