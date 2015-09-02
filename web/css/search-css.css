@@ -1,0 +1,44 @@
+@media only screen and (min-width: 150px) {
+	.buscador-container {
+		position: absolute;
+		width: 10rem; 
+		background: rgb(255, 255, 255) none repeat scroll 0% 0%;
+	}
+
+	@media only screen and (min-width: 300px) {
+	.buscador-container {
+		position: absolute;
+		width: 18rem; 
+		background: rgb(255, 255, 255) none repeat scroll 0% 0%;
+	}
+
+	@media only screen and (min-width: 600px) {
+	.buscador-container {
+		position: absolute;
+		width: 22rem; 
+		background: rgb(255, 255, 255) none repeat scroll 0% 0%;
+	}
+
+	@media only screen and (min-width: 900px) {
+	.buscador-container {
+		position: absolute;
+		width: 22rem; 
+		background: rgb(255, 255, 255) none repeat scroll 0% 0%;
+		margin-left: 8em;
+	}
+
+	@media only screen and (min-width: 1200px) {
+	.buscador-container {
+		position: absolute;
+		width: 17rem; 
+		background: rgb(255, 255, 255) none repeat scroll 0% 0%;
+		margin-left: 8em;
+	}
+
+	.buscador-container li:hover {
+		background-color: #C2BEBE;
+		color: white;
+	}
+	.buscador-container li a:hover {
+		color: white;
+	}

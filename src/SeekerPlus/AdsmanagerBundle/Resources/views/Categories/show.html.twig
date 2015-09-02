@@ -1,0 +1,173 @@
+
+{% extends '::app.html.twig' %} 
+{% block title %} 
+{{ category.name }} | {{ city.alias }}
+{% endblock %} 
+
+{% block description %} 
+
+{% endblock %} 
+
+{% block keywords %} 
+
+{% endblock %} 
+ {% block javascripts %}
+ {{ parent() }}
+  <script src="{{asset('js/select2.min.js')}}"></script>
+{% endblock %}
+{% block content %}
+{{ parent() }}
+<div class="container page-content fg-dark" style="padding: 0.5rem;margin-bottom: 2rem;">
+<h2>
+	<ul class="t-menu horizontal compact" style="box-shadow: 0px 0px 20px 0px transparent ! important;">
+			<li style="height: 3rem; width: 3rem;" class=""><a style="width: 2.9rem; height: 2.9rem;" href="#" class="dropdown-toggle"><span style="width: 1rem;" class="icon mif-sort-asc mif-3x"></span></a>
+		    	<ul style="display: none;" class="t-menu compact" data-role="dropdown">
+		        	<li><a style="width: 3rem; height: 3rem;" onclick="getLocation();"><span class="icon mif-meter"></span></a></li>
+		            <li><a style="width: 3rem; height: 3rem;" onclick="getRated();"><span class="icon mif-star-full"></span></a></li>
+		        </ul>
+		    </li>
+	</ul>
+<span style="margin-left: 2rem;"> {{ category.name }}</span>
+</h2><br>
+{% set counter = 0 %}
+{% for field in ads %}
+	<div class="cell">
+		<div class="listview">
+	    	<div style="border: 1px solid #EAEAEA;width: 100%;height: auto;position: relative;display: block;cursor: pointer;
+color: inherit;margin: 0px 0px 10px;"href="#" class="list">
+	         <a style="margin-left: -3rem;padding: 10px 10px 10px 0rem;position: relative;display: block;color: inherit;" 
+	         class="list-content" href="{{ path('show_ad', {'idAd': field.0.id,'idCity': location.id}) }}">
+	            {% if field.0.images == 'noImages.jpg' %}
+	            	<img style="margin-left: 1rem;display: block;width: 56px;height: 56px;font-size: 40px;float: left;margin-right: 10px;" src="{{asset('images/noImages.jpg')}}" class="icon">
+				{% else %}
+				    <img style="margin-left: 1rem;display: block;width: 56px;height: 56px;font-size: 40px;float: left;margin-right: 10px;" src="{{asset('images/ids/')}}{{ field.0.id }}/{{ field.0.images }}" class="icon">
+				{% endif %}
+	         <div class="data">
+	         	<span style="font-size: 14px;line-height: 16px;margin: 0px;padding: 0px;display: block;overflow: hidden;text-overflow: ellipsis;" class="list-title"><b>{{ field.0.adHeadline|e }}</b></b></span>
+	         	<span style="font-size: 11px;line-height: 14px;margin: 0px;padding: 0px;display: block;overflow: hidden;text-overflow: ellipsis;" class="list-remark">{{ field.0.adText|e }}&nbsp</span>
+	         	
+	         	<span class='rating small'data-score-title='Valoracion : ' data-role='rating' data-static='true'
+        			data-size='small' data-value='{% if (field.1.0.0.rate) is empty %}
+								0
+							{% else %}
+								{{ field.1.0.0.rate |e }}
+							{% endif %}
+		        			' data-on-rate='doNothing'>
+        		</span>
+        		<span> <small><span style="font-size: 0.6rem;" class="mif-users"><small>({{ field.1.0.0.score |e }})</small></span></span>
+	         </div>
+	         	{% if field.distance is defined %}
+        		   <span style="font-size: 12px;line-height: 14px;margin: 0px 0px 0px 1rem;padding: 0px;display: block;overflow: hidden;
+        		   text-overflow: ellipsis;" class="list-remark"><b>
+        		   {% if field.distance >= 1000%}
+        		        {% set distance = field.distance/1000 %}
+        		   		{{ distance|round(1, 'floor') }}</b> Kilometros</span>
+        		   {% else %}
+        		   		{{ field.distance|round(1, 'floor') }}</b> Metros</span>   
+        		   {% endif %}
+				{% endif %}
+	        </a>
+	      </div>
+		</div>
+	</div>
+{% set counter = counter + 1 %}
+{% endfor %}
+<div style="margin-bottom: 2rem;">
+	{% if range >= 10 %}
+	{% set minrange = range - 10 %}
+		{% if latitude is defined %}
+		<a href="{{ path('show_category_geolocation', {'idCategory': category.id,'idCity': location.id,'latitude':latitude,'longitude':longitude,'range':minrange}) }}" class="button"><span class="mif-chevron-left"></span> Atras</a>
+		{% elseif rated is defined %}
+		<a href="{{ path('show_category_rated', {'idCategory': category.id,'idCity': location.id,'range':minrange}) }}" class="button"><span class="mif-chevron-left"></span> Atras</a>
+		{% else %}
+		<a href="{{ path('show_category', {'idCategory': category.id,'idCity': location.id,'range':minrange}) }}" class="button"><span class="mif-chevron-left"></span> Atras</a>
+		{% endif %}
+	{% endif %}
+	{% if counter >= 10 %}
+	{% set maxrange = range + 10 %}
+		{% if latitude is defined %}
+		<a href="{{ path('show_category_geolocation', {'idCategory': category.id,'idCity': location.id,'latitude':latitude,'longitude':longitude,'range':maxrange}) }}" class="button success"></span> Siguiente <span class="mif-chevron-right"></a>
+		{% elseif rated is defined %}
+		<a href="{{ path('show_category_rated', {'idCategory': category.id,'idCity': location.id,'range':maxrange}) }}" class="button success"></span> Siguiente <span class="mif-chevron-right"></a>
+		{% else %}
+		<a href="{{ path('show_category', {'idCategory': category.id,'idCity': location.id,'range':maxrange}) }}" class="button success"></span> Siguiente <span class="mif-chevron-right"></a>
+		{% endif %}
+	{% endif %}
+</div>
+<br>
+</div>
+</div>
+{% endblock content %}
+{% block footer %}
+<div style="padding: 1rem;margin-top: -8rem;margin-left: -1.5rem;" data-role="dialog" id="cities" data-close-button="true" data-overlay="true" data-overlay-color="op-dark">
+    <h2><span class="mif-earth mif"></span> Seleccione Una Ciudad</h2>
+    <p>
+       	    <div class="cell">
+			   <select id="city" class="js-select" data-placeholder="Ciudades" style="width: 13rem;" onchange="location = this.options[this.selectedIndex].value;">
+			      {% for field in cities %}
+				      {% if field.parentId == 0 %}
+					  {% else %}	
+						   	{% if field.title == location.title %}
+					       		<option value='{{ path('ads_city', {'city': field.id}) }}' selected>{{ field.alias| capitalize }}</option>
+					        {% else %}
+					            <option value='{{ path('ads_city', {'city': field.id}) }}'>{{ field.alias| capitalize }}</option>
+						   	{% endif %}
+					   {% endif %}	
+			       {% endfor %}
+			   </select>
+			</div>
+    </p>
+</div> 
+<script>
+function showCitiesDialog(){
+    var dialog = $("#cities").data('dialog');
+    dialog.open();
+}
+$(function(){
+    $("#city").select2({
+        placeholder: "Ciudades",
+        allowClear: true
+      });
+  });
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(setPosition);
+    } else { 
+    }
+}
+function getRated() {
+		window.location.assign("{{ path('index')}}app/categoryRated/{{category.id}}/{{location.id}}/0");
+}
+function setPosition(position) {
+		window.location.assign("{{ path('index')}}app/category/{{category.id}}/{{location.id}}/"+position.coords.latitude+"/"+position.coords.longitude+"/0");
+}
+</script>
+<footer>
+<div style="width: 100%; position: fixed; bottom: 0px; left: 0px; z-index: 100;" class="app-bar drop-up" data-role="appbar">
+	<a class="app-bar-element">
+    	<span id="toggle-tiles-dropdown2" class="mif-apps mif-2x"></span>
+           <div class="app-bar-drop-container" data-role="dropdown" data-toggle-element="#toggle-tiles-dropdown2" data-no-close="false" style="width: 324px; display: none;">
+              <div class="tile-container bg-white fg-black">
+              		{% for field in categories %}
+				      {% if field.parent == 0 %}
+					  <div onclick="location='{{ path('show_category', {'idCategory': field.id,'idCity': location.id,'range':0}) }}';" class="tile-small" style="background: rgb(255, 255, 255) none repeat scroll 0% 0%;">
+					    <div class="tile-content iconic">
+				       		<img style="width: 100%;height: 70%;" alt="" src="{{asset('../')}}images/com_adsmanager/categories/{{ field.id|e }}cat.png">
+				       	<p class="pCategories" style="margin-top: -1.1rem;text-align: center;">{{  field.name }}</p>
+				       	</div>
+              		  </div>
+					  {% else %}	 
+				       {% endif %}
+			       {% endfor %}
+            </div>
+          </div>
+  	</a>
+ 	<a href="{{ path('show_category_map', {'idCategory': category.id,'idCity': location.id}) }}" class="app-bar-element" style="margin-left: 12%">
+    	<span id="toggle-tiles-dropdown2" class="mif-map mif-2x"></span>
+   </a>
+   <a class="app-bar-element" style="margin-left: 12%">
+    	<span id="toggle-tiles-dropdown2" class="mif-calendar mif-2x"></span>
+   </a>
+<div style="display: none;" class="app-bar-pullbutton automatic"></div><div class="clearfix" style="width: 0;"></div><nav style="display: none;" class="app-bar-pullmenu hidden flexstyle-app-bar-menu"><ul class="app-bar-pullmenubar hidden app-bar-menu"></ul></nav></div>
+</footer>
+{% endblock footer %}

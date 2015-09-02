@@ -1,0 +1,23 @@
+index:
+    path:     /
+    defaults: { _controller: PagesBundle:Default:index }
+
+app:
+    path:     /app/
+    defaults: { _controller: PagesBundle:Default:app }
+
+contactenos:
+    path:     /contactenos/
+    defaults: { _controller: PagesBundle:Default:contactenos }
+    
+servicios:
+    path:     /servicios/
+    defaults: { _controller: PagesBundle:Default:servicios }
+
+politicasDePrivacidad:
+    path:     /politicasDePrivacidad/
+    defaults: { _controller: PagesBundle:Default:politicasDePrivacidad }
+    
+condicionesDeUso:
+    path:     /condicionesDeUso/
+    defaults: { _controller: PagesBundle:Default:condicionesDeUso }

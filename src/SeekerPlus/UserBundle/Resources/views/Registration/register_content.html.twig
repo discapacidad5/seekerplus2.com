@@ -1,0 +1,14 @@
+<form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register">
+    {{ form_widget(form) }}
+    <div>
+        <input style="margin-bottom: 4rem;" type="submit" class="success" value="{{ 'registration.submit'|trans({}, 'FOSUserBundle') }}" />
+    </div>
+</form>
+<script>
+
+$(function(){
+	    $("#fos_user_registration_form_location").select2({
+	        allowClear: true
+	      });
+	  });
+</script>

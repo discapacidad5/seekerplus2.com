@@ -1,0 +1,18 @@
+{% block busqueda %}
+	
+	<ul >
+		{% for item in products %}
+		    <li><a style='cursor: pointer;' onclick="SaveSearh('{{ item.name }}', '{{ path('show_ad',{ 'idAd' : item.idAd, 'idCity' : id_city }) }}')">{{ item.adHeadline }}</a></li>
+		{% endfor %}
+		{% for item in categories %}
+		    <li><a style='cursor: pointer;' onclick="SaveSearh('{{ item.name }}','{{ path('search_ads_category',{'idCategory' : item.id, 'idCity' : id_city, 'range' : '0'}) }}')">{{ item.name }}</a></li>
+		{% endfor %}
+		{% for item in ads %}
+		    <li><a style='cursor: pointer;' onclick="SaveSearh('{{ item.adheadline }}', '{{ path('show_ad',{ 'idAd' : item.id, 'idCity' : id_city }) }}')">{{ item.adheadline }}</a></li>
+
+		{% endfor %}
+	</ul>    
+<script src="/javascripts/application.js" type="text/javascript" charset="utf-8" async defer>
+	
+</script>
+{% endblock %}

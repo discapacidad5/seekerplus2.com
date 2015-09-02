@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="2.5" method="upgrade">
+	<name>com_jokteupdate</name>
+	<author>Jokte!</author>
+	<creationDate>Noviembre 2013</creationDate>
+	<copyright>(C) 2012 - 2014 Comunidad Juuntos. </copyright>
+	<license>GNU General Public License version 3; see	LICENSE.txt</license>
+	<authorEmail>admin@jokte.org</authorEmail>
+	<authorUrl>www.jokte.org</authorUrl>
+	<version>1.2.0</version>
+	<description>COM_JOOMLAUPDATE_XML_DESCRIPTION</description>
+	<administration>
+		<files folder="admin">
+			<filename>config.xml</filename>
+			<filename>controller.php</filename>
+			<filename>index.html</filename>
+			<filename>joomlaupdate.php</filename>
+			<filename>restore.php</filename>
+			<folder>controllers</folder>
+			<folder>helpers</folder>
+			<folder>models</folder>
+			<folder>views</folder>
+		</files>
+		<languages folder="admin">
+			<language tag="es-LA">language/es-LA.com_jokteupdate.ini</language>
+			<language tag="es-LA">language/es-LA.com_jokteupdate.ini</language>			
+		</languages>
+	</administration>
+</extension>
+

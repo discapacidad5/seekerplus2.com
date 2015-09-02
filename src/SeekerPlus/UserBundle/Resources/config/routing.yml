@@ -1,0 +1,15 @@
+_security_logout:
+    pattern:  /logout
+    defaults: { _controller: UserBundle:Default:Default:logout }
+    
+_facebook_secured:
+    pattern: /secured/
+    defaults: { _controller: UserBundle:Default:index }
+    
+fos_facebook_security_check:
+    pattern: /fb/login_check
+    defaults: { _controller: UserBundle:Default:fbLoginCheck }
+    
+user_profile:
+    pattern: /user_profile
+    defaults: { _controller: UserBundle:Default:userProfile }

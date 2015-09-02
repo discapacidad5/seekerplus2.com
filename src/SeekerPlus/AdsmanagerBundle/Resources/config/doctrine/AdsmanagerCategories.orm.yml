@@ -1,0 +1,76 @@
+SeekerPlus\AdsmanagerBundle\Entity\AdsmanagerCategories:
+    type: entity
+    table: seeker_adsmanager_categories
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        parent:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: ''
+        name:
+            type: string
+            nullable: true
+            length: 50
+            fixed: false
+            comment: ''
+        description:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+        metadataDescription:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+            column: metadata_description
+        metadataKeywords:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+            column: metadata_keywords
+        ordering:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: ''
+        published:
+            type: boolean
+            nullable: true
+            comment: ''
+        limitads:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: ''
+        usergroupsread:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+        usergroupswrite:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+    manyToMany:
+        adid:
+            targetEntity: AdsmanagerAds
+            cascade: {  }
+            mappedBy: catid
+            inversedBy: null
+            joinTable: null
+            orderBy: null
+    lifecycleCallbacks: {  }

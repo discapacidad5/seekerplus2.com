@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<extension type="package" version="2.5">
+<name>English Language Pack</name>
+<packagename>en-GB</packagename>
+<version>1.3.0</version>
+<creationDate>31 de marzo del 2013</creationDate>
+<author>Joomla Translation</author>
+<authorEmail>info@joomla.org</authorEmail>
+<authorUrl>www.joomla.org</authorUrl>
+<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
+<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+<url></url>
+<packager>Original Language</packager>
+<packagerurl>www.joomla.org</packagerurl>
+<description><![CDATA[
+		Inglés británico original de J!
+		]]></description>
+<files>
+	<file type="language" client="site" id="en-GB">site_en-GB.zip</file>
+	<file type="language" client="administrator" id="en-GB">admin_en-GB.zip</file>
+</files>
+</extension>

@@ -1,0 +1,42 @@
+{% extends '::app.html.twig' %} 
+{% block title %} 
+Registrarse
+{% endblock %} 
+
+{% block description %} 
+Crear Cuenta en SeekerPlus.
+{% endblock %} 
+
+{% block keywords %} 
+Crear Cuenta seekerplus
+{% endblock %} 
+ {% block javascripts %}
+ {{ parent() }}
+ <script src="{{asset('js/select2.min.js')}}"></script>
+ {% endblock %}
+{% block content %}
+<div class="container page-content fg-dark">
+<h1><span class="mif-user-plus"></span> Crear Cuenta</h1>
+<br>
+{{ facebook_initialize({'xfbml': true, 'fbAsyncInit': 'onFbInit();'}) }}
+
+{{ facebook_login_button({'autologoutlink': false,'size':'large','label': 'Crear cuenta con Facebook'}) }}
+<script>
+  function goLogIn(){
+	  window.location = "{{ path('_security_check') }}";
+  }
+  function onFbInit() {
+	  if (typeof(FB) != 'undefined' && FB != null ) {
+		  FB.Event.subscribe('auth.statusChange', function(response) {
+			  setTimeout(goLogIn, 500);
+		  });
+	  }
+  }
+</script>
+<br>
+<br>
+<br>
+{% include "UserBundle:Registration:register_content.html.twig" %}
+</div>
+</div>
+{% endblock content %}

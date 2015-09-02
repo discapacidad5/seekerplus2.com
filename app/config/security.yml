@@ -1,0 +1,50 @@
+security:
+
+    encoders:
+        FOS\UserBundle\Model\UserInterface: sha512
+
+    providers:
+        chain_provider:
+            chain:
+                providers: [fos_userbundle, my_fos_facebook_provider]
+        fos_userbundle:
+            id: fos_user.user_manager
+        my_fos_facebook_provider:
+            id: my.facebook.user
+            
+    firewalls:
+        public:
+            pattern:   ^/.*
+            fos_facebook:
+                app_url: "https://apps.facebook.com/seekerplus"
+                server_url: "http://localhost/SeekerPlusWeb/web/app_dev.php/"
+                login_path: _security_login
+                check_path: _security_check
+                default_target_path: /app
+                provider: my_fos_facebook_provider
+            
+            form_login:
+                login_path: fos_user_security_login
+                check_path: fos_user_security_check
+                default_target_path: /app
+                provider: fos_userbundle
+            logout:
+                path:   /logout
+                target: /app/
+            anonymous: true
+            logout: true
+
+        login:
+            pattern:  ^/login$
+            security: false
+
+    access_control:
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/app, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/secured/.*, role: [ROLE_FACEBOOK] } # This is the route secured with fos_facebook
+
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: ROLE_ADMIN

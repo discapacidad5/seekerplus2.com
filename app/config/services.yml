@@ -1,0 +1,17 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/book/service_container.html
+parameters:
+    location: Fusagasuga, Cundinamarca
+    latitude: 4.34360
+    longitude: -74.3619
+    alias: Fusagasuga
+    locationId: 3
+
+services:
+    my.facebook.user:
+        class: SeekerPlus\UserBundle\Security\User\Provider\FacebookProvider
+        arguments:
+            facebook: "@fos_facebook.api"
+            userManager: "@fos_user.user_manager"
+            validator: "@validator"
+            container: "@service_container"

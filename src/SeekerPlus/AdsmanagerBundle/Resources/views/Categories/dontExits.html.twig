@@ -1,0 +1,81 @@
+{% extends '::app.html.twig' %} 
+{% block title %} 
+Categoria no Encontrada
+{% endblock %} 
+
+{% block description %} 
+
+{% endblock %} 
+
+{% block keywords %} 
+
+{% endblock %} 
+ {% block javascripts %}
+ {{ parent() }}
+  <script src="{{asset('js/select2.min.js')}}"></script>
+{% endblock %}
+{% block content %}
+{{ parent() }}
+	<div class="container page-content fg-dark">
+	<h1><span class="mif-blocked"></span> Categoria no Encontrada</h1>
+	<h3>¡Ouh! La Categoria no existe o no esta publicada.</h3>
+	<img id="newImages" class="marginFrame" src="{{asset('images/noImages.jpg')}}">
+	</div>
+	</div>
+{% endblock content %}
+{% block footer %}
+<div style="padding: 1rem;margin-top: -8rem;margin-left: -1.5rem;" data-role="dialog" id="cities" data-close-button="true" data-overlay="true" data-overlay-color="op-dark">
+    <h2><span class="mif-earth mif"></span> Seleccione Una Ciudad</h2>
+    <p>
+       	    <div class="cell">
+			   <select id="city" class="js-select" data-placeholder="Ciudades" style="width: 13rem;" onchange="location = this.options[this.selectedIndex].value;">
+			      {% for field in cities %}
+				      {% if field.parentId == 0 %}
+					  {% else %}	
+						   	{% if field.title == location.title %}
+					       		<option value='{{ path('ads_city', {'city': field.id}) }}' selected>{{ field.alias| capitalize }}</option>
+					        {% else %}
+					            <option value='{{ path('ads_city', {'city': field.id}) }}'>{{ field.alias| capitalize }}</option>
+						   	{% endif %}
+					   {% endif %}	
+			       {% endfor %}
+			   </select>
+			</div>
+    </p>
+</div> 
+<script>
+function showCitiesDialog(){
+    var dialog = $("#cities").data('dialog');
+    dialog.open();
+}
+$(function(){
+    $("#city").select2({
+        placeholder: "Ciudades",
+        allowClear: true
+      });
+  });
+  
+</script>
+<footer>
+<div style="width: 100%; position: fixed; bottom: 0px; left: 0px; z-index: 100;" class="app-bar drop-up" data-role="appbar">
+	<a class="app-bar-element">
+    	<span id="toggle-tiles-dropdown2" class="mif-apps mif-2x"></span>
+           <div class="app-bar-drop-container" data-role="dropdown" data-toggle-element="#toggle-tiles-dropdown2" data-no-close="false" style="width: 324px; display: none;">
+              <div class="tile-container bg-white fg-black">
+              		{% for field in categories %}
+				      {% if field.parent == 0 %}
+					  <div onclick="location='{{ path('show_category', {'idCategory': field.id,'idCity': location.id,'latitude':0,'longitude':0,'range':0}) }}';" class="tile-small" style="background: rgb(255, 255, 255) none repeat scroll 0% 0%;">
+					    <div class="tile-content iconic">
+				       		<img style="width: 100%;height: 70%;" alt="" src="{{asset('../')}}images/com_adsmanager/categories/{{ field.id|e }}cat.png">
+				       	<p class="pCategories" style="margin-top: -1.1rem;text-align: center;">{{  field.name }}</p>
+				       	</div>
+              		  </div>
+					  {% else %}	 
+				       {% endif %}
+			       {% endfor %}
+            </div>
+          </div>
+  	</a>
+<div style="display: none;" class="app-bar-pullbutton automatic"></div><div class="clearfix" style="width: 0;"></div><nav style="display: none;" class="app-bar-pullmenu hidden flexstyle-app-bar-menu"><ul class="app-bar-pullmenubar hidden app-bar-menu"></ul></nav></div>
+</footer>
+{% endblock footer %}

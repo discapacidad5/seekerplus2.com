@@ -1,0 +1,3 @@
+show_banner:
+    pattern:  /app/show-banner/{id}/
+    defaults: { _controller: BannerBundle:Default:show }

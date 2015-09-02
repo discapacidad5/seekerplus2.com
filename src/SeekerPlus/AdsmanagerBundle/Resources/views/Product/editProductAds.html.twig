@@ -1,0 +1,53 @@
+{% extends '::app.html.twig' %} 
+{% block title %} 
+Modificar Producto Anuncio
+{% endblock %} 
+
+{% block description %} 
+
+{% endblock %} 
+
+{% block keywords %} 
+
+{% endblock %} 
+ {% block javascripts %}
+ {{ parent() }}
+ <script src="{{asset('js/myJs.js')}}"></script>
+{% endblock %}
+{% block content %}
+{{ parent() }}
+<div class="container page-content fg-dark" style="padding: 0.5rem;">
+<h1><span class="mif-tag"></span> Modificar Producto</h1><br>
+{{ form_start(form,{ 'attr': {'enctype': 'multipart/form-data' } }) }}
+
+	{{ form_row(form.name) }}
+	{{ form_row(form.description) }}
+
+		  <div class="cell">
+		     <label>Imagen</label><br>
+		       <div class="input-control file" data-role="input">
+		           <input id="ads_image" name="imagen" type="file" onchange="readURL(this,'newImages');" readonly="readonly">
+		           <button type="button" class="button"><span class="mif-folder"></span></button>
+		       </div>
+		  </div>
+		  <div class="cell">
+		    {% if image == 'noImages.jpg' %}
+		    	<img id="newImages" class="marginFrame" src="{{asset('images/noImages.jpg')}}">
+		    {% else %}
+		    	<img id="newImages" class="marginFrame" src="{{asset('images/ids/')}}{{ id }}/{{ image }}">
+		    {% endif %}
+		  </div><br>
+		    <div class="cell">
+    <div class="input-control modern text" style="margin-bottom: 4rem;">
+      <input style="height: 2rem;" type="text" id="price" name="price" required="required" placeholder="Precio"
+              onkeyup="numberSeparator(this,this.value.charAt(this.value.length-1))" value="{{ price }}">
+      <span class="label">Obligatorio</span>
+      <span class="informer">Porfavor Ingrese el Precio</span>
+    </div>
+  </div>
+{{form_end(form)}}
+</div>
+</div>
+{% endblock content %}
+{% block footer %}
+{% endblock footer %}

@@ -1,0 +1,208 @@
+{% extends '::app.html.twig' %} 
+{% block title %} 
+Modificar {{ form.vars.value.adHeadline }}
+{% endblock %} 
+
+{% block description %} 
+
+{% endblock %} 
+
+{% block keywords %} 
+
+{% endblock %} 
+ {% block javascripts %}
+ {{ parent() }}
+ <script src="{{asset('js/myJs.js')}}"></script>
+ <script src="{{asset('js/select2.min.js')}}"></script>
+ <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyC4Pta07pYlzbICVniGLYta4MLCrUrXrHE&sensor=false&libraries=geometry&v=3.4" type="text/javascript"></script>
+ {% endblock %}
+{% block content %}
+{{ parent() }}
+<script src="{{asset('js/maps.js')}}"></script>
+<div class="container page-content fg-dark" style="padding: 0.5rem;">
+
+{{ form_start(form,{ 'attr': {'enctype': 'multipart/form-data' } }) }}
+  <div>
+    <div id="wizard" class="wizard"
+                 data-role="wizard"
+                 data-buttons='{"next": {"show": "true", "title": "Siguiente", "cls": "success "}, 
+                 				"prior": {"show": "true", "title": "Atras", "cls": "primary"}}'
+                 data-stepper-clickable="false">
+     <div class="steps">
+       <div class="step">
+       		    <div class="cell" style="margin-top: -1rem;">
+		      <div class="notify" style="max-width: 100%;">
+		        <span class="notify-icon mif-map"></span>
+		        <span class="notify-title">Direccion de <b>{{ form.vars.value.adHeadline }}</b></span>
+		        <span class="notify-text" id="address"></span>
+		      </div>
+		      
+		    </div>
+       			<div id="mapCanvas" class="marginFrame" style="height: 15rem !important;overflow:hidden; width: 100% !important;"></div>
+			  	<div id="locationButton">
+			  		<a onclick="getMyLocation();getButtonContent(false)" class="button loading-pulse lighten primary" style="padding-top: 0.5rem;">
+			  		<span class="mif-location"></span> Mi Ubicacion Actual</a>
+			  	</div>
+			  	{{ form_widget(form.adLatitude, {'attr': {'style': 'display:none'}}) }} 
+		  		{{ form_widget(form.adLongitude, {'attr': {'style': 'display:none'}}) }}
+		  		
+		  		<button style="float: right;" onclick="showMessageHelpDialog('one');" class="btn-help cycle-button medium-button" 
+		  		type="button">?</button>
+       </div>
+       <div class="step">
+       	       <div class="cell">
+			   <select id="categories" class="js-select" data-placeholder="Seleccione Categoria" style="width: 13rem;">
+			   	<option></option>
+			      {% for field in categories %}
+				      {% if field.parent == 0 %}
+					  {% else %}	 
+					     <option value='{{ field.id|e }}'>{{ field.name|e  }}</option>
+				      {% endif %}
+			       {% endfor %}
+			   </select>
+			</div>
+	    	<br>
+		  {{ form_widget(form.catid, {'attr': {'style': 'display:none'}}) }}
+		  <div class="input-control select" style="margin-bottom: 2rem;">
+		 {{ form_widget(form.adLocation) }}
+		  </div>
+		   {{ form_row(form.adHeadline) }}
+		  {{ form_row(form.adPhone) }}
+		  {{ form_row(form.adAddress) }}
+		  
+		  <button style="float: right;" onclick="showMessageHelpDialog('two');" class="btn-help cycle-button medium-button" 
+		  		type="button">?</button>
+       </div>
+       <div class="step">
+		  <div class="cell">
+		     <label>Imagen</label><br>
+		       <div class="input-control file" data-role="input">
+		           <input id="ads_image" name="imagen" type="file" onchange="readURL(this,'newImages');" readonly="readonly">
+		           <button type="button" class="button"><span class="mif-folder"></span></button>
+		       </div>
+		  </div>
+		  <div class="cell">
+		    {% if image == 'noImages.jpg' %}
+		    	<img id="newImages" class="marginFrame" src="{{asset('images/noImages.jpg')}}">
+		    {% else %}
+		    	<img id="newImages" class="marginFrame" src="{{asset('images/ids/')}}{{ id }}/{{ image }}">
+		    {% endif %}
+		  </div><br>
+		  {{ form_row(form.adKeywords) }}
+		  <button style="float: right;" onclick="showMessageHelpDialog('three');" class="btn-help cycle-button medium-button" 
+		  		type="button">?</button>
+       </div>
+       <div class="step">
+		  {{ form_row(form.adText) }}
+		    <h5>Horario de Atencion</h5>
+		  <div class="cell">
+			  <div class="input-control select" style="min-width: 5rem;">
+			  {{ form_widget(form.adAttentionHoursInit) }}
+			  </div>
+			  <span style="margin: 1rem;">A</span>
+			  <div class="input-control select" style="min-width: 5rem;">
+			  {{ form_widget(form.adAttentionHoursFinish) }}
+			  </div>
+		  </div>
+		  <div class="cell">
+		     <h5>Dias de Atencion</h5>
+			  <div class="input-control select" style="min-width: 5rem;">
+			  {{ form_widget(form.adAttentiondaysInit) }} 
+			  </div> 
+			  <span style="margin: 1rem;">A</span>
+			  <div class="input-control select" style="min-width: 5rem;">
+			  {{ form_widget(form.adAttentiondaysFinish) }}  
+			  </div>
+		  </div>
+		  <div class="cell">
+		  <label class="input-control checkbox">
+                            <input type="checkbox" required>
+                            <span class="check"></span>
+                            <span class="caption">Acepto las <a href="{{ path('condicionesDeUso') }}" target="_blank">Condiciones Del Servicio</a> y la <a href="{{ path('politicasDePrivacidad') }}" target="_blank">	 Politica de Privacidad</a> de SeekerPlus</span>
+           </label>
+           </div>
+		 <br>
+			{{ form_widget(form.Guardar) }}
+		 <br>
+		 <button style="float: right;" onclick="showMessageHelpDialog('four');" class="btn-help cycle-button medium-button" 
+		  		type="button">?</button>
+       </div>
+     </div>
+  </div>
+</div>
+{{form_end(form)}}
+<script>
+  $('#categories').val($("#seekerplus_adsmanagerbundle_adsmanagerads_catid").val());
+  setLatitude({{ form.vars.value.adLatitude }});
+  setLongitude({{ form.vars.value.adLongitude }});
+  initialize();
+  setDefaultMarkerPosition();
+  map.setZoom(16);
+  circle.setVisible(true);
+  
+  $(function(){
+    $("#categories").select2({
+        placeholder: "Seleccione Categoria",
+        allowClear: true
+      });
+  });
+  
+  $('[name=categories]').val("0");
+
+  $(function(){
+	    $("#seekerplus_adsmanagerbundle_adsmanagerads_adLocation").select2({
+	        allowClear: true
+	      });
+	  });
+  
+  function getButtonContent(button){
+	  if(button)
+		  $("#locationButton").html('<a onclick="getMyLocation();getButtonContent(false);" class="button loading-pulse lighten primary" style="padding-top: 0.5rem;">	<span class="mif-location"></span> Mi Ubicacion Actual</a>');
+	  else
+		  $("#locationButton").html('<a onclick="stopLocation();getButtonContent(true);" class="button loading-stop alert primary" style="padding-top: 0.5rem;">	<span class="mif-stop"></span> Detener</a>'); 
+  }
+  
+  $('#categories').on('change', function() {
+	$("#seekerplus_adsmanagerbundle_adsmanagerads_catid").val(this.value);
+  });
+  
+  $( document ).on( 'click', '.btn-help', function () {
+	  
+	});
+	
+  function showMessageHelpDialog(id){
+      var dialog = $("#"+id).data('dialog');
+      dialog.open();
+  }
+
+</script> 
+<div data-role="dialog" id="one" data-close-button="true">
+    <h1>Ubicacion del Anuncio en El Mapa</h1>
+    <p>
+        Selecciona el lugar donde se ubicara tu anuncio en el mapa , para ello debes dar un click en la ubicacion actual o puedes seleccionar un lugar en el mapa.
+    </p>
+</div> 
+<div data-role="dialog" id="two" data-close-button="true">
+    <h1>Informacion Basica</h1>
+    <p>
+        Selecciona la categoria que se acomode a la actividad , el titulo ,telefono y direccion del Anuncio.
+    </p>
+</div>
+<div data-role="dialog" id="three" data-close-button="true">
+    <h1>Imagen Anuncio</h1>
+    <p>
+        Selecciona la imagen de tu Anuncio , debes seleccionar la imagen en formato png,jpg,jpge.
+        <br><br>Tambien escribe las palabras con la que deseas que encuentren el anuncio en el buscador.
+    </p>
+</div>
+<div data-role="dialog" id="four" data-close-button="true">
+    <h1>Informacion General</h1>
+    <p>
+        Ingresa la descripcion de tu anuncio ,asi como el horario de atencion y los dias de atencion.
+    </p>
+</div>
+</div>
+</div>
+{% endblock content %}
+{% block footer %}
+{% endblock footer %}

@@ -1,0 +1,37 @@
+SeekerPlus\AdsmanagerBundle\Entity\Search:
+    type: entity
+    table: seeker_search
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        date_search:
+            type: datetime
+            nullable: false
+            comment: ''
+            default: '0000-00-00 00:00:00'
+        access_ip:
+            type: string
+            nullable: true
+            length: 50
+            fixed: false
+            comment: ''
+        search:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            comment: ''
+        result:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            comment: ''
+    lifecycleCallbacks: {  }

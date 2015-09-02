@@ -1,0 +1,77 @@
+my_ads:
+    pattern:  /app/my-ads
+    defaults: { _controller: AdsmanagerBundle:Ads:myAds }
+new_ads:
+    pattern:  /app/new-ads
+    defaults: { _controller: AdsmanagerBundle:Ads:newAds }
+edit_ads:
+    pattern:  /app/edit-ads/{id}/
+    defaults: { _controller: AdsmanagerBundle:Ads:editAds }
+delete_ads:
+    pattern:  /app/delete-ads/{id}/
+    defaults: { _controller: AdsmanagerBundle:Ads:deleteAds }
+renew_ads:
+    pattern:  /app/renew-ads/{id}/
+    defaults: { _controller: AdsmanagerBundle:Ads:renewAds }
+new_ads_product:
+    pattern:  /app/new-ads-product/{id}/
+    defaults: { _controller: AdsmanagerBundle:Product:newAdsProduct }
+edit_product_ads:
+    pattern:  /app/edit-product-ads/{id}/
+    defaults: { _controller: AdsmanagerBundle:Product:editAdsProduct }
+delete_product_ads:
+    pattern:  /app/delete-product-ads/{id}/
+    defaults: { _controller: AdsmanagerBundle:Product:deleteProductAds }
+ads_city:
+    pattern:  /app/city/{city}/
+    defaults: { _controller: PagesBundle:Default:appCity }
+show_category:
+    pattern:  /app/category/{idCategory}/{idCity}/{range}
+    defaults: { _controller: AdsmanagerBundle:AdsCategories:show }
+show_category_geolocation:
+    pattern:  /app/category/{idCategory}/{idCity}/{latitude}/{longitude}/{range}
+    defaults: { _controller: AdsmanagerBundle:AdsCategories:showGeolocation }
+show_category_rated:
+    pattern:  /app/categoryRated/{idCategory}/{idCity}/{range}
+    defaults: { _controller: AdsmanagerBundle:AdsCategories:showRated }
+show_category_map:
+    pattern:  /app/category/{idCategory}/{idCity}/
+    defaults: { _controller: AdsmanagerBundle:AdsCategories:showMap }
+show_ad:
+    pattern:  /app/ad/{idAd}/{idCity}
+    defaults: { _controller: AdsmanagerBundle:Ads:show }
+show_ad_map:
+    pattern:  /app/ad/{idAd}/{idCity}/
+    defaults: { _controller: AdsmanagerBundle:Ads:showMap }
+adRate:
+  pattern:  /app/ad-rate/
+  defaults: { _controller: AdsmanagerBundle:Ads:Rate }
+search_ads:
+    pattern:  /app/search/
+    defaults: { _controller: AdsmanagerBundle:AdsSearch:search }
+search_ads_category:
+    pattern:  /app/search/category/{idCategory}/{idCity}/{range}/
+    defaults: { _controller: AdsmanagerBundle:AdsSearch:searchCategory }
+search_save:
+    pattern:  /app/search/save/
+    defaults: { _controller: AdsmanagerBundle:AdsSearch:searchSave }
+
+ad_comment:
+    pattern:  /app/ad/ad_comment/
+    defaults: { _controller: AdsmanagerBundle:Ads:adComment }
+
+edit_comment:
+    pattern:  /app/ad/edit_comment/
+    defaults: { _controller: AdsmanagerBundle:Ads:editComment }
+
+delete_comment:
+    pattern:  /app/delete_comment/
+    defaults: { _controller: AdsmanagerBundle:Ads:deleteComment }
+
+date_comment:
+    pattern:  /app/ads/date_comment/
+    defaults: { _controller: AdsmanagerBundle:Ads:dateComment }
+
+paginationAd:
+    pattern:  /app/ad/paginationAd/
+    defaults: { _controller: AdsmanagerBundle:Ads:paginationAd }

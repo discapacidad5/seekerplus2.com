@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta name="description" content="{% block description %}{% endblock %}">
+	<meta name="keywords" content="{% block keywords %}{% endblock %}">
+	<meta name="author" content="SeekerImpulse S.A.S">
+	<title>{% block title %}{% endblock %}</title>
+	<link href="{{asset('css/metro.css')}}" rel="stylesheet">
+	<link href="{{asset('css/metro-icons.css')}}" rel="stylesheet">
+	<link href="{{asset('css/docs.css')}}" rel="stylesheet">
+	<link href="{{asset('css/my.css')}}" rel="stylesheet">
+	<link href="{{asset('css/search-css.css')}}" rel="stylesheet">
+	
+	{% block stylesheets %}{% endblock %}
+	<link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+	<script src="{{asset('js/jquery-2.1.3.min.js')}}"></script>
+	<script src="{{asset('js/metro.js')}}"></script>
+	<script src="{{asset('js/docs.js')}}"></script>
+	<script src="{{asset('js/prettify/run_prettify.js')}}"></script>
+	<script src="{{asset('js/ga.js')}}"></script>
+	{% block javascripts %}{% endblock %}
+</head>
+<body>
+	{% block body %}
+	<div style="display: block !important;left: 0 !important;top: 0px !important;height: 100%;width: 100%;position: fixed;z-index: 1050;background: #fff;"  id="load" class="padding20" data-close-button="true" data-overlay="true" data-overlay-color="op-dark">
+		<div style="text-align: center;"class="container">
+			<h1>
+				<div class="cell padding20 bg-white">
+					<div data-role="preloader" data-type="ring" data-style="dark" style="margin: 30px  auto"></div>
+				</div>
+			</h1>
+			<a href="{{ path('app') }}">
+				<img style="width: 5rem; margin-right: 0.5rem;" alt=""
+				src="{{asset('images/logo.png')}}">      
+			</a>     
+			<p>
+				Cargando ...
+			</p>
+		</div>
+	</div>
+	{% block menu %}
+	<div class="app-bar fixed-top" data-role="appbar">
+	<a style="font-size: 1.2rem;padding-left: 0.5rem;" href="{{ path('app') }}" class="app-bar-element branding"> 
+		<img style="width: 2rem; margin-right: 0.5rem;" alt="" src="{{asset('images/logo.png')}}">
+	</a>
+	<span class="app-bar-pull"></span>
+	<div class="app-bar-divider"></div>
+	{% if cities is defined %}
+		<div style="display: block; float: left;" class="input-control text" data-role="input">
+		    <input id="searchWord" style="width: 20rem;padding-right: 1rem !important;background: #fff" type="text" placeholder="Buscar ..." onkeyup="Search()">
+		    <div id="opciones" class="buscador-container" style=""></div>
+		    <button class="button"><span class="mif-search"></span></button>
+		</div>
+		<span style="margin-top: 1rem; margin-left: 1rem; font-size: 0.9rem;" class="notify-icon mif-expand-more cities" onclick="showCitiesDialog('one');">Ciudades</span>
+	{% endif %}
+	<ul class="app-bar-menu place-right">
+		{% if is_granted("IS_AUTHENTICATED_FULLY") %}
+		<li>
+		<a href="" class="dropdown-toggle"><span class="mif-user"></span>{{ 'layout.logged_in_as'|trans({'%username%': app.user.firstname}, 'FOSUserBundle') }}</a>
+		<ul style="display: none;" class="d-menu" data-role="dropdown">
+			<li data-flexorder="2" data-flexorderorigin="1">
+			  <a href="{{ path('user_profile') }}"><span class="mif-profile"></span> Perfil</a> 
+			</li>
+			<li data-flexorder="5" data-flexorderorigin="4">
+				<a href="{{ path('fos_user_security_logout') }}"><span class="mif-exit"></span> Salir</a> 
+			</li>
+		</ul>
+		</li>
+	</ul>
+	{% else %}
+
+	<li style="padding-left: 2rem;">
+		<div class="app-bar-element">
+			<a class="dropdown-toggle fg-white"><span class="mif-user"></span>
+				Mi Cuenta
+			</a>
+			<div style="display: none;width: 10rem;"
+			class="app-bar-drop-container bg-white fg-dark place-right"
+			data-role="dropdown" data-no-close="true">
+			<div class="padding10">
+				<div class="form-actions">
+					<a href="{{ path('fos_user_security_login') }}"><button class="button success">Iniciar Sesión</button></a>
+				</div>
+				<h5>¿No dispones de una cuenta en SeekerPlus? 
+					<a href="{{ path('fos_user_registration_register') }}">Regístrate ahora</a>
+				</h5>
+			</div>
+		</div>
+	</div>
+</li>
+</ul>
+{% endif %}
+
+</div>
+{% endblock %}
+
+{% block content %}
+{% for flashMessage in app.session.flashbag.get('information') %}
+<div class="container page-content fg-dark" style="margin-bottom: -3rem;">
+	<div class="notify info">
+		<span class="notify-title">Tenga en Cuenta</span>
+		<span class="notify-text">{{ flashMessage }}</span>
+	</div>
+</div>
+{% endfor %}
+{% for flashMessage in app.session.flashbag.get('success') %}
+<div class="container page-content fg-dark" style="margin-bottom: -3rem;">
+	<div class="notify success">
+		<span class="notify-title">Felicitaciones</span>
+		<span class="notify-text">{{ flashMessage }}</span>
+	</div>
+</div>
+{% endfor %}
+{% for flashMessage in app.session.flashbag.get('error') %}
+<div class="container page-content fg-dark" style="margin-bottom: -3rem;">
+	<div class="notify alert">
+		<span class="notify-title">Error</span>
+		<span class="notify-text">{{ flashMessage }}</span>
+	</div>
+</div>
+{% endfor %}
+{% for flashMessage in app.session.flashbag.get('warning') %}
+<div class="container page-content fg-dark" style="margin-bottom: -3rem;">
+	<div class="notify warning">
+		<span class="notify-title">Cuidado !</span>
+		<span class="notify-text">{{ flashMessage }}</span>
+	</div>
+</div>
+{% endfor %}
+
+{% endblock %}
+
+{% block footer %}
+<footer>
+</footer>
+{% endblock %}
+<script>
+
+	$(window).load(function () {
+	$('#load').remove();
+});
+	function Search(){
+		var text = $("#searchWord").val();
+		var city = 0;
+		var id_city = 0;
+		
+		{% if location.id is defined %}
+    		city = '{{ location.title }}';
+    		id_city = '{{ location.id }}';
+		{% endif %}    
+		$.ajax({
+			type: "POST",
+			url: "{{  path('search_ads') }}",
+			data: { texto: text, city: city, id_city: id_city},
+		}).done(function( msg )
+		{
+			$("#opciones").html(msg);
+		})
+		
+	}
+
+	function SaveSearh(title, path){
+		var write = $("#searchWord").val();
+		$.ajax({
+			type: "POST",
+			url: "{{  path('search_save') }}",
+			data: { title: title, write: write},
+		}).done(function( msg )
+		{
+			window.location = path;
+		})
+		
+		
+	}
+</script>
+</body>
+{% endblock %}
+</html>

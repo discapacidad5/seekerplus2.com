@@ -1,0 +1,31 @@
+SeekerPlus\AdsmanagerBundle\Entity\AdsmanagerAdsRate:
+    type: entity
+    table: seeker_adsmanager_adsRate
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        idAds:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            column: id_ads
+        idUser:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            column: id_user
+        rate:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+    lifecycleCallbacks: {  }

@@ -1,0 +1,112 @@
+SeekerPlus\UserBundle\Entity\User:
+    type: entity
+    table: seeker_users
+    indexes:
+        usertype:
+            columns:
+                - usertype
+        idx_name:
+            columns:
+                - name
+        idx_block:
+            columns:
+                - block
+        username:
+            columns:
+                - username
+        email:
+            columns:
+                - email
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            comment: ''
+            default: ''
+        usertype:
+            type: string
+            nullable: true
+            length: 25
+            fixed: false
+            comment: ''
+        block:
+            type: boolean
+            nullable: false
+            comment: ''
+            default: '0'
+        sendemail:
+            type: boolean
+            nullable: true
+            comment: ''
+            default: '0'
+            column: sendEmail
+        registerdate:
+            type: datetime
+            nullable: true
+            comment: ''
+            column: registerDate
+        lastvisitdate:
+            type: datetime
+            nullable: true
+            comment: ''
+            column: lastvisitDate
+        activation:
+            type: string
+            nullable: true
+            length: 100
+            fixed: false
+            comment: ''
+            default: ''
+        params:
+            type: text
+            nullable: false
+            length: null
+            fixed: false
+            comment: ''
+        lastresettime:
+            type: datetime
+            nullable: true
+            comment: 'Fecha de última contraseña reiniciada'
+            column: lastResetTime
+        resetcount:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: 'Cantidad de reinicios de contraseña desde el último reinicio'
+            default: '0'
+            column: resetCount
+        firstname:
+            type: string
+            length: '255'
+        lastname:
+            type: string
+            length: '255'
+        facebookId:
+            nullable: true
+            type: string
+            length: '255'
+        birthday:
+            nullable: true
+            type: date
+            format: 'yyyy-MM-dd'
+        location:
+            nullable: true
+            type: string
+            length: '255'
+        accountType:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: 'Tipo de cuenta free=1,plus=2,premium=3'
+            default: '0'
+            column: accountType
+
+    lifecycleCallbacks: {  }

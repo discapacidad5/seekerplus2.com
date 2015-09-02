@@ -1,0 +1,1 @@
+DROP TABLE IF EXISTS `#__LoginRadius_settings`;

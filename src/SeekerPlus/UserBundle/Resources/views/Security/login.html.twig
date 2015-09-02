@@ -1,0 +1,77 @@
+{% extends '::app.html.twig' %} 
+{% block title %} 
+Iniciar Sesión
+{% endblock %} 
+
+{% block description %} 
+Iniciar Sesión en SeekerPlus.
+{% endblock %} 
+
+{% block keywords %} 
+login seekerplus
+{% endblock %} 
+
+{% block content %}
+<div class="container page-content fg-dark">
+{% if error %}
+<div class="cell">
+   <div class="notify alert">
+        <span class="notify-title">Error</span>
+        <span class="notify-text">{{ error|trans({}, 'FOSUserBundle') }}</span>
+   </div>
+</div>
+{% endif %}
+<h1><span class="mif-user"></span>Iniciar Sesión</h1>
+<br>
+{{ facebook_initialize({'xfbml': true, 'fbAsyncInit': 'onFbInit();'}) }}
+
+{{ facebook_login_button({'autologoutlink': false,'size':'xlarge','label': 'Login con Facebook'}) }}
+<script>
+  function goLogIn(){
+	  window.location = "{{ path('_security_check') }}";
+  }
+  function onFbInit() {
+	  if (typeof(FB) != 'undefined' && FB != null ) {
+		  FB.Event.subscribe('auth.statusChange', function(response) {
+			  setTimeout(goLogIn, 500);
+		  });
+	  }
+  }
+</script>
+<br>
+<br>
+<br>
+<form action="{{ path("fos_user_security_check") }}" method="post">
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+    <label for="username">{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}</label><br>
+    <div class="input-control text">
+		<span class="mif-user prepend-icon"></span>
+		<input type="text" id="username" name="_username" value="{{ last_username }}" required="required" />
+	</div><br>
+	
+    <label for="password">{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}</label><br>
+	<div class="input-control text">
+		<span class="mif-lock prepend-icon"></span> 
+		<input type="password" id="password" name="_password" required="required" />
+	</div><br>
+    
+
+    
+    <label class="input-control checkbox">
+       <input type="checkbox" id="remember_me" name="_remember_me" value="on" checked/>
+       <span class="check"></span>
+       <span class="caption"><label for="remember_me">{{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}</label></span>
+    </label>
+    <br><br>
+    <input class="primary" type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" />
+</form>
+		<br>
+		<a href="{{ path('fos_user_resetting_request') }}"><span class="mif-lock"></span>¿Olvidaste tu contraseña?</a> 
+<br>
+<br>
+<h5>¿No dispones de una cuenta en SeekerPlus? 
+	<a href="{{ path('fos_user_registration_register') }}">Regístrate ahora</a>
+</h5>
+</div>
+
+{% endblock content %}

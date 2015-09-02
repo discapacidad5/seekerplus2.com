@@ -1,0 +1,201 @@
+SeekerPlus\BannerBundle\Entity\Banner:
+    type: entity
+    table: seeker_banners
+    indexes:
+        idx_state:
+            columns:
+                - state
+        idx_own_prefix:
+            columns:
+                - own_prefix
+        idx_metakey_prefix:
+            columns:
+                - metakey_prefix
+        idx_banner_catid:
+            columns:
+                - catid
+        idx_language:
+            columns:
+                - language
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        cid:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            default: '0'
+        type:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            default: '0'
+        name:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            comment: ''
+            default: ''
+        alias:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            comment: ''
+            default: ''
+        imptotal:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            default: '0'
+        impmade:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            default: '0'
+        clicks:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            default: '0'
+        clickurl:
+            type: string
+            nullable: false
+            length: 200
+            fixed: false
+            comment: ''
+            default: ''
+        state:
+            type: boolean
+            nullable: false
+            comment: ''
+            default: '0'
+        catid:
+            type: integer
+            nullable: false
+            unsigned: true
+            comment: ''
+            default: '0'
+        description:
+            type: text
+            nullable: false
+            length: null
+            fixed: false
+            comment: ''
+        custombannercode:
+            type: string
+            nullable: false
+            length: 2048
+            fixed: false
+            comment: ''
+        sticky:
+            type: boolean
+            nullable: false
+            comment: ''
+            default: '0'
+        ordering:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            default: '0'
+        metakey:
+            type: text
+            nullable: false
+            length: null
+            fixed: false
+            comment: ''
+        params:
+            type: text
+            nullable: false
+            length: null
+            fixed: false
+            comment: ''
+        ownPrefix:
+            type: boolean
+            nullable: false
+            comment: ''
+            default: '0'
+            column: own_prefix
+        metakeyPrefix:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            comment: ''
+            default: ''
+            column: metakey_prefix
+        purchaseType:
+            type: boolean
+            nullable: false
+            comment: ''
+            default: '-1'
+            column: purchase_type
+        trackClicks:
+            type: boolean
+            nullable: false
+            comment: ''
+            default: '-1'
+            column: track_clicks
+        trackImpressions:
+            type: boolean
+            nullable: false
+            comment: ''
+            default: '-1'
+            column: track_impressions
+        checkedOut:
+            type: integer
+            nullable: false
+            unsigned: true
+            comment: ''
+            default: '0'
+            column: checked_out
+        checkedOutTime:
+            type: datetime
+            nullable: false
+            comment: ''
+            default: '0000-00-00 00:00:00'
+            column: checked_out_time
+        publishUp:
+            type: datetime
+            nullable: false
+            comment: ''
+            default: '0000-00-00 00:00:00'
+            column: publish_up
+        publishDown:
+            type: datetime
+            nullable: false
+            comment: ''
+            default: '0000-00-00 00:00:00'
+            column: publish_down
+        reset:
+            type: datetime
+            nullable: false
+            comment: ''
+            default: '0000-00-00 00:00:00'
+        created:
+            type: datetime
+            nullable: false
+            comment: ''
+            default: '0000-00-00 00:00:00'
+        language:
+            type: string
+            nullable: false
+            length: 7
+            fixed: true
+            comment: ''
+            default: ''
+    lifecycleCallbacks: {  }

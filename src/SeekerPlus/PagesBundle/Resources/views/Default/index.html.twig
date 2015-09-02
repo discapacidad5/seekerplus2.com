@@ -1,0 +1,85 @@
+{% extends '::base.html.twig' %} 
+{% block title %} 
+Bienvenido a SeekerPlus
+{% endblock %} 
+
+{% block description %} 
+Bienvenido a seekerplus geolocalizador de productos y servicios.
+{% endblock %} 
+
+{% block keywords %} 
+seekerplus,productos,servicios
+{% endblock %} 
+
+{% block stylesheets %} 
+{{ parent() }}
+{% endblock %} 
+
+{% block javascripts %} 
+{{ parent() }} 
+{% endblock %} 
+
+{% block body %} 
+
+	{% block menu %} 
+		{{ parent() }} 
+	{% endblock %}
+
+	{% block content %} 
+	<div class="container page-content">
+		<div class="grid responsive">
+			<div class="row cells12">
+		       <div class="cell colspan7">
+		       <h2>Descubre los negocios que se encuentran a tu alrededor..</h2>
+		       <img style="margin-right: 0.5rem;" alt=""
+							 src="{{asset('images/map.png')}}"
+				>
+			   <p>Seekerplus es la aplicación que permite encontrar productos y servicios cercanos a tu ubicacion.
+			   </p>
+			   <h4>SeekerPlus. Veloz, Sencillo y exacto !</h4><br>
+			   <a href="https://play.google.com/store/apps/details?id=com.seekerimpulse.SeekerPlus" target="_blank"><img style="margin-right: 0.5rem;" alt=""
+							 src="{{asset('images/android.png')}}"
+				></a>
+		       </div>
+		       <div id="phone" style='width: 17rem; height: 31.5rem;background-image: url("{{asset('images/phone.png')}}");' class="cell">
+				<iframe id="video" style="margin-top: 4rem; margin-left: 1.2rem; height: 23.5rem; width: 14.8rem;" src="https://www.youtube.com/embed/w282ykmZt9k?controls=0&amp;showinfo=0" allowfullscreen="" frameborder="0"></iframe>
+		       </div>
+		    </div>
+	    </div>
+	</div>
+	   <div>
+            <div class="presenter" data-role="presenter" data-height="220" data-easing="swing">
+                <h1>Bienvenido a SeekerPlus !</h1>
+                <div class="scene">
+                    <div class="act bg-blue fg-white">
+                        <img src="{{asset('images/searchProduct.png')}}" class="actor" data-position="10,10" style="height: 200px">
+                        <h1 class="actor" data-position="10,250">Buscas un producto o servicio</h1>
+                        <p class="actor" data-position="70,250">Encuentra los diferentes negocios a tu alrededor , tenemos una lista de categorias donde podras encontrar restaurantes , bancos ,gasolineras y algunos otros mas.</p>
+                        <a class="actor button success" data-position="130,250" href="https://play.google.com/store/apps/details?id=com.seekerimpulse.SeekerPlus" target="_blank">Descargar !</a>
+                        <p class="actor" data-position="130,250"></p>
+                        
+                    </div>
+                    <div class="act bg-blue fg-white">
+                        <img src="{{asset('images/publicFree.png')}}" class="actor" data-position="10,10" style="height: 200px">
+                        <h1 class="actor" data-position="10,270" >Publica gratis tu negocio</h1>
+                        <p class="actor" data-position="60,270" >Tienes un negocio y deseas tener visibilidad ,publica tu negocio gratis en nuestro aplicativo.</p>
+                        <a class="actor button success" data-position="100,270"  href="#">Registrate</a>
+                        <p class="actor" data-position="120,270"></p>
+                        
+                    </div>
+                    <div class="act bg-darkCyan fg-white">
+                        <img src="{{asset('images/services.png')}}" class="actor" data-position="10,10" style="height: 200px">
+                        <h1 class="actor" data-position="10,300" >Nuestros Servicios</h1>
+                        <p class="actor" data-position="60,300">Conoce los servicios gratuitos y de pago que presta seekerplus</p>
+                        <a class="actor button success" data-position="130,300" href="http://www.jetbrains.com/phpstorm/">Ver Servicios</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+	{% endblock %}
+	{% block footer %} 
+		{{ parent() }} 
+	{% endblock %}
+	
+{% endblock %}

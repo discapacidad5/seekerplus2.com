@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.23" client="site" method="upgrade">
+	<name>Module JV Counter</name>
+    <author>JoomlaVi! Project</author>
+    <creationDate>September 2011</creationDate>
+    <copyright>Copyright (C) JoomlaVi. All rights reserved</copyright>
+    <license>http://www.gnu.org/licenseses/gpl-2.0.html GNU/GPL or later</license>
+    <authorEmail>info@joomlavi.com</authorEmail>
+    <authorUrl>www.joomlavi.com</authorUrl>
+    <version>1.0</version>
+	<description>Module JV Counter</description>
+	<files>
+		<filename module="mod_jvcounter">mod_jvcounter.php</filename>
+		<filename>index.html</filename>
+		<filename>helper.php</filename>
+		
+        <folder>tmpl</folder>
+        <folder>assets</folder>
+	</files>
+   
+	<params>
+        <field name="moduleclass_sfx" type="text" label="Module class suffix" description="" />
+		<field name="headertext" default="" type="text" label="Header text" description="" />
+		<field name="timeoffset" default="0" type="text" label="Time Offset" description="" />
+		<field name="startofcounter" default="0" type="text" label="Start of counter" description="" />
+		<field name="numberofdigits" default="5" type="text" label="Number of digits" description="" />
+		<field name="digittype" default="" type="folderlist" label="Type of digits" description="" directory="modules/mod_jvcounter/assets/images/digitstype" filter="" exclude="" stripext="" />
+		<field name="template" default="" type="filelist" label="Template of module" description="" directory="modules/mod_jvcounter/tmpl" filter="" exclude="html" stripext="1" />
+		<field name="themes" default="" type="folderlist" label="Theme of module" description="" directory="modules/mod_jvcounter/assets/styles" filter="" exclude="" stripext="" />
+        <field name="textonline" default="Online" type="text" label="Text Online" description="" />
+        <field name="texttoday" default="Today" type="text" label="Text Today" description="" />
+        <field name="textyesterday" default="Yesterday" type="text" label="Text Yesterday" description="" />
+        <field name="textthisweek" default="This week" type="text" label="Text This week" description="" />
+        <field name="textlastweek" default="Last week" type="text" label="Text Last week" description="" />
+        <field name="textthismonth" default="This month" type="text" label="Text This month" description="" />
+        <field name="textlastmonth" default="Last month" type="text" label="Text Last month" description="" />
+        <field name="textalldays" default="All days" type="text" label="Text All days" description="" />
+    </params>
+    <params group="advanced">
+        <field name="startdaycounter" type="calendar" default="" label="Starting day to counter" description="" format="%Y-%m-%d 00:00:00" />
+        <field name="showonline" type="radio" default="1" label="Show Online" description="">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </field>
+        <field name="showtoday" type="radio" default="1" label="Show Today" description="">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </field>
+        <field name="showyesterday" type="radio" default="1" label="Show Yesterday" description="">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </field>
+        <field name="showthisweek" type="radio" default="1" label="Show This week" description="">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </field>
+        <field name="showlastweek" type="radio" default="1" label="Show Last week" description="">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </field>
+        <field name="showthismonth" type="radio" default="1" label="Show This month" description="">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </field>
+        <field name="showlastmonth" type="radio" default="1" label="Show Last month" description="">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </field>
+        <field name="showalldays" type="radio" default="1" label="Show All days" description="">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </field>
+        
+        <field name="showip" type="radio" default="1" label="Show IP" description="">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </field>
+        <field name="showdatetoday" type="radio" default="1" label="Show Date/Time Today" description="">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </field>
+        <field name="datetodayformat" default="%Y-%m-%d %H:%M:%S" type="text" label="Date/Time Today format" description="" />
+    </params>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="moduleclass_sfx" type="text" label="Module class suffix" description="" />
+        		<field name="headertext" default="" type="text" label="Header text" description="" />
+        		<field name="timeoffset" default="0" type="text" label="Time Offset" description="" />
+        		<field name="startofcounter" default="0" type="text" label="Start of counter" description="" />
+        		<field name="numberofdigits" default="5" type="text" label="Number of digits" description="" />
+        		<field name="digittype" default="" type="folderlist" label="Type of digits" description="" directory="modules/mod_jvcounter/assets/images/digitstype" filter="" exclude="" stripext="" />
+        		<field name="template" default="" type="filelist" label="Template of module" description="" directory="modules/mod_jvcounter/tmpl" filter="" exclude="html" stripext="1" />
+				<field name="themes" default="" type="folderlist" label="Theme of module" description="" directory="modules/mod_jvcounter/assets/styles" filter="" exclude="" stripext="" />
+                <field name="textonline" default="Online" type="text" label="Text Online" description="" />
+                <field name="texttoday" default="Today" type="text" label="Text Today" description="" />
+                <field name="textyesterday" default="Yesterday" type="text" label="Text Yesterday" description="" />
+                <field name="textthisweek" default="This week" type="text" label="Text This week" description="" />
+                <field name="textlastweek" default="Last week" type="text" label="Text Last week" description="" />
+                <field name="textthismonth" default="This month" type="text" label="Text This month" description="" />
+                <field name="textlastmonth" default="Last month" type="text" label="Text Last month" description="" />
+                <field name="textalldays" default="All days" type="text" label="Text All days" description="" />
+			</fieldset>
+            <fieldset name="advanced">
+				<field name="startdaycounter" type="calendar" default="" label="Starting day to counter" description="" format="%Y-%m-%d 00:00:00" />
+                <field name="showonline" type="radio" default="1" label="Show Online" description="">
+                  <option value="0">No</option>
+                  <option value="1">Yes</option>
+                </field>
+                <field name="showtoday" type="radio" default="1" label="Show Today" description="">
+                  <option value="0">No</option>
+                  <option value="1">Yes</option>
+                </field>
+                <field name="showyesterday" type="radio" default="1" label="Show Yesterday" description="">
+                  <option value="0">No</option>
+                  <option value="1">Yes</option>
+                </field>
+                <field name="showthisweek" type="radio" default="1" label="Show This week" description="">
+                  <option value="0">No</option>
+                  <option value="1">Yes</option>
+                </field>
+                <field name="showlastweek" type="radio" default="1" label="Show Last week" description="">
+                  <option value="0">No</option>
+                  <option value="1">Yes</option>
+                </field>
+                <field name="showthismonth" type="radio" default="1" label="Show This month" description="">
+                  <option value="0">No</option>
+                  <option value="1">Yes</option>
+                </field>
+                <field name="showlastmonth" type="radio" default="1" label="Show Last month" description="">
+                  <option value="0">No</option>
+                  <option value="1">Yes</option>
+                </field>
+                <field name="showalldays" type="radio" default="1" label="Show All days" description="">
+                  <option value="0">No</option>
+                  <option value="1">Yes</option>
+                </field>
+                
+                <field name="showip" type="radio" default="1" label="Show IP" description="">
+                  <option value="0">No</option>
+                  <option value="1">Yes</option>
+                </field>
+                <field name="showdatetoday" type="radio" default="1" label="Show Date/Time Today" description="">
+                  <option value="0">No</option>
+                  <option value="1">Yes</option>
+                </field>
+                <field name="datetodayformat" default="%Y-%m-%d %H:%M:%S" type="text" label="Date/Time Today format" description="" />
+            </fieldset>
+		</fields>
+        
+	</config>
+	
+</install>

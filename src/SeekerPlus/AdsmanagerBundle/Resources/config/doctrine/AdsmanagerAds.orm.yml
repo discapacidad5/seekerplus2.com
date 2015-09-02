@@ -1,0 +1,193 @@
+SeekerPlus\AdsmanagerBundle\Entity\AdsmanagerAds:
+    type: entity
+    table: seeker_adsmanager_ads
+    uniqueConstraints:
+        ad_headline_UNIQUE:
+            columns:
+                - ad_headline
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: true
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        category:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: ''
+        userid:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: ''
+        images:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+        dateCreated:
+            type: datetime
+            nullable: false
+            comment: ''
+            column: date_created
+        dateModified:
+            type: datetime
+            nullable: true
+            comment: ''
+            column: date_modified
+        dateRecall:
+            type: date
+            nullable: true
+            comment: ''
+            column: date_recall
+        expirationDate:
+            type: date
+            nullable: true
+            comment: ''
+            column: expiration_date
+        publicationDate:
+            type: datetime
+            nullable: true
+            comment: ''
+            column: publication_date
+        recallMailSent:
+            type: boolean
+            nullable: true
+            comment: ''
+            column: recall_mail_sent
+        views:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: ''
+        rated:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: ''
+        published:
+            type: boolean
+            nullable: true
+            comment: ''
+        metadataDescription:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+            column: metadata_description
+        metadataKeywords:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+            column: metadata_keywords
+        adLocation:
+            type: text
+            nullable: false
+            length: null
+            fixed: false
+            comment: ''
+            column: ad_location
+        adHeadline:
+            type: string
+            nullable: false
+            length: 100
+            fixed: false
+            comment: ''
+            column: ad_headline
+        adKeywords:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+            column: ad_keywords
+        adText:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+            column: ad_text
+        adPhone:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+            column: ad_phone
+        adAddress:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+            column: ad_address
+        adAttentionHoursFinish:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+            column: ad_attentionhoursfinish
+        adAttentionHoursInit:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+            column: ad_attentionhoursinit
+        adLatitude:
+            type: text
+            nullable: false
+            length: null
+            fixed: false
+            comment: ''
+            column: ad_latitude
+        adLongitude:
+            type: text
+            nullable: false
+            length: null
+            fixed: false
+            comment: ''
+            column: ad_longitude
+        adAttentionDaysInit:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+            column: ad_adattentiondaysinit
+        adAttentionDaysFinish:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+            column: ad_adattentiondaysfinish
+    manyToMany:
+        catid:
+            targetEntity: AdsmanagerCategories
+            cascade: {  }
+            mappedBy: null
+            inversedBy: adid
+            joinTable:
+                name: seeker_adsmanager_adcat
+                joinColumns:
+                    -
+                        name: adid
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    -
+                        name: catid
+                        referencedColumnName: id
+            orderBy: null
+    lifecycleCallbacks: {  }

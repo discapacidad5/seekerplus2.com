@@ -1,0 +1,199 @@
+SeekerPlus\AdsmanagerBundle\Entity\AdsmanagerCities:
+    type: entity
+    table: seeker_categories
+    indexes:
+        cat_idx:
+            columns:
+                - extension
+                - published
+                - access
+        idx_access:
+            columns:
+                - access
+        idx_checkout:
+            columns:
+                - checked_out
+        idx_path:
+            columns:
+                - path
+        idx_left_right:
+            columns:
+                - lft
+                - rgt
+        idx_alias:
+            columns:
+                - alias
+        idx_language:
+            columns:
+                - language
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        assetId:
+            type: integer
+            nullable: false
+            unsigned: true
+            comment: 'FK para la tabla #__assets.'
+            default: '0'
+            column: asset_id
+        parentId:
+            type: integer
+            nullable: false
+            unsigned: true
+            comment: ''
+            default: '0'
+            column: parent_id
+        lft:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            default: '0'
+        rgt:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            default: '0'
+        level:
+            type: integer
+            nullable: false
+            unsigned: true
+            comment: ''
+            default: '0'
+        path:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            comment: ''
+            default: ''
+        extension:
+            type: string
+            nullable: false
+            length: 50
+            fixed: false
+            comment: ''
+            default: ''
+        title:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            comment: ''
+        alias:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            comment: ''
+            default: ''
+        note:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            comment: ''
+            default: ''
+        description:
+            type: text
+            nullable: false
+            length: null
+            fixed: false
+            comment: ''
+        published:
+            type: boolean
+            nullable: false
+            comment: ''
+            default: '0'
+        checkedOut:
+            type: integer
+            nullable: false
+            unsigned: true
+            comment: ''
+            default: '0'
+            column: checked_out
+        checkedOutTime:
+            type: datetime
+            nullable: false
+            comment: ''
+            default: '0000-00-00 00:00:00'
+            column: checked_out_time
+        access:
+            type: integer
+            nullable: false
+            unsigned: true
+            comment: ''
+            default: '0'
+        params:
+            type: text
+            nullable: false
+            length: null
+            fixed: false
+            comment: ''
+        latitude:
+            type: string
+            nullable: false
+            length: 1024
+            fixed: false
+            comment: 'Meta descripción de la página.'
+            column: metadesc
+        longitude:
+            type: string
+            nullable: false
+            length: 1024
+            fixed: false
+            comment: 'Meta palabras clave para la página.'
+            column: metakey
+        metadata:
+            type: string
+            nullable: false
+            length: 2048
+            fixed: false
+            comment: 'Propiedades metadatos codificados en JSON.'
+        createdUserId:
+            type: integer
+            nullable: false
+            unsigned: true
+            comment: ''
+            default: '0'
+            column: created_user_id
+        createdTime:
+            type: datetime
+            nullable: false
+            comment: ''
+            default: '0000-00-00 00:00:00'
+            column: created_time
+        modifiedUserId:
+            type: integer
+            nullable: false
+            unsigned: true
+            comment: ''
+            default: '0'
+            column: modified_user_id
+        modifiedTime:
+            type: datetime
+            nullable: false
+            comment: ''
+            default: '0000-00-00 00:00:00'
+            column: modified_time
+        hits:
+            type: integer
+            nullable: false
+            unsigned: true
+            comment: ''
+            default: '0'
+        language:
+            type: string
+            nullable: false
+            length: 7
+            fixed: true
+            comment: ''
+    lifecycleCallbacks: {  }

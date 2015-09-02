@@ -1,0 +1,45 @@
+SeekerPlus\AdsmanagerBundle\Entity\AdsmanagerProduct:
+    type: entity
+    table: seeker_adsmanager_adProduct
+    indexes:
+        fk_seeker_adsmanager_adProduct_1:
+            columns:
+                - id_ad
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 45
+            fixed: false
+            comment: ''
+        description:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            comment: ''
+        price:
+            type: string
+            nullable: false
+            length: 45
+            fixed: false
+            comment: ''
+        images:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            comment: ''
+        idAd:
+            type: integer
+            nullable: true
+    lifecycleCallbacks: {  }

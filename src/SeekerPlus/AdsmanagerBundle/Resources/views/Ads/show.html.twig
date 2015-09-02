@@ -1,0 +1,523 @@
+{% extends '::app.html.twig' %} 
+{% block title %} 
+{{ ad.adheadLine}}
+{% endblock %} 
+{% block  stylesheets %}
+     	<link href="{{asset('css/smartadmin-production.min.css')}}" rel="stylesheet">
+        <link href="{{asset('css/comments.css')}}" rel="stylesheet">
+  
+{% endblock %}
+{% block description %} 
+{{ ad.adText}}
+{% endblock %} 
+
+{% block keywords %} 
+{{ ad.adKeywords}}
+{% endblock %} 
+ {% block javascripts %}
+ {{ parent() }}
+  <script src="{{asset('js/select2.min.js')}}"></script>
+{% endblock %}
+{% block content %}
+{{ parent() }}
+{% set counter = 0 %}
+<div class="container page-content fg-dark" style="padding: 0.5rem;margin-bottom: 4rem;">
+<br>
+	<div class="cell">
+			<div class="listview">
+		    	<div style="width: 100%;height: auto;position: relative;display: block;cursor: pointer;color: inherit;
+					margin: 0px 0px 10px;padding: 8px 8px 4px 48px;border-width: 1px;">
+		         <div style="margin-left: -3rem;padding: 10px 10px 10px 0rem;position: relative;display: block;color: inherit;" 
+		         class="list-content">
+		            {% if ad.images == 'noImages.jpg' %}
+		            	<img style="margin-left: 1rem;display: block;width: 10rem;font-size: 40px;float: left;margin-right: 10px;" src="{{asset('images/noImages.jpg')}}" class="icon">
+					{% else %}
+					    <img style="margin-left: 1rem;display: block;width: 10rem;font-size: 40px;float: left;margin-right: 10px;" src="{{asset('images/ids/')}}{{ ad.id }}/{{ ad.images }}" class="icon">
+					{% endif %}
+		         <div class="data">
+		         	<span style="font-size: 1.2rem;line-height: 25px;margin: 0px 0px 0.5rem;padding: 0px;display: block;overflow: hidden;text-overflow: ellipsis;" class="list-title"><b>
+		         	{% if ad.adHeadline != "" %}
+						{{ ad.adHeadline|e }}</b>
+					{% endif %}
+		         	</span>
+	        		<span style="font-size: 0.8rem;line-height: 20px;margin: 0rem;padding: 0px;display: block;overflow: hidden;text-overflow: ellipsis;" class="list-remark"> 
+	        		{% if ad.adPhone is not empty %}
+						<span class="mif-phone"></span>
+						{{ ad.adPhone|e }}
+					{% endif %}
+	        		</span>
+	        		
+		  			<span style="font-size: 0.8rem;line-height: 20px;margin: 0rem;padding: 0px;display: block;overflow: hidden;text-overflow: ellipsis;" class="list-remark">
+		  			{% if ad.adAddress is not empty %}
+						<span class="mif-map"></span> 
+						{{ ad.adAddress|e }}
+					{% endif %}
+	        		</span>
+		            <span style="font-size: 0.8rem;line-height: 20px;margin: 0rem;padding: 0px;display: block;overflow: hidden;text-overflow: ellipsis;" class="list-remark">
+           
+		            {% if ad.adAttentionhoursinit is not empty and ad.adAttentionhoursfinish is not empty %}
+						<span class="mif-alarm-on"></span> 
+						{{ ad.adAttentionhoursinit|e }} a {{ ad.adAttentionhoursfinish|e }}</span>
+					{% endif %}
+		            <span style="font-size: 0.8rem;line-height: 20px;margin: 0rem;padding: 0px;display: block;overflow: hidden;text-overflow: ellipsis;" class="list-remark">
+		            {% if ad.adAttentiondaysinit is not empty and ad.adAttentiondaysinit is not empty %}
+						<span class="mif-calendar"></span>  
+						{{ ad.adAttentiondaysinit|e }} a {{ ad.adAttentiondaysinit|e }}</span>	
+					{% endif %}
+		            
+		         </div>
+		        </div>
+		      </div>
+			</div>
+
+			<div id="rate">
+				<span style="margin-left: 1rem;margin-top: 0.2rem" class='rating large'data-score-title='Valoracion : ' data-role='rating'
+		        			data-value='
+							{% if rated.0.rate is empty %}
+								0
+							{% else %}
+								{{ rated.0.rate |e }}
+							{% endif %}
+		        			' 
+		        			data-on-rate="adRate">
+		        </span>
+		        <span> <span class="mif-users"><small>({{ rated.0.score |e }})</small></span></span>
+		      
+		   </div>     
+			<span style="font-size: 0.8rem;line-height: 20px;margin: 1rem;padding: 0px;display: block;overflow: hidden;text-overflow: ellipsis;" class="list-remark">{{ ad.adText|e }}</span>
+			
+			<div class="tabcontrol" data-role="tabControl">
+		    	<ul class="tabs">
+		       		<li><a href="#frame_1_1">Productos y/o Servicios</a></li>
+		            <li><a href="#frame_1_2">Comentarios</a></li>
+		        </ul>
+		        <div class="frames bg-grayLight">
+		        	<div class="frame" id="frame_1_1" style="background-color: rgb(255, 255, 255);">
+			        	{% for product in ad.getProducts %}
+							<div class="cell">
+								<div class="listview">
+							    	<div style="border: 1px solid #EAEAEA;width: 100%;height: auto;position: relative;display: block;cursor: pointer;
+						color: inherit;margin: 0px 0px 10px;"href="#" class="list">
+							         <div style="margin-left: -3rem;padding: 10px 10px 10px 0rem;position: relative;display: block;color: inherit;" 
+							         class="list-content">
+										{% if product.images == 'noImages.jpg' %}
+							            	<img style="margin-left: 1rem;display: block;width: 56px;height: 56px;font-size: 40px;float: left;margin-right: 10px;" src="{{asset('images/noImages.jpg')}}" class="icon">
+										{% else %}
+										    <img style="margin-left: 1rem;display: block;width: 56px;height: 56px;font-size: 40px;float: left;margin-right: 10px;" src="{{asset('images/ids/')}}{{ ad.id }}/{{ product.images }}" class="icon">
+										{% endif %}
+							         <div class="data">
+							         	<span style="font-size: 14px;line-height: 18px;margin: 0px;padding: 0px;display: block;overflow: hidden;text-overflow: ellipsis;" class="list-title"><b>{{ product.name }}</b></b></span>
+							         	<span style="font-size: 11px;line-height: 14px;margin: 0px;padding: 0px;display: block;overflow: hidden;text-overflow: ellipsis;" class="list-remark">{{ product.description }}</span>
+						        		<span style="font-size: 11px;line-height: 14px;margin: 0px;padding: 0px;display: block;overflow: hidden;text-overflow: ellipsis;" class="list-remark">$ {{ product.price|number_format(0) }}</span>
+							         </div>
+							        </div>
+							      </div>
+								</div>
+							</div>	  
+						{% endfor %} 
+		        	</div>
+		            <div class="frame" id="frame_1_2" style="background-color: rgb(255, 255, 255);">
+		       
+
+		                                  <div class="chat-footer">
+
+											<!-- CHAT TEXTAREA -->
+
+
+													<div class="textarea-div">
+
+														<div class="typearea">
+															<textarea placeholder="Escribe un Comentario..." id="textarea-expand" class="custom-scroll"></textarea>
+														</div>
+
+													</div>
+
+													<!-- CHAT REPLY/SEND -->
+													<span class="textarea-controls">
+
+													<button class="button primary pull-right " id='agregar' onclick="addComment($('#textarea-expand').val())">
+																			Comentar
+
+											</button> 
+											 </span>
+
+										  
+									
+                                  <div class="comments-container">
+		<ul id="comments-list" class="comments-list">
+             <li>Comentarios <small id="ncomment">({{nComments}})  </small> <span class="mif-bubbles"></span></li>
+					{% for row in coments %}
+					
+					<li  id="{{ row.id }}">
+						<div class="comment-main-level">
+							<!-- Avatar -->
+							<div class="comment-avatar"><img src="{{asset('images/male.png')}}" alt="">
+							</div>
+							<!-- Contenedor del Comentario -->
+							<div class="comment-box">
+								<div class="comment-head">
+									<h6 class="comment-name ">
+									{% for row2 in users %}
+									{% if row2.id == row.idUser %}
+						                      <a href="">{{ row2.name }}</a>
+									{% endif %}
+									   
+									{% endfor %}
+									</h6>
+									<span>{{ row.dateCreated|date("m/d/Y")  }}</span>
+									<i class="fa fa-reply"></i>
+									<i class="fa fa-heart"></i>
+								</div>
+								<div class="comment-content">
+									<p>{{ row.commentAd }}</p>
+						
+                                    {% if row.idUser == activeUser  %}
+
+									   <button class="button warning " onclick="dateComment({{ row.id }})">Editar</button>
+									   <button class="button color-red " onclick="showMessageProductDeleteDialog({{ row.id }})">Eliminar</button>
+
+    
+
+                                    {% endif %}
+									
+
+								</div>
+							</div>
+						</div>
+						</li>
+                   {% set counter = counter + 1 %}
+					{% endfor %}
+
+
+
+					
+</ul>
+<br><br>
+<script type="text/javascript">
+var r=0;
+</script>
+
+<div style="margin-bottom: 2rem;">
+
+	{% if counter >= 9 %}
+<button onclick="pagination(r=r+10)" id="see" class="button success">Ver Mas</button>
+	{% endif %}
+
+
+
+
+<script type="text/javascript">
+	
+function  pagination(range){
+       var idAd="{{ idAd }}";
+       $.post('{{ path('paginationAd') }}',               
+			         {idAd: idAd,
+			          range: range 
+
+			        }, 
+			        	function(response){	
+		                  r=response.range;			    
+			        	
+                 for (x=0;x<response.comments.length;x++)
+                      {
+                            var nameAd=0;
+                            for (y=0;y<response.user.length;y++){
+	                            	if(response.user[y].id==response.comments[x].idUser)
+	                            	{
+	                                  	 nameAd=response.user[y].name;	    
+	                            	}
+                            }
+                          
+                  var lista = document.getElementById("comments-list");
+		       lista.innerHTML += "<li id="+response.comments[x].id+">"
+		       +'<div class="comment-main-level">'
+			   +'<div class="comment-avatar"><img src="{{asset("images/male.png")}}" alt=""></div>'
+			   +'<div class="comment-box">'
+			   +'<div class="comment-head">'
+			   +'<h6 class="comment-name "><a href="">'+ nameAd +'</a></h6>'
+			   +'<span>'+response.comments[x].dateCreated.date+'</span>'
+			   +'<i class="fa fa-reply"></i>'
+			   +'<i class="fa fa-heart"></i>'
+			   +'</div>'
+			   +'<div class="comment-content">'	
+			   +'<p>'+
+     
+			   response.comments[x].commentAd+'</p>'				
+			   +'<button id='+(response.comments[x].id+"w")+' class="button warning" onclick="dateComment('+response.comments[x].id+')" >Editar </button>'+" " 
+			   +'<button id='+(response.comments[x].id+"n")+' class="button color-red" onclick="showMessageProductDeleteDialog('+response.comments[x].id+')" >Eliminar </button>'
+
+
+			   +'</div>'
+			   +'</div>'
+		       +'</div>'
+			   +'</li>';
+			     if (response.comments[x].idUser  != response.userId ) {
+                                  $("#"+response.comments[x].id+"w").remove();
+                                  $("#"+response.comments[x].id+"n").remove();
+                            }
+              
+}
+				}, "json"); 
+
+}
+</script>
+
+</div>
+
+
+
+
+		            </div>
+		       </div>
+		    </div>
+			   
+	</div>
+</div>
+</div>
+{% endblock content %}
+{% block footer %}
+<div style="padding: 1rem;margin-top: -8rem;margin-left: -1.5rem;" data-role="dialog" id="cities" data-close-button="true" data-overlay="true" data-overlay-color="op-dark">
+    <h2><span class="mif-earth mif"></span> Seleccione Una Ciudad</h2>
+    <p>
+       	    <div class="cell">
+			   <select id="city" class="js-select" data-placeholder="Ciudades" style="width: 13rem;" onchange="location = this.options[this.selectedIndex].value;">
+			      {% for field in cities %}
+				      {% if field.parentId == 0 %}
+					  {% else %}	
+						   	{% if field.title == location.title %}
+					       		<option value='{{ path('ads_city', {'city': field.id}) }}' selected>{{ field.alias| capitalize }}</option>
+					        {% else %}
+					            <option value='{{ path('ads_city', {'city': field.id}) }}'>{{ field.alias| capitalize }}</option>
+						   	{% endif %}
+					   {% endif %}	
+			       {% endfor %}
+			   </select>
+			</div>
+    </p>
+</div> 
+<script>
+function showCitiesDialog(){
+    var dialog = $("#cities").data('dialog');
+    dialog.open();
+}
+
+function adRate(value, star, widget){
+    $.post('{{ path('adRate') }}',               
+            {idAd: {{ ad.id|e }}, rate:value}, 
+        	function(response){
+
+                if(response.code == 100 && response.success){
+                	$("#rate").html("<span style='margin-left: 1rem;margin-top: 0.2rem'" 
+                        	+"class='rating large'data-score-title='Valoracion : ' data-role='rating'"
+    	        			+"data-value='"+response.rated.rate+"' data-on-rate='adRate'></span>"
+    	        			+"<span><span class='mif-users'><small>("+response.rated.score+")</small></span></span>");
+                	showMessageAdRate();
+                }
+	}, "json"); 
+}
+
+function showMessageAdRate(){
+    var dialog = $("#rated").data('dialog');
+    dialog.open();
+}
+
+$(function(){
+    $("#city").select2({
+        placeholder: "Ciudades",
+        allowClear: true
+      });
+  });
+</script>
+<div data-role="dialog" id="rated" data-close-button="true" class="success">
+    <h1> Felicitaciones </h1>
+    <p>
+       Haz Calificado a {{ ad.adheadLine}}
+    </p>
+</div> 
+
+
+
+    <div data-role="dialog" id="dialog" data-width="280" data-height="260">
+        <form>
+        <br>
+       <center>
+       	 <label class="sub-alt-header">Actualizar Comentario</label>
+       </center>
+      
+      <center>
+      	
+      	  <div class="input-control textarea ">
+           <input type="hidden" name="oculto" id="idComment">
+        	<textarea type="textarea" class="input-control text" name="comment" id="editComment"></textarea>
+        </div>
+            </form>
+      </center>
+        	<center>
+        		<button class="button success"  onclick="editComment($('#idComment').val(),$('#editComment').val())">Actualizar</button>
+        	<button class="button color-red"  onclick="delDialog('#dialog')">Cancelar</button>
+        	</center>
+      
+    </div>
+
+    <script>
+        function showDialog(id){
+            var dialog = $(id).data('dialog');
+            dialog.open();
+        }
+        function delDialog(id){
+            var dialog = $(id).data('dialog');
+            dialog.close();
+        }
+    </script>	
+
+
+<div data-role="dialog" id="adDelete" data-close-button="true" data-type="alert" data-windows-style="true">
+					<div style="padding: 2rem;">
+					  <h1>Eliminar Comentario</h1>
+					  <p>Esta a punto de eliminar el comentario  , al eliminar el registro la informacion no se podra recuperar.
+					  <p>
+					      ¿ Esta seguro que desea eliminar el comentario ?.
+					  </p>
+	<button onclick="delete_ad($('#adDelete').val())" class="button fg-black"><span class="mif-warning"> Eliminar</button> 
+					</div>
+</div> 
+
+<script type="text/javascript">
+			function showMessageProductDeleteDialog(id){
+
+		     var dialog = $("#adDelete").data('dialog');
+		     $("#adDelete").val(id);
+		    dialog.open();
+
+		     }
+		   function delMessageProductDeleteDialog(){
+
+		            var dialog = $("#adDelete").data('dialog');
+		            dialog.close();
+		     }
+
+		function addComment(commentUser)
+			{
+				if(commentUser=='')
+						{
+						alert('Ingrese un comentario');
+
+						}
+						else{
+		    $.post('{{ path('ad_comment') }}',               
+		            {idAd: {{ ad.id|e }},
+		            comment: JSON.stringify(commentUser)
+		           
+		        }, 
+		        	function(response){
+		        
+
+		       $("#textarea-expand").val("");
+		       var lista = document.getElementById("comments-list");
+		       lista.innerHTML += "<li id="+response.idc+">"
+		       +'<div class="comment-main-level">'
+			   +'<div class="comment-avatar"><img src="{{asset("images/male.png")}}" alt=""></div>'
+			   +'<div class="comment-box">'
+			   +'<div class="comment-head">'
+			   +'<h6 class="comment-name "><a href="">'+response.userName+'</a></h6>'
+			   +'<span>'+response.date+'</span>'
+			   +'<i class="fa fa-reply"></i>'
+			   +'<i class="fa fa-heart"></i>'
+			   +'</div>'
+			   +'<div class="comment-content">'	
+			   +'<p>'+response.comment+'</p>'				
+			   +'<button class="button warning" onclick="dateComment('+response.idc+')" >Editar </button>'+" " 
+			   +'<button class="button color-red" onclick="showMessageProductDeleteDialog('+response.idc+')" >Eliminar </button>'
+			   +'</div>'
+			   +'</div>'
+		       +'</div>'
+			   +'</li>';
+			      
+
+			      $('#ncomment').html("("+response.nCommentsAds+")");
+			      $('#comments-list li:last').insertAfter('#comments-list li:first');
+
+			}, "json"); 
+
+			}
+		}
+
+
+	
+		function dateComment(id)
+		{
+	  $.post('{{ path('date_comment') }}',               
+	         {idComment: id,
+	        }, 
+	        	function(response){
+	          document.getElementById('editComment').value =(response.comment[0]).commentAd;
+	          document.getElementById('idComment').value =id;
+	          showDialog('#dialog');
+		}, "json"); 
+		}
+
+	    function editComment(id,editcomment)
+	    {
+               if(editcomment=='')
+						{
+						alert('Ingrese un comentario');
+
+						}
+						else{
+        		 $.post('{{ path('edit_comment') }}',               
+                    {idComment: id, newComment :JSON.stringify(editcomment)
+                    }, 
+        	   function(response){
+        		    $("#"+id+" .comment-content p").html(response.comment);
+                    delDialog('#dialog');
+	            }, "json"); 
+        
+          }
+         }
+       				
+       		function delete_ad(id)
+       				{
+			$.post('{{ path('delete_comment') }}',               
+			         {idComment: id ,
+			         idAd: {{ ad.id|e }},
+			        }, 
+			        	function(response){
+			        		 $("#"+id).remove();
+			        		 $('#ncomment').html("("+response.n+")");
+			                 delMessageProductDeleteDialog();
+			                
+                         
+				}, "json"); 
+			} 
+</script>
+			
+
+<footer>
+<div style="width: 100%; position: fixed; bottom: 0px; left: 0px; z-index: 100;" class="app-bar drop-up" data-role="appbar">
+	<a class="app-bar-element">
+    	<span id="toggle-tiles-dropdown2" class="mif-apps mif-2x"></span>
+           <div class="app-bar-drop-container" data-role="dropdown" data-toggle-element="#toggle-tiles-dropdown2" data-no-close="false" style="width: 324px; display: none;">
+              <div class="tile-container bg-white fg-black">
+              		{% for field in categories %}
+				      {% if field.parent == 0 %}
+					  <div onclick="location='{{ path('show_category', {'idCategory': field.id,'idCity': location.id,'latitude':0,'longitude':0,'range':0}) }}';" class="tile-small" style="background: rgb(255, 255, 255) none repeat scroll 0% 0%;">
+					    <div class="tile-content iconic">
+				       		<img style="width: 100%;height: 70%;" alt="" src="{{asset('../')}}images/com_adsmanager/categories/{{ field.id|e }}cat.png">
+				       	<p class="pCategories" style="margin-top: -1.1rem;text-align: center;">{{  field.name }}</p>
+				       	</div>
+              		  </div>
+					  {% else %}	 
+				       {% endif %}
+			       {% endfor %}
+            </div>
+          </div>
+  	</a>
+ 	<a href="{{ path('show_ad_map', {'idAd': ad.id,'idCity': location.id}) }}" class="app-bar-element" style="margin-left: 12%">
+    	<span id="toggle-tiles-dropdown2" class="mif-map mif-2x"></span>
+   </a>
+   <a class="app-bar-element" style="margin-left: 12%">
+    	<span id="toggle-tiles-dropdown2" class="mif-calendar mif-2x"></span>
+   </a>
+<div style="display: none;" class="app-bar-pullbutton automatic"></div><div class="clearfix" style="width: 0;"></div><nav style="display: none;" class="app-bar-pullmenu hidden flexstyle-app-bar-menu"><ul class="app-bar-pullmenubar hidden app-bar-menu"></ul></nav></div>
+</footer>
+{% endblock footer %}

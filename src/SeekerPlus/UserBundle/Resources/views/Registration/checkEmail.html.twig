@@ -1,0 +1,26 @@
+{% extends '::app.html.twig' %} 
+{% block title %} 
+Felicitaciones
+{% endblock %} 
+
+{% block description %} 
+
+{% endblock %} 
+
+{% block keywords %} 
+
+{% endblock %} 
+{% block content %}
+<div class="container page-content fg-dark">
+<div class="cell">
+   <div style="max-width: 30rem ! important;" class="notify success">
+        <span class="notify-title">El usuario se ha creado satisfactoriamente</span>
+        <span class="notify-text">
+		{{ 'registration.check_email'|trans({'%email%': user.email}, 'FOSUserBundle') }}
+        </span>
+   </div>
+</div>
+<a href="{{ path('app') }}"><button class="button primary">Inicio</button></a>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,13 @@
+SeekerPlus\AdsmanagerBundle\Entity\AdsmanagerAds:
+    properties:
+        adLatitude:
+            - NotBlank: ~
+        adLongitude:
+            - NotBlank: ~
+        catid:
+            - NotBlank: ~
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+            fields: adHeadline
+            groups: [add]
+            message: 'El titulo del Anuncio ya existe. Porfavor ingresar Otro titulo'

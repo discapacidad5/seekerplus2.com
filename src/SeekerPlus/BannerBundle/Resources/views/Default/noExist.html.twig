@@ -1,0 +1,40 @@
+{% extends '::app.html.twig' %} 
+{% block title %} 
+Banner no Encontrado
+{% endblock %} 
+
+{% block description %} 
+
+{% endblock %} 
+
+{% block keywords %} 
+
+{% endblock %} 
+
+{% block stylesheets %} 
+{{ parent() }}
+{% endblock %} 
+
+{% block javascripts %} 
+{{ parent() }} 
+{% endblock %} 
+
+{% block body %} 
+
+	{% block menu %} 
+		{{ parent() }} 
+	{% endblock %}
+
+	{% block content %} 
+	<div class="container page-content fg-dark">
+	<h1><span class="mif-blocked"></span> Banner no Encontrado</h1>
+	<h3>¡Ouh! El banner no existe o no esta publicado.</h3>
+	<img id="newImages" class="marginFrame" src="{{asset('images/noImages.jpg')}}">
+	</div>
+	</div>
+	{% endblock %}
+	{% block footer %} 
+		{{ parent() }} 
+	{% endblock %}
+	
+{% endblock %}

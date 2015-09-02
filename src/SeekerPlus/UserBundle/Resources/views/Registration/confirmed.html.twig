@@ -1,0 +1,15 @@
+{% extends '::app.html.twig' %} 
+{% block title %} 
+Felicitaciones !!
+{% endblock %} 
+	
+{% block content %}
+<div class="container page-content fg-dark">
+<h1><a href="{{ path('app') }}"><span class="mif-arrow-left fg-darkCobalt"></span></a></h1>
+   <h3><span class="mif-user-check">{{ 'registration.confirmed'|trans({'%username%': user.username}, 'FOSUserBundle') }}</span></h3>
+    {% if app.session is not empty %}
+        {% set targetUrl = app.session.get('_security.' ~ app.security.token.providerKey ~ '.target_path') %}
+        {% if targetUrl is not empty %}<p><a href="{{ targetUrl }}">{{ 'registration.back'|trans({}, 'FOSUserBundle') }}</a></p>{% endif %}
+    {% endif %}
+ </div>
+{% endblock content %}

@@ -1,0 +1,123 @@
+{% extends '::base.html.twig' %} 
+{% block title %} 
+Servicios
+{% endblock %} 
+
+{% block description %} 
+Conoce los diferentes servicios que presta SeekerPlus.
+{% endblock %} 
+
+{% block keywords %} 
+Servicios seekerplus
+{% endblock %} 
+
+{% block stylesheets %} 
+{{ parent() }}
+{% endblock %} 
+
+{% block javascripts %} 
+{{ parent() }} 
+{% endblock %} 
+
+{% block body %} 
+
+	{% block menu %} 
+		{{ parent() }} 
+	{% endblock %}
+
+	{% block content %} 
+	<div class="container page-content fg-dark">
+	<h1><span class="mif-tags"></span> Servicios</h1>
+	<h3 style="text-align: center;">¡Bienvenido! ¿Qué plan quieres para utilizar SeekerPlus?</h3>
+	<br>
+	<br>
+	<div class="grid">
+		<div class="row cells3">
+                    <div class="cell">
+                        <div class="panel">
+                            <div style="height: 10rem;" class="bg-grayLight heading">
+                                <span class="bg-red	 icon mif-air"></span>
+                                <span style="font-size: 3rem;" class="title">Gratuito</span>
+                                <p style="font-size: 3rem; text-align: center; margin-top: 0rem;" class="title">$ 0.0</p>
+                                <p class="panelContent">(facturados una vez al año) </p>
+                            </div>
+                            <div class="content">
+                                <p><span class="fg-lightOlive icon mif-checkmark"></span>1 Anuncio</p>
+                                <p><span class="fg-lightOlive icon mif-checkmark"></span>Ubicacion en el Mapa</p>
+                                <p><span class="fg-lightOlive icon mif-checkmark"></span>Palabras Claves</p>
+                                <p><span class="fg-lightOlive icon mif-checkmark"></span>Descripcion</p>
+                                <p><span class="fg-lightOlive icon mif-checkmark"></span>Informacion</p>
+                                <p><span class="fg-lightOlive icon mif-checkmark"></span>3 Productos/o Servicios</p>
+                                <p><span class="fg-red icon mif-cross"></span>Estadisticas Anuncio</p>
+                                <p><span class="fg-red icon mif-cross"></span>Posicionamiento SeekerPlus</p>
+                                <p><span class="fg-red icon mif-cross"></span>Publicidad en Redes Sociales</p>
+                                <p><span class="fg-red icon mif-cross"></span>Publicidad SeekerPlus</p>
+                            </div>
+                            <br>
+                             <a href="{{ path('contactenos') }}">
+                             	<button style=" margin-left: 5rem;" class="button">Registrarse</button>
+                             </a>
+                        </div>
+                    </div>
+                    <div class="cell">
+                        <div class="panel">
+                            <div style="height: 10rem;" class="heading">
+                                <span class="bg-lightOlive icon mif-dollar"></span>
+                                <span style="font-size: 3rem;" class="title">Plus</span>
+                                <p style="font-size: 3rem; text-align: center; margin-top: 0rem;" class="title">$ 100.000</p>
+                                <p class="panelContent">(facturados una vez al año) </p>
+                            </div>
+                            <div class="content">
+                                <p><span class="fg-lightOlive icon mif-checkmark"></span>2 Anuncio</p>
+                                <p><span class="fg-lightOlive icon mif-checkmark"></span>Ubicacion en el Mapa</p>
+                                <p><span class="fg-lightOlive icon mif-checkmark"></span>Palabras Claves</p>
+                                <p><span class="fg-lightOlive icon mif-checkmark"></span>Descripcion</p>
+                                <p><span class="fg-lightOlive icon mif-checkmark"></span>Informacion</p>
+                                <p><span class="fg-lightOlive icon mif-checkmark"></span>10 Productos/o Servicios</p>
+                                <p><span class="fg-lightOlive icon mif-checkmark"></span>Estadisticas Anuncio</p>
+                                <p><span class="fg-lightOlive icon mif-checkmark"></span>Posicionamiento SeekerPlus</p>
+                                <p><span class="fg-lightOlive icon mif-checkmark"></span>Publicidad en Redes Sociales</p>
+                                <p><span class="fg-red icon mif-cross"></span>Publicidad en SeekerPlus</p>
+                            </div>
+                             <br>
+                             <a href="{{ path('contactenos') }}">
+                             	<button style=" margin-left: 5rem;" class="button fg-white bg-lightOlive">Contactar</button>
+                             </a>
+                        </div>
+                    </div>
+                    <div class="cell">
+                        <div class="panel">
+                            <div style="height: 10rem;" class="bg-darkCobalt heading">
+                                <span class="icon mif-dollars"></span>
+                                <span style="font-size: 3rem;" class="title">Premium</span>
+                                <p style="font-size: 3rem; text-align: center; margin-top: 0rem;" class="title">$ 300.000</p>
+                                <p class="panelContent">(facturados una vez al año) </p>
+                            </div>
+                            <div class="content">
+                                <p><span class="fg-lightOlive icon mif-checkmark"></span>5 Anuncio</p>
+                                <p><span class="fg-lightOlive icon mif-checkmark"></span>Ubicacion en el Mapa</p>
+                                <p><span class="fg-lightOlive icon mif-checkmark"></span>Palabras Claves</p>
+                                <p><span class="fg-lightOlive icon mif-checkmark"></span>Descripcion</p>
+                                <p><span class="fg-lightOlive icon mif-checkmark"></span>Informacion</p>
+                                <p><span class="fg-lightOlive icon mif-checkmark"></span>Ilimitados Productos/o Servicios</p>
+                                <p><span class="fg-lightOlive icon mif-checkmark"></span>Estadisticas Anuncio</p>
+                                <p><span class="fg-lightOlive icon mif-checkmark"></span>Posicionamiento SeekerPlus</p>
+                                <p><span class="fg-lightOlive icon mif-checkmark"></span>Publicidad en Redes Sociales</p>
+                                <p><span class="fg-lightOlive icon mif-checkmark"></span>Publicidad en SeekerPlus</p>
+                             </div>
+                             <br>
+                             <a href="{{ path('contactenos') }}">
+                             	<button style=" margin-left: 5rem;" class="button fg-white bg-darkCobalt">Contactar</button>
+                             </a>
+                        </div>
+                    </div>
+                </div>
+      </div>
+	</div>
+	</div>
+	{% endblock %}
+	{% block footer %} 
+		{{ parent() }} 
+	{% endblock %}
+	
+{% endblock %}
