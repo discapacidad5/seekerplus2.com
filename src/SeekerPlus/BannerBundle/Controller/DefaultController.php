@@ -38,35 +38,68 @@ class DefaultController extends Controller
 
     public function showBannersAction()
     {
-
     	$date = new DateTime();
-		$em = $this->getDoctrine()->getManager();
+    	$em = $this->getDoctrine()->getManager();
 		$query = $em->createQuery(
-					'SELECT b 
+					'SELECT b.id 
 					FROM BannerBundle:Banner b 
 					WHERE b.publishDown >=:date'
-		)->setParameter('date',$date)
-		->setMaxResults(3);;
+		)->setParameter('date',$date);
 		
-		$banners = $query->getResult();
-		$currenDate = new DateTime();
-		$banners_public = array();	
-		foreach($banners as $banner) {
-			$obj = json_decode($banner->getParams());
-			$image = $obj->{'imageurl'};
-			$this->setClickBanner ($banner->getId());
-			$date = $currenDate->diff($banner->getPublishDown());
-			$banner_plu = array(
-				'name' => $banner->getName(),
-				'imageurl' => $image,
-				'description' => $banner->getDescription(),
-				'imageurl' => $image,
-				'days' => $date->d,
-				'hours' => $date->h,
-				'minutes' => $date->i,
-				);
-			array_push($banners_public, $banner_plu);
+		$banners_id = $query->getResult();
+		$quanty = count($banners_id);
+		$banners_public = array();
+		$banners = array();
+		$ids_banners = array();
+
+		for ($i=0; $i < 3; $i++) { 
+			array_push($ids_banners, $banners_id[rand(0, $quanty-1)]);
 		}
+
+		$em = $this->getDoctrine()->getManager();
+		$query = $em->createQuery(
+						'SELECT b 
+						FROM BannerBundle:Banner b 
+						WHERE b.publishDown >=:date and b.id = :id'
+			)->setParameter('date',$date)
+			->setParameter('id',$ids_banners[0])
+			->setMaxResults(1);
+		array_push($banners, $query->getResult());
+
+		$query = $em->createQuery(
+						'SELECT b 
+						FROM BannerBundle:Banner b 
+						WHERE b.publishDown >=:date and b.id = :id'
+			)->setParameter('date',$date)
+			->setParameter('id',$ids_banners[1])
+			->setMaxResults(1);
+		array_push($banners, $query->getResult());
+
+		$query = $em->createQuery(
+						'SELECT b 
+						FROM BannerBundle:Banner b 
+						WHERE b.publishDown >=:date and b.id = :id'
+			)->setParameter('date',$date)
+			->setParameter('id',$ids_banners[2])
+			->setMaxResults(1);
+		array_push($banners, $query->getResult());
+		
+		$currenDate = new DateTime();
+		
+		foreach($banners as $banner) {
+				$obj = json_decode($banner[0]->getParams());
+				$image = $obj->{'imageurl'};
+				$date = $currenDate->diff($banner[0]->getPublishDown());
+				$banner_plu = array(
+					'id' => $banner[0]->getId(),
+					'imageurl' => $image,
+					'days' => $date->d,
+					'hours' => $date->h,
+					'minutes' => $date->i,
+					);
+				array_push($banners_public, $banner_plu);
+			}
+    	
 		if(!$banners)
 			return $this->render('BannerBundle:Default:noExist.html.twig');
 			

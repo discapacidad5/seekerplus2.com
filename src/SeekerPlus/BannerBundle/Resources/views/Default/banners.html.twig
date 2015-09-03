@@ -1,13 +1,13 @@
 
 {% block body %}
-<div>
 	{% for banner in banners %}
-		<div class="container page-content fg-dark">
-			<h1><span class="mif-event-available"></span> {{ banner.name }}</h1>
+		<div class="">
 			<div class="cell">
-				<img id="newImages" class="marginFrame" src="{{ url('index') }}../../{{ banner.imageurl }}" style="width: 30rem ! important;">			
+				<img id="newImages" class="marginFrame" src="{{ url('index') }}../../{{ banner.imageurl }}" style="width: 16rem ! important; height: 7rem ! important;">			
 			</div>
 		</div>
 	{% endfor %}
-</div>
+
+	<a href="#" class="btn btn-success">Mas</a>
+
 {% endblock %}
