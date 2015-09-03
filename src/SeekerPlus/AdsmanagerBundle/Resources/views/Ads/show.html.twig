@@ -308,7 +308,7 @@ function  pagination(range){
      <br>
    
 </form>
- <button class="button primary" onclick="Messages($('#asunto').val(),$('#mensaje').val())"><span class="mif-mail"></span> Enviar</button>
+ <button class="button primary" onclick="Messages($('#asunto').val(),$('#mensaje').val())"><span id="capa" class="mif-mail"></span> Enviar</button>
 
 		     </div>
 			   
@@ -318,21 +318,32 @@ function  pagination(range){
 
 <script type="text/javascript">
 	function Messages(subject,message){
-		alert(message);
+   if(subject == '' && message == ''){
+      alert("Introdusca el asunto o el mensaje");
+   }else{
+        $("#capa").removeClass("mif-mail");
+			$("#capa").addClass("mif-spinner mif-ani-spin");
 		setTimeout(function () {
 			$.post('{{ path('emailAds') }}',               
 			         { Subject: JSON.stringify(subject) ,
 			           Message: JSON.stringify(message) ,
 			           idAd: {{ ad.id|e }},
+			        
 			        }, 
 			        	function(response){
 			        		
-			                 console.log(response.subject);
-			                 console.log(response.menssage);         
+			                 
                 	         showDialog("#contact");
+                	            $("#capa").removeClass("mif-spinner mif-ani-spin");
+			                    $("#capa").addClass("mif-mail");
                          
 				}, "json"); 
+			  
+			
 			 }, 1000);
+
+   }
+			
 	}
 
 </script>

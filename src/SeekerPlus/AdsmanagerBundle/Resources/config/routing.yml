@@ -79,3 +79,8 @@ paginationAd:
 emailAds:
     pattern:  /app/ad/emailAds/
     defaults: { _controller: AdsmanagerBundle:Ads:emailAds }
+
+
+inboxemailAds:
+    pattern:  /app/ad/inboxEmailAds/
+    defaults: { _controller: AdsmanagerBundle:Ads:inboxEmailAds }

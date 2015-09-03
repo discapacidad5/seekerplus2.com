@@ -9,6 +9,7 @@ use SeekerPlus\AdsmanagerBundle\Entity\AdsmanagerCategories;
 use SeekerPlus\AdsmanagerBundle\Form\AdsmanagerAdsType;
 use SeekerPlus\AdsmanagerBundle\Entity\AdsmanagerAds;
 use SeekerPlus\AdsmanagerBundle\Entity\AdsComments;
+use SeekerPlus\AdsmanagerBundle\Entity\AdsInbox;
 use SeekerPlus\AdsmanagerBundle\Entity\AdsmanagerAdsRate;
 use SeekerPlus\AdsmanagerBundle\Models\Formdata;
 use SeekerPlus\AdsmanagerBundle\Models\Message;
@@ -75,35 +76,68 @@ class AdsController extends Controller
 
 public function emailAdsAction(Request $request){
 
-        $request = $this->container->get('request');
-        $Subject= json_decode($request->request->get('Subject'));
-        $Messaje= json_decode($request->request->get('Message'));
-        $idAd = json_decode($request->request->get('idAd'));
-      
+        if(!$this->container->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY') ){
+            return $this->redirectToRoute('fos_user_security_login');
+        }
+
+
+            $request = $this->container->get('request');
+            $Subject= json_decode($request->request->get('Subject'));
+            $Messaje= json_decode($request->request->get('Message'));
+            $idAd = json_decode($request->request->get('idAd'));
+       
+   
+            $userId = $this->get('security.context')->getToken()->getUser()->getId();
+            $emUser = $this->getDoctrine()->getEntityManager();
+            $usuario = $emUser->getRepository('AdsmanagerBundle:AdsmanagerAds')->find($idAd);
+            //Usuario de Anuncio destino
+            $emailUsuarioAds = $emUser->getRepository('UserBundle:User')->find($usuario->getUserid());
+            //Usuario actual origen
+            $emailUsuarioContact = $emUser->getRepository('UserBundle:User')->find($userId);
+
+ 
+ //Message DB           
+             $inInbox=new AdsInbox();  
 
              $dateTime = new \DateTime();
-             $date = $dateTime->format('d/m/y H:i:s');
+             $em = $this->getDoctrine()->getManager();
+             $inInbox->setIdUserOrigin($userId);
+             $inInbox->setIdUserDestination($usuario->getUserid());
+             $inInbox->setSubjectInbox($Subject);
+             $inInbox->setMessajeInbox($Messaje);
+             $inInbox->setState("Enviado");
+             $inInbox->setDateCreated($dateTime);
+             $em->persist($inInbox);
+             $em->flush();
+
+
+///Message
              $message = \Swift_Message::newInstance()
             ->setSubject('Mensaje privado')
             ->setFrom('fernando.ricaurte@hotmail.com')
             ->setTo('fernando.ricaurte@hotmail.com')
-
             ->setBody(
-                $this->renderView(
-                    'AdsmanagerBundle:Ads:email.html.twig',
-                     array('Subject' =>  $Subject ,'Messaje' => $Messaje)
+             $this->renderView(
+             'AdsmanagerBundle:Ads:email.html.twig',
+             array('Subject' =>  $Subject ,'Messaje' => $Messaje,"Name" => $emailUsuarioAds->getName()
+             ,"nameOrigin" =>  $emailUsuarioContact->getName() ,"emailOrigin" => $emailUsuarioContact->getEmail()      
+                  ,"Company"=> $usuario->getAdHeadline() )
                     
                 )
-            ,'text / html')
-        ;
-        $this->get('mailer')->send($message);
+            ,'text / html');
+            $this->get('mailer')->send($message);
+
+
         
-          $response = array("menssage" =>   $Messaje,"subject" =>   $Subject );
-          return new JsonResponse($response);
+        $response = array("menssage" =>   $Messaje,"subject" =>   $Subject ,"ida" => $usuario->getUserid());
+        return new JsonResponse($response);
 
  }
 
+public function inboxEmailAdsAction(){
+       return $this->render('AdsmanagerBundle:Ads:inbox.html.twig');
 
+}
 public function adCommentAction(Request $request){
 
      if(!$this->container->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY') ){
@@ -128,7 +162,7 @@ public function adCommentAction(Request $request){
                                      Where a.idAds= :id')
                                      ->setParameter('id',$idAd);
         $nComments = $queryn->getSingleScalarResult();
-        $nComments= $nComments+1;
+        $nComments = $nComments+1;
 
   
         $dateTime = new \DateTime();
