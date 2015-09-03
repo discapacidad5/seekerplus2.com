@@ -10,108 +10,135 @@ App SeekerPlus
 {% block keywords %} 
 
 {% endblock %} 
- {% block javascripts %}
- {{ parent() }}
- <script src="{{asset('js/myJs.js')}}"></script>
- <script src="{{asset('js/select2.min.js')}}"></script>
- <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyC4Pta07pYlzbICVniGLYta4MLCrUrXrHE&sensor=false&libraries=geometry&v=3.4" type="text/javascript"></script>
- {% endblock %}
+{% block javascripts %}
+{{ parent() }}
+<script src="{{asset('js/myJs.js')}}"></script>
+<script src="{{asset('js/select2.min.js')}}"></script>
+<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyC4Pta07pYlzbICVniGLYta4MLCrUrXrHE&sensor=false&libraries=geometry&v=3.4" type="text/javascript"></script>
+{% endblock %}
 {% block content %}
 {{ parent() }}
 <script src="{{asset('js/maps.js')}}"></script>
-	<div class="notify" style="max-width: 100%; padding-top: 4rem; margin: 0rem ! important;margin-bottom: -1rem !important;">
-		<span style="padding-top: 1.5rem;" class="notify-icon mif-map2"></span>
-		<span class="notify-title">Direccion</span>
-		<span class="notify-text" id="address">&nbsp</span>
-	</div>
+<div class="notify" style="max-width: 100%; padding-top: 4rem; margin: 0rem ! important;margin-bottom: -1rem !important;">
+	<span style="padding-top: 1.5rem;" class="notify-icon mif-map2"></span>
+	<span class="notify-title">Direccion</span>
+	<span class="notify-text" id="address">&nbsp</span>
+</div>
 <div id="mapCanvas" class="marginFrame" style="height: 80% !important;overflow:hidden; width: 100% !important;"></div>
 </div>
 <script>
 
-setLatitude({{ location.latitude }});
-setLongitude({{ location.longitude }});
-initialize();
+	setLatitude({{ location.latitude }});
+	setLongitude({{ location.longitude }});
+	initialize();
 
-{% for field in ads %}
+	{% for field in ads %}
 	{% for categori in field.catId %}
-		{% if field.images == 'noImages.jpg' %}
-			setLocationPlaces('{{field.id}}','{{ categori.id }}','{{field.adLatitude}}','{{field.adLongitude}}','{{field.adHeadline}}','{{asset('images/noImages.jpg')}}','{{field.adPhone}}','{{field.adAddress}}','{{field.rated}}','{{ path('show_ad', {'idAd': field.id,'idCity': location.id}) }}');
-		{% else %}
-			setLocationPlaces('{{field.id}}','{{ categori.id }}','{{field.adLatitude}}','{{field.adLongitude}}','{{field.adHeadline}}','{{asset('images/ids/')}}{{ field.id }}/{{ field.images }}','{{field.adPhone}}','{{field.adAddress}}','{{field.rated}}','{{ path('show_ad', {'idAd': field.id,'idCity': location.id}) }}');
-		{% endif %}
-		{% endfor %}
-{% endfor %}
+	{% if field.images == 'noImages.jpg' %}
+	setLocationPlaces('{{field.id}}','{{ categori.id }}','{{field.adLatitude}}','{{field.adLongitude}}','{{field.adHeadline}}','{{asset('images/noImages.jpg')}}','{{field.adPhone}}','{{field.adAddress}}','{{field.rated}}','{{ path('show_ad', {'idAd': field.id,'idCity': location.id}) }}');
+	{% else %}
+	setLocationPlaces('{{field.id}}','{{ categori.id }}','{{field.adLatitude}}','{{field.adLongitude}}','{{field.adHeadline}}','{{asset('images/ids/')}}{{ field.id }}/{{ field.images }}','{{field.adPhone}}','{{field.adAddress}}','{{field.rated}}','{{ path('show_ad', {'idAd': field.id,'idCity': location.id}) }}');
+	{% endif %}
+	{% endfor %}
+	{% endfor %}
 
 </script>
 </div>
 {% endblock content %}
 {% block footer %}
 <div style="padding: 1rem;margin-top: -8rem;margin-left: -1.5rem;" data-role="dialog" id="cities" data-close-button="true" data-overlay="true" data-overlay-color="op-dark">
-    <h2><span class="mif-earth mif"></span> Seleccione Una Ciudad</h2>
-    <p>
-       	    <div class="cell">
-			   <select id="city" class="js-select" data-placeholder="Ciudades" style="width: 13rem;" onchange="location = this.options[this.selectedIndex].value;">
-			      {% for field in cities %}
-				      {% if field.parentId == 0 %}
-					  {% else %}	
-						   	{% if field.title == location.title %}
-					       		<option value='{{ path('ads_city', {'city': field.id}) }}' selected>{{ field.alias| capitalize }}</option>
-					        {% else %}
-					            <option value='{{ path('ads_city', {'city': field.id}) }}'>{{ field.alias| capitalize }}</option>
-						   	{% endif %}
-					   {% endif %}	
-			       {% endfor %}
-			   </select>
-			</div>
-    </p>
+	<h2><span class="mif-earth mif"></span> Seleccione Una Ciudad</h2>
+	<p>
+		<div class="cell">
+			<select id="city" class="js-select" data-placeholder="Ciudades" style="width: 13rem;" onchange="location = this.options[this.selectedIndex].value;">
+				{% for field in cities %}
+				{% if field.parentId == 0 %}
+				{% else %}	
+				{% if field.title == location.title %}
+				<option value='{{ path('ads_city', {'city': field.id}) }}' selected>{{ field.alias| capitalize }}</option>
+				{% else %}
+				<option value='{{ path('ads_city', {'city': field.id}) }}'>{{ field.alias| capitalize }}</option>
+				{% endif %}
+				{% endif %}	
+				{% endfor %}
+			</select>
+		</div>
+	</p>
 </div> 
 <script>
-function showCitiesDialog(){
-    var dialog = $("#cities").data('dialog');
-    dialog.open();
-}
-$(function(){
-    $("#city").select2({
-        placeholder: "Ciudades",
-        allowClear: true
-      });
-  });
-  
-function getButtonContent(button){
-	  if(button)
-		  $("#locationButton").html('<a onclick="getMyCurrentLocation();getButtonContent(false)" class="app-bar-element" style="margin-left: 12%"><span id="toggle-tiles-dropdown2" class="mif-location mif-2x"></span></a>');
-	  else
-		  $("#locationButton").html('<a onclick="stopLocation();getButtonContent(true)" class="app-bar-element" style="margin-left: 12%"><span id="toggle-tiles-dropdown2" class="mif-stop mif-2x"></span></a>'); 
-}  
+	function showCitiesDialog(){
+		var dialog = $("#cities").data('dialog');
+		dialog.open();
+	}
+	$(function(){
+		$("#city").select2({
+			placeholder: "Ciudades",
+			allowClear: true
+		});
+	});
+	
+	function getButtonContent(button){
+		if(button)
+			$("#locationButton").html('<a onclick="getMyCurrentLocation();getButtonContent(false)" class="app-bar-element" style="margin-left: 12%"><span id="toggle-tiles-dropdown2" class="mif-location mif-2x"></span></a>');
+		else
+			$("#locationButton").html('<a onclick="stopLocation();getButtonContent(true)" class="app-bar-element" style="margin-left: 12%"><span id="toggle-tiles-dropdown2" class="mif-stop mif-2x"></span></a>'); 
+	}  
 </script>
 <footer>
-<div style="width: 100%; position: fixed; bottom: 0px; left: 0px; z-index: 100;" class="app-bar drop-up" data-role="appbar">
-	<a class="app-bar-element">
-    	<span id="toggle-tiles-dropdown2" class="mif-apps mif-2x"></span>
-           <div class="app-bar-drop-container" data-role="dropdown" data-toggle-element="#toggle-tiles-dropdown2" data-no-close="false" style="width: 324px; display: none;">
-              <div class="tile-container bg-white fg-black">
-              		{% for field in categories %}
-				      {% if field.parent == 0 %}
-					  <div onclick="location='{{ path('show_category', {'idCategory': field.id,'idCity': location.id,'range':0}) }}';" class="tile-small" style="background: rgb(255, 255, 255) none repeat scroll 0% 0%;">
-					    <div class="tile-content iconic">
-				       		<img style="width: 100%;height: 70%;" alt="" src="{{asset('../')}}images/com_adsmanager/categories/{{ field.id|e }}cat.png">
-				       	<p class="pCategories" style="margin-top: -1.1rem;text-align: center;">{{  field.name }}</p>
-				       	</div>
-              		  </div>
-					  {% else %}	 
-				       {% endif %}
-			       {% endfor %}
-            </div>
-          </div>
-  	</a>
-   <div id="locationButton">
-	   <a onclick="getMyCurrentLocation();getButtonContent(false)" class="app-bar-element" style="margin-left: 12%">
-	    	<span id="toggle-tiles-dropdown2" class="mif-location mif-2x"></span>
-	   </a>
-   </div>
-      <a class="app-bar-element" style="margin-left: 12%">
-    	<span id="toggle-tiles-dropdown2" class="mif-calendar mif-2x"></span>
-   </a>
-<div style="display: none;" class="app-bar-pullbutton automatic"></div><div class="clearfix" style="width: 0;"></div><nav style="display: none;" class="app-bar-pullmenu hidden flexstyle-app-bar-menu"><ul class="app-bar-pullmenubar hidden app-bar-menu"></ul></nav></div>
+	<div style="width: 100%; position: fixed; bottom: 0px; left: 0px; z-index: 100;" class="app-bar drop-up" data-role="appbar">
+		<a class="app-bar-element">
+			<span id="toggle-tiles-dropdown2" class="mif-apps mif-2x"></span>
+			<div class="app-bar-drop-container" data-role="dropdown" data-toggle-element="#toggle-tiles-dropdown2" data-no-close="false" style="width: 324px; display: none;">
+				<div class="tile-container bg-white fg-black">
+					{% for field in categories %}
+					{% if field.parent == 0 %}
+					<div onclick="location='{{ path('show_category', {'idCategory': field.id,'idCity': location.id,'range':0}) }}';" class="tile-small" style="background: rgb(255, 255, 255) none repeat scroll 0% 0%;">
+						<div class="tile-content iconic">
+							<img style="width: 100%;height: 70%;" alt="" src="{{asset('../')}}images/com_adsmanager/categories/{{ field.id|e }}cat.png">
+							<p class="pCategories" style="margin-top: -1.1rem;text-align: center;">{{  field.name }}</p>
+						</div>
+					</div>
+					{% else %}	 
+					{% endif %}
+					{% endfor %}
+				</div>
+			</div>
+		</a>
+
+		<div id="locationButton">
+			<a onclick="getMyCurrentLocation();getButtonContent(false)" class="app-bar-element" style="margin-left: 12%">
+				<span id="toggle-tiles-dropdown2" class="mif-location mif-2x"></span>
+			</a>
+		</div>
+		<a class="app-bar-element" style="margin-left: 12%">
+			<span id="toggle-tiles-dropdown3" class="mif-calendar mif-2x" onclick="SearchBanners()"></span>
+			<div class="banners-container">
+				<div  class="app-bar-drop-container" data-role="dropdown" data-toggle-element="#toggle-tiles-dropdown3" data-no-close="false" style="width: 324px; display: none;">
+					<div id="banners" class="tile-container bg-white fg-black">
+						
+					</div>
+				</div>
+			</div>
+		</a>
+		
+		<div style="display: none;" class="app-bar-pullbutton automatic"></div>
+		<div class="clearfix" style="width: 0;"></div>
+		<nav style="display: none;" class="app-bar-pullmenu hidden flexstyle-app-bar-menu"><ul class="app-bar-pullmenubar hidden app-bar-menu"></ul></nav>
+	</div>
 </footer>
+<script type="text/javascript" charset="utf-8">
+	function SearchBanners(){
+		
+		$.ajax({
+			type: "POST",
+			url: "{{  path('show_banner_published') }}",
+			data: { },
+		}).done(function( msg )
+		{
+			$("#banners").show();
+			$("#banners").html(msg);
+		})
+		
+	}
+</script>
 {% endblock %}
