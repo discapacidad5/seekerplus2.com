@@ -38,52 +38,14 @@ class DefaultController extends Controller
 
     public function showBannersAction()
     {
-    	$date = new DateTime();
-    	$em = $this->getDoctrine()->getManager();
-		$query = $em->createQuery(
-					'SELECT b.id 
-					FROM BannerBundle:Banner b 
-					WHERE b.publishDown >=:date'
-		)->setParameter('date',$date);
-		
-		$banners_id = $query->getResult();
-		$quanty = count($banners_id);
+    	$banners = array();
 		$banners_public = array();
-		$banners = array();
-		$ids_banners = array();
 
-		for ($i=0; $i < 3; $i++) { 
-			array_push($ids_banners, $banners_id[rand(0, $quanty-1)]);
+		$ids_banners = $this->getIdsBanners();
+		for($i = 0; $i< count($ids_banners); $i++){
+			array_push($banners, $this->showBanner($ids_banners[$i]));
 		}
 
-		$em = $this->getDoctrine()->getManager();
-		$query = $em->createQuery(
-						'SELECT b 
-						FROM BannerBundle:Banner b 
-						WHERE b.publishDown >=:date and b.id = :id'
-			)->setParameter('date',$date)
-			->setParameter('id',$ids_banners[0])
-			->setMaxResults(1);
-		array_push($banners, $query->getResult());
-
-		$query = $em->createQuery(
-						'SELECT b 
-						FROM BannerBundle:Banner b 
-						WHERE b.publishDown >=:date and b.id = :id'
-			)->setParameter('date',$date)
-			->setParameter('id',$ids_banners[1])
-			->setMaxResults(1);
-		array_push($banners, $query->getResult());
-
-		$query = $em->createQuery(
-						'SELECT b 
-						FROM BannerBundle:Banner b 
-						WHERE b.publishDown >=:date and b.id = :id'
-			)->setParameter('date',$date)
-			->setParameter('id',$ids_banners[2])
-			->setMaxResults(1);
-		array_push($banners, $query->getResult());
-		
 		$currenDate = new DateTime();
 		
 		foreach($banners as $banner) {
@@ -117,6 +79,76 @@ class DefaultController extends Controller
 		$formData->updateData($this);
 	}
 
-	
+	private function setPrintBanner($id) {
+		$banner=$this->getDoctrine()
+		->getRepository("BannerBundle:Banner")
+		->find($id);
+		
+		$formData = new Formdata();
+		$banner->setImpmade($banner->getImpmade()+1);
+		$formData->updateData($this);
+	}
+
+	private function checkPrintingr($id){
+		$banner=$this->getDoctrine()
+		->getRepository("BannerBundle:Banner")
+		->find($id);
+		$print = array($banner->getImptotal(), $banner->getImpmade());
+		if($print[0] > $print[1] || $print[0] == 0)
+			return true;
+		else
+			return false;
+
+	}
+
+	private function getIdsBanners(){
+		$date = new DateTime();
+    	$em = $this->getDoctrine()->getManager();
+		$query = $em->createQuery(
+					'SELECT b.id 
+					FROM BannerBundle:Banner b 
+					WHERE b.publishDown >=:date'
+		)->setParameter('date',$date);
+		
+		$banners_id = $query->getResult();
+		$quanty = count($banners_id);
+		$ids_banners = array();
+
+		for ($i=0; $i < 3; $i++) { 
+			$search_other = 0;
+			$id_nuevo = $banners_id[rand(0, $quanty-1)];
+			$print_banner = $this->checkPrintingr($id_nuevo);
+			foreach ($ids_banners as $id) {
+				if($id == $id_nuevo){
+					$i = $i - 1;
+					$search_other = 1;
+				}
+			}
+			if($search_other == 0){
+				if($print_banner){
+					array_push($ids_banners, $id_nuevo);
+				}else{
+					$i = $i - 1;
+					
+				}
+			}
+			
+		}
+		return $ids_banners;
+	}
+
+	private function showBanner($id){
+		$date = new DateTime();
+		$em = $this->getDoctrine()->getManager();
+		$query = $em->createQuery(
+						'SELECT b 
+						FROM BannerBundle:Banner b 
+						WHERE b.publishDown >=:date and b.id = :id'
+			)->setParameter('date',$date)
+			->setParameter('id',$id)
+			->setMaxResults(1);
+		$this->setPrintBanner($id);
+		return $query->getResult();
+	}
 
 }
