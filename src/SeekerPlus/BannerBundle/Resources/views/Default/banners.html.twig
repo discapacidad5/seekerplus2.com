@@ -1,7 +1,7 @@
 
 {% block body %}
 	{% for banner in banners %}
-		<div class="">
+		<div id="conten-banners">
 			<div class="cell">
 				<a href="{{ path('show_banner', {'id' : banner.id }) }}">
 				<img id="newImages" class="marginFrame" src="{{ url('index') }}../../{{ banner.imageurl }}" style="width: 16rem ! important; height: 7rem ! important;">	
@@ -9,7 +9,4 @@
 			</div>
 		</div>
 	{% endfor %}
-	<div class="no-flexible cell align-center" onclick="SearchBanners2()" style=" cursor: pointer">
-		<span class="mif-loop2 mif-2x " ></span>
-	</div>
 {% endblock %}

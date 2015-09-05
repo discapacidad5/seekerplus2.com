@@ -120,12 +120,6 @@ App SeekerPlus
 				</div>
 			</div>
 		</a>
-		    <button onclick="showDialog('#dialog')">Show dialog</button>
-		    <div data-role="dialog" id="dialog" class="padding20" data-close-button="true" >
-		    	<div id="banners2">
-						
-				</div>
-		    </div>
 		<div style="display: none;" class="app-bar-pullbutton automatic"></div>
 		<div class="clearfix" style="width: 0;"></div>
 		<nav style="display: none;" class="app-bar-pullmenu hidden flexstyle-app-bar-menu"><ul class="app-bar-pullmenubar hidden app-bar-menu"></ul></nav>
@@ -135,40 +129,20 @@ App SeekerPlus
 
 	function SearchBanners(){
 		
+		var city = '';
+		{% if location.id is defined %}
+    		city = '{{ location.title }}';
+		{% endif %} 
 		$.ajax({
 			type: "POST",
 			url: "{{  path('show_banner_published') }}",
-			data: { },
+			data: { city : city }
 		}).done(function( msg )
 		{
 			$("#banners").show();
 			$("#banners").html(msg);
 		})
 		
-	}
-
-	function SearchBanners2(){
-		$.ajax({
-			type: "POST",
-			url: "{{  path('show_banner_published') }}",
-			data: { },
-		}).done(function( msg )
-		{
-			$("#banners2").html(msg);
-		})
-	}
-
-	function showDialog(id){
-		            var dialog = $(id).data('dialog');
-		            dialog.open();
-		            $.ajax({
-			type: "POST",
-			url: "{{  path('show_banner_published') }}",
-			data: { },
-		}).done(function( msg )
-		{
-			$("#banners2").html(msg);
-		})
 	}
 
 </script>

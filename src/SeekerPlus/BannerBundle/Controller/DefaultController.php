@@ -3,6 +3,7 @@
 namespace SeekerPlus\BannerBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use \DateTime;
 use SeekerPlus\AdsmanagerBundle\Models\Formdata;
 
@@ -36,12 +37,15 @@ class DefaultController extends Controller
         return $this->render('BannerBundle:Default:show.html.twig', array('banner' => $banner,'image' => $image,'time' => $time));
     }
 
-    public function showBannersAction()
+    public function showBannersAction(Request $request)
     {
     	$banners = array();
 		$banners_public = array();
 
-		$ids_banners = $this->getIdsBanners();
+		$request = $this->container->get('request');
+        $city = $request->request->get('city');
+        
+		$ids_banners = $this->getIdsBanners($city);
 		for($i = 0; $i< count($ids_banners); $i++){
 			array_push($banners, $this->showBanner($ids_banners[$i]));
 		}
@@ -63,7 +67,7 @@ class DefaultController extends Controller
 			}
     	
 		if(!$banners)
-			return $this->render('BannerBundle:Default:noExist.html.twig');
+			return $this->render('BannerBundle:Default:noExist2.html.twig');
 			
         return $this->render('BannerBundle:Default:banners.html.twig', array('banners' => $banners_public));
     }
@@ -101,20 +105,32 @@ class DefaultController extends Controller
 
 	}
 
-	private function getIdsBanners(){
+	private function getIdsBanners($city){
 		$date = new DateTime();
     	$em = $this->getDoctrine()->getManager();
 		$query = $em->createQuery(
 					'SELECT b.id 
-					FROM BannerBundle:Banner b 
-					WHERE b.publishDown >=:date'
-		)->setParameter('date',$date);
+					FROM BannerBundle:Banner b, AdsmanagerBundle:AdsmanagerCities c
+					WHERE b.publishDown >=:date and b.state = 1 and b.catid = c.id and c.title = :title'
+		)->setParameter('date',$date)
+		->setParameter('title',$city);
 		
 		$banners_id = $query->getResult();
 		$quanty = count($banners_id);
 		$ids_banners = array();
+		$maximo = 3;
+		if ($quanty < 3){
+			$maximo = $quanty;
+			for($i = 0; $i < $maximo; $i++){
+				$id_nuevo = $banners_id[$i];
+				$print_banner = $this->checkPrintingr($id_nuevo);
+				if($print_banner){
+					array_push($ids_banners, $id_nuevo);
+				}
+			}
 
-		for ($i=0; $i < 3; $i++) { 
+		}else{ 
+		for ($i = 0; $i < 3; $i++) { 
 			$search_other = 0;
 			$id_nuevo = $banners_id[rand(0, $quanty-1)];
 			$print_banner = $this->checkPrintingr($id_nuevo);
@@ -134,6 +150,7 @@ class DefaultController extends Controller
 			}
 			
 		}
+	}
 		return $ids_banners;
 	}
 

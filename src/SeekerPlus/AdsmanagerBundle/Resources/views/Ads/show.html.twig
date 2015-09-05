@@ -612,27 +612,16 @@ $(function(){
 </footer>
 <script type="text/javascript" charset="utf-8" async defer>
 	function SearchBanners(){
-		
+		var city = '';
+		{% if location.id is defined %}
+    		city = '{{ location.title }}';
+		{% endif %} 
 		$.ajax({
 			type: "POST",
 			url: "{{  path('show_banner_published') }}",
-			data: { },
+			data: { city : city }
 		}).done(function( msg )
 		{
-			$("#banners").show();
-			$("#banners").html(msg);
-		})
-		
-	}
-	function SearchBanners2(){
-		
-		$.ajax({
-			type: "POST",
-			url: "{{  path('show_banner_published') }}",
-			data: { },
-		}).done(function( msg )
-		{	
-			$("#conten").data_togle_elemt('as');
 			$("#banners").show();
 			$("#banners").html(msg);
 		})
