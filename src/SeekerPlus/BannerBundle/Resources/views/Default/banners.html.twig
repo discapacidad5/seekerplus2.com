@@ -1,13 +1,12 @@
 
 {% block body %}
 	{% for banner in banners %}
-		<div class="">
+		<div id="conten-banners">
 			<div class="cell">
-				<img id="newImages" class="marginFrame" src="{{ url('index') }}../../{{ banner.imageurl }}" style="width: 16rem ! important; height: 7rem ! important;">			
+				<a href="{{ path('show_banner', {'id' : banner.id }) }}">
+				<img id="newImages" class="marginFrame" src="{{ url('index') }}../../{{ banner.imageurl }}" style="width: 16rem ! important; height: 7rem ! important;">	
+				</a>
 			</div>
 		</div>
 	{% endfor %}
-
-	<a href="#" class="btn btn-success">Mas</a>
-
 {% endblock %}

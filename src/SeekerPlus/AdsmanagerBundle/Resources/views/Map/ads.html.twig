@@ -104,16 +104,16 @@ App SeekerPlus
 				</div>
 			</div>
 		</a>
-
+		
 		<div id="locationButton">
 			<a onclick="getMyCurrentLocation();getButtonContent(false)" class="app-bar-element" style="margin-left: 12%">
 				<span id="toggle-tiles-dropdown2" class="mif-location mif-2x"></span>
 			</a>
 		</div>
 		<a class="app-bar-element" style="margin-left: 12%">
-			<span id="toggle-tiles-dropdown3" class="mif-calendar mif-2x" onclick="SearchBanners()"></span>
-			<div class="banners-container">
-				<div  class="app-bar-drop-container" data-role="dropdown" data-toggle-element="#toggle-tiles-dropdown3" data-no-close="false" style="width: 324px; display: none;">
+			<span id="toggle-tiles-dropdown3" class="mif-calendar mif-2x"  onclick="SearchBanners()"></span>
+			<div id='banners-container' class="banners-container">
+				<div id="conten" class="app-bar-drop-container" data-role="dropdown" data-toggle-element="#toggle-tiles-dropdown3" data-no-close="false" style="width: 324px; display: none;">
 					<div id="banners" class="tile-container bg-white fg-black">
 						
 					</div>
@@ -121,26 +121,28 @@ App SeekerPlus
 			</div>
 		</a>
 
-
 	<a href="{{ path('inboxemailAds')}}" title="Buzón" class="app-bar-element" style="margin-left: 12%">
 	<span id="toggle-tiles-dropdown3" class="mif-mail mif-2x" ></span>
 	</a>
 
 
-
-		
 		<div style="display: none;" class="app-bar-pullbutton automatic"></div>
 		<div class="clearfix" style="width: 0;"></div>
 		<nav style="display: none;" class="app-bar-pullmenu hidden flexstyle-app-bar-menu"><ul class="app-bar-pullmenubar hidden app-bar-menu"></ul></nav>
 	</div>
 </footer>
 <script type="text/javascript" charset="utf-8">
+
 	function SearchBanners(){
 		
+		var city = '';
+		{% if location.id is defined %}
+    		city = '{{ location.title }}';
+		{% endif %} 
 		$.ajax({
 			type: "POST",
 			url: "{{  path('show_banner_published') }}",
-			data: { },
+			data: { city : city }
 		}).done(function( msg )
 		{
 			$("#banners").show();
@@ -148,5 +150,6 @@ App SeekerPlus
 		})
 		
 	}
+
 </script>
 {% endblock %}
