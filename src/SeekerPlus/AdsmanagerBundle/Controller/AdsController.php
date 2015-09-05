@@ -9,6 +9,7 @@ use SeekerPlus\AdsmanagerBundle\Entity\AdsmanagerCategories;
 use SeekerPlus\AdsmanagerBundle\Form\AdsmanagerAdsType;
 use SeekerPlus\AdsmanagerBundle\Entity\AdsmanagerAds;
 use SeekerPlus\AdsmanagerBundle\Entity\AdsComments;
+use SeekerPlus\AdsmanagerBundle\Entity\AdsInbox;
 use SeekerPlus\AdsmanagerBundle\Entity\AdsmanagerAdsRate;
 use SeekerPlus\AdsmanagerBundle\Models\Formdata;
 use SeekerPlus\AdsmanagerBundle\Models\Message;
@@ -75,34 +76,230 @@ class AdsController extends Controller
 
 public function emailAdsAction(Request $request){
 
-        $request = $this->container->get('request');
-        $Subject= json_decode($request->request->get('Subject'));
-        $Messaje= json_decode($request->request->get('Message'));
-        $idAd = json_decode($request->request->get('idAd'));
-      
+        if(!$this->container->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY') ){
+            return $this->redirectToRoute('fos_user_security_login');
+        }
+
+
+            $request = $this->container->get('request');
+            $Subject= json_decode($request->request->get('Subject'));
+            $Messaje= json_decode($request->request->get('Message'));
+            $idAd = json_decode($request->request->get('idAd'));
+       
+   
+            $userId = $this->get('security.context')->getToken()->getUser()->getId();
+            $emUser = $this->getDoctrine()->getEntityManager();
+            $usuario = $emUser->getRepository('AdsmanagerBundle:AdsmanagerAds')->find($idAd);
+            //Usuario de Anuncio destino
+            $emailUsuarioAds = $emUser->getRepository('UserBundle:User')->find($usuario->getUserid());
+            //Usuario actual origen
+            $emailUsuarioContact = $emUser->getRepository('UserBundle:User')->find($userId);
+
+
+ //Message DB           
+             $inInbox=new AdsInbox();  
 
              $dateTime = new \DateTime();
-             $date = $dateTime->format('d/m/y H:i:s');
+             $em = $this->getDoctrine()->getManager();
+             $inInbox->setIdUserOrigin($userId);
+             $inInbox->setIdUserDestination($usuario->getUserid());
+             $inInbox->setSubjectInbox($Subject);
+             $inInbox->setMessajeInbox($Messaje);
+             $inInbox->setState("Enviado");
+             $inInbox->setDateCreated($dateTime);
+             $em->persist($inInbox);
+             $em->flush();
+
+
+///Message
              $message = \Swift_Message::newInstance()
             ->setSubject('Mensaje privado')
             ->setFrom('fernando.ricaurte@hotmail.com')
             ->setTo('fernando.ricaurte@hotmail.com')
-
             ->setBody(
-                $this->renderView(
-                    'AdsmanagerBundle:Ads:email.html.twig',
-                     array('Subject' =>  $Subject ,'Messaje' => $Messaje)
+             $this->renderView(
+             'AdsmanagerBundle:Ads:email.html.twig',
+             array('Subject' =>  $Subject ,'Messaje' => $Messaje,"Name" => $emailUsuarioAds->getName()
+             ,"nameOrigin" =>  $emailUsuarioContact->getName() ,"emailOrigin" => $emailUsuarioContact->getEmail()      
+                  ,"Company"=> $usuario->getAdHeadline() )
                     
                 )
-            ,'text / html')
-        ;
-        $this->get('mailer')->send($message);
+            ,'text / html');
+            $this->get('mailer')->send($message);
+
+
         
-          $response = array("menssage" =>   $Messaje,"subject" =>   $Subject );
-          return new JsonResponse($response);
+        $response = array("menssage" =>   $Messaje,"subject" =>   $Subject ,"ida" => $usuario->getUserid());
+        return new JsonResponse($response);
 
  }
 
+public function inboxEmailAdsAction(){
+
+         if(!$this->container->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY') ){
+            return $this->redirectToRoute('fos_user_security_login');
+        }
+        $userId = $this->get('security.context')->getToken()->getUser()->getId();
+
+        $emMessages = $this->getDoctrine()->getManager();
+        $queryn =   $emMessages->createQuery('SELECT COUNT( a.idUserDestination) FROM AdsmanagerBundle:AdsInbox a 
+        Where a.idUserDestination = :id')
+                ->setParameter('id',$userId);
+        $nMessage  = $queryn->getSingleScalarResult();
+
+        $queryn2 =   $emMessages->createQuery('SELECT COUNT( a.idUserOrigin) FROM AdsmanagerBundle:AdsInbox a 
+        Where a.idUserOrigin = :id')
+                ->setParameter('id',$userId);
+        $nMessageOrigin  = $queryn2->getSingleScalarResult();
+
+       return $this->render('AdsmanagerBundle:Ads:inbox.html.twig',
+        array('nMessage' =>  $nMessage ,"nMessageOrigin" => $nMessageOrigin ));
+
+}
+public function inboxMessagesAction(){
+
+        if(!$this->container->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY') ){
+            return $this->redirectToRoute('fos_user_security_login');
+        }
+         return $this->render('AdsmanagerBundle:Ads:email-compose.html.twig');
+
+}
+
+public function inboxOpenMessageAction(Request $request){
+
+  if(!$this->container->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY') ){
+            return $this->redirectToRoute('fos_user_security_login');
+  }
+  $inbox = $this->getDoctrine()->getEntityManager();  
+  $request = $this->container->get('request');
+  $id= json_decode($request->request->get('id'));
+  $infoMessage =  $inbox->getRepository('AdsmanagerBundle:AdsInbox')->find($id);
+
+  $originUser = $inbox->getRepository('UserBundle:User')->find($infoMessage->getIdUserOrigin());
+  $userDestination = $inbox->getRepository('UserBundle:User')->find($infoMessage->getIdUserDestination());
+  
+  return $this->render('AdsmanagerBundle:Ads:email-opened.html.twig',
+         array('originUser'=> $originUser,'infoMessage' => $infoMessage,
+         'userDestination' => $userDestination));
+
+}
+
+public function inboxSentAction(){
+    if(!$this->container->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY') ){
+              return $this->redirectToRoute('fos_user_security_login');
+    }
+
+    $userId = $this->get('security.context')->getToken()->getUser()->getId();
+ //////////////////////////
+       $em = $this->getDoctrine()->getManager();
+         $query = $em->createQuery(
+                'SELECT a
+                    FROM AdsmanagerBundle:AdsInbox a
+                    WHERE a.idUserOrigin = :id 
+                    ORDER BY a.id DESC          
+                 '
+    
+         )->setParameter('id',  $userId);
+         $listMessages= $query->getResult();
+/////////////////////////
+         /////////////////////////
+          $em2 = $this->getDoctrine()->getManager();
+          $query2 = $em2->createQuery(
+                'SELECT a
+                    FROM UserBundle:User a ,AdsmanagerBundle:AdsInbox b
+                   WHERE b.idUserDestination = a.id  
+                 '
+    
+         );
+         $userMessages= $query2->getResult();
+
+
+/////////////////////////////////
+ 
+    return $this->render('AdsmanagerBundle:Ads:email-sent.html.twig'
+        ,array('list' => $listMessages,"user" => $userMessages));
+
+}
+
+
+public function inboxListAction(){
+    if(!$this->container->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY') ){
+              return $this->redirectToRoute('fos_user_security_login');
+    }
+
+    $userId = $this->get('security.context')->getToken()->getUser()->getId();
+ //////////////////////////
+       $em = $this->getDoctrine()->getManager();
+         $query = $em->createQuery(
+                'SELECT a
+                    FROM AdsmanagerBundle:AdsInbox a
+                    WHERE a.idUserDestination = :id 
+                    ORDER BY a.id DESC          
+                 '
+    
+         )->setParameter('id',  $userId);
+         $listMessages= $query->getResult();
+/////////////////////////
+          $em2 = $this->getDoctrine()->getManager();
+          $query2 = $em2->createQuery(
+                'SELECT a
+                    FROM UserBundle:User a ,AdsmanagerBundle:AdsInbox b
+                   WHERE b.idUserOrigin = a.id  
+                 '
+    
+         );
+         $userMessages= $query2->getResult();
+
+
+/////////////////////////////////
+ 
+ return $this->render('AdsmanagerBundle:Ads:email-list.html.twig'
+        ,array('list' => $listMessages,"user" => $userMessages));
+}
+
+
+public function responseMessageAction(Request $request){
+
+     if(!$this->container->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY') ){
+            return $this->redirectToRoute('fos_user_security_login');
+  }
+  $inbox = $this->getDoctrine()->getEntityManager();  
+  $request = $this->container->get('request');
+  $id= json_decode($request->request->get('id'));
+
+  $userDestination = $inbox->getRepository('UserBundle:User')->find($id);
+  
+  return $this->render('AdsmanagerBundle:Ads:email-compose.html.twig',
+         array('userDestination' => $userDestination));
+}
+
+public function saveMessageAction(Request $request){
+
+    if(!$this->container->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY') ){
+            return $this->redirectToRoute('fos_user_security_login');
+  }
+  $inbox = $this->getDoctrine()->getEntityManager();  
+  $request = $this->container->get('request');
+  $id= json_decode($request->request->get('id'));
+  $userId = $this->get('security.context')->getToken()->getUser()->getId();
+  $message= json_decode($request->request->get('message'));
+  $subject= json_decode($request->request->get('subject'));
+           
+             $inInbox=new AdsInbox();  
+             $dateTime = new \DateTime();
+             $em = $this->getDoctrine()->getManager();
+             $inInbox->setIdUserOrigin($userId);
+             $inInbox->setIdUserDestination($id);
+             $inInbox->setSubjectInbox($subject);
+             $inInbox->setMessajeInbox($message);
+             $inInbox->setState("Response");
+             $inInbox->setDateCreated($dateTime);
+             $em->persist($inInbox);
+             $em->flush();
+  
+  
+   
+}
 
 public function adCommentAction(Request $request){
 
@@ -128,7 +325,7 @@ public function adCommentAction(Request $request){
                                      Where a.idAds= :id')
                                      ->setParameter('id',$idAd);
         $nComments = $queryn->getSingleScalarResult();
-        $nComments= $nComments+1;
+        $nComments = $nComments+1;
 
   
         $dateTime = new \DateTime();

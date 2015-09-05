@@ -1,0 +1,14 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_driver: pdo_mysql
+    database_host: 192.168.1.110
+    database_port: null
+    database_name: seekerplusJokte
+    database_user: root
+    database_password: toor
+    mailer_transport: gmail
+    mailer_host: stmp.gmail.com
+    mailer_user: ricaurtefernando01@gmail.com
+    mailer_password: genesis00
+    locale: es
+    secret: 4311c47452e370f6b8f9dad13222508544c6ff2a
