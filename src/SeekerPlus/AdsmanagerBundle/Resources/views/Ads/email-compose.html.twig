@@ -1,0 +1,167 @@
+<h2 class="email-open-header">
+	Responder a {{ userDestination.Name }}
+
+</h2>
+
+<form enctype="multipart/form-data" action="dummy.php" method="POST" class="form-horizontal" id="email-compose-form">
+
+	<div class="inbox-info-bar no-padding">
+		<div class="row">
+			<div class="form-group">
+				<label class="control-label col-md-1"><strong>To</strong></label>
+					<div class="col-md-11">
+					<input class="form-control" value="{{ userDestination.Email }}"placeholder="To" type="text" readonly>
+                     
+				</div>
+			</div>
+		</div>	
+	</div>
+	<!--
+	<div class="inbox-info-bar no-padding hidden">
+		<div class="row">
+			<div class="form-group">
+				<label class="control-label col-md-1"><strong>CC</strong></label>
+				<div class="col-md-11">
+					<select multiple style="width:100%" class="select2" data-select-search="true">
+						<option value="sunny.orlaf@smartadmin.com" selected="selected">sunny.orlaf@smartadmin.com</option>
+						<option value="rachael.hawi@smartadmin.com" selected="selected">rachael.hawi@smartadmin.com</option>
+						<option value="michael.safiel@smartadmin.com">michael.safiel@smartadmin.com</option>
+						<option value="alex.jones@infowars.com">alex.jones@infowars.com</option>
+						<option value="oruf.matalla@gmail.com">oruf.matalla@gmail.com</option>
+						<option value="hr@smartadmin.com">hr@smartadmin.com</option>
+						<option value="IT@smartadmin.com">IT@smartadmin.com</option>
+					</select>
+					<em><a href="javascript:void(0);" class="show-next" rel="tooltip" data-placement="bottom" data-original-title="Blind Carbon Copy">BCC</a></em>
+				</div>
+			</div>
+		</div>	
+	</div>
+	<div class="inbox-info-bar no-padding hidden">
+		<div class="row">
+			<div class="form-group">
+				<label class="control-label col-md-1"><strong>BCC</strong></label>
+				<div class="col-md-11">
+					<select multiple style="width:100%" class="select2" data-select-search="true">
+						<option value="sunny.orlaf@smartadmin.com">sunny.orlaf@smartadmin.com</option>
+						<option value="rachael.hawi@smartadmin.com">rachael.hawi@smartadmin.com</option>
+						<option value="michael.safiel@smartadmin.com">michael.safiel@smartadmin.com</option>
+						<option value="alex.jones@infowars.com">alex.jones@infowars.com</option>
+						<option value="oruf.matalla@gmail.com">oruf.matalla@gmail.com</option>
+						<option value="hr@smartadmin.com">hr@smartadmin.com</option>
+						<option value="IT@smartadmin.com">IT@smartadmin.com</option>
+					</select>
+				</div>
+			</div>
+		</div>	
+	</div>
+	-->
+	<div class="inbox-info-bar no-padding">
+		<div class="row">
+			<div class="form-group">
+				<label class="control-label col-md-1"><strong>Subject</strong></label>
+				<div class="col-md-11">
+					<input class="form-control"  id="subject" value="sadasda" placeholder="Email Subject" type="text">
+			
+				</div>
+			</div>
+		</div>	
+	</div>
+
+	<div class="inbox-info-bar no-padding hidden">
+		<div class="row">
+			<div class="form-group">
+				<label class="control-label col-md-1"><strong>Attachments</strong></label>
+				<div class="col-md-11">
+					<input class="form-control fileinput" type="file" multiple="multiple">
+				</div>
+			</div>
+		</div>	
+	</div>
+	
+	<div class="inbox-message no-padding">
+	
+		<div id="emailbody">
+
+			
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+			
+		</div>	
+	</div>
+	
+	<div class="inbox-compose-footer">
+
+		
+	          <span id="logo"> <img style="width: 3.3rem; margin-right: 0.5rem; margin-bottom: 0.5rem"  src="{{ asset('images/logo.png') }}" alt="SmartAdmin"> </span>
+           
+
+
+	<button data-loading-text="&lt;i class='fa fa-refresh fa-spin'&gt;&lt;/i&gt; &nbsp; Sending..." class="btn btn-primary pull-right" type="button" id="send">
+		Enviar <i class="fa fa-arrow-circle-right fa-lg"></i>
+	</button>
+
+
+	</div>
+
+</form>
+
+
+<script type="text/javascript">
+	
+	// DO NOT REMOVE : GLOBAL FUNCTIONS!
+
+	runAllForms();
+
+	 // PAGE RELATED SCRIPTS
+
+	$(".table-wrap [rel=tooltip]").tooltip();
+
+
+
+    $('#emailbody').summernote({
+        height: 250,
+        focus: false,
+        tabsize: 2
+    });
+
+
+	$(".show-next").click(function () {
+	    $this = $(this);
+	    $this.hide();
+	    $this.parent().parent().parent().parent().parent().next().removeClass("hidden");
+	})
+
+	 $("#send").click(function () {
+
+	    var $btn = $(this);
+	    $btn.button('loading');
+
+	    // wait for animation to finish and execute send script
+	//    setTimeout(function () {
+	   var id='{{ userDestination.id }}';
+	   var message=$("#emailbody").html();
+	   var subject=$("#subject").val();
+
+     
+         	$.ajax({
+			type: "POST",
+			url: "{{  path('saveMessage') }}",
+			data: { id:id,
+				    subject:JSON.stringify(subject),
+			        message:JSON.stringify(message) },
+		         }).done(function( msg )
+		          {
+window.location="http://seekerplus.com/web/app_dev.php/app/ad/inboxEmailAds/";
+
+		      })
+
+	 //   }, 1000); // how long do you want the delay to be? 
+	});
+	
+	
+	
+</script>

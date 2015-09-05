@@ -44,8 +44,8 @@ show_ad_map:
     pattern:  /app/ad/{idAd}/{idCity}/
     defaults: { _controller: AdsmanagerBundle:Ads:showMap }
 adRate:
-  pattern:  /app/ad-rate/
-  defaults: { _controller: AdsmanagerBundle:Ads:Rate }
+  pattern:    /app/ad-rate/
+  defaults:   { _controller: AdsmanagerBundle:Ads:Rate }
 search_ads:
     pattern:  /app/search/
     defaults: { _controller: AdsmanagerBundle:AdsSearch:search }
@@ -80,7 +80,33 @@ emailAds:
     pattern:  /app/ad/emailAds/
     defaults: { _controller: AdsmanagerBundle:Ads:emailAds }
 
-
 inboxemailAds:
     pattern:  /app/ad/inboxEmailAds/
     defaults: { _controller: AdsmanagerBundle:Ads:inboxEmailAds }
+
+inboxMessages:
+    pattern:  /app/ad/inboxMessages/
+    defaults: { _controller: AdsmanagerBundle:Ads:inboxMessages }    
+
+inboxList:
+    pattern:  /app/ad/inboxList/
+    defaults: { _controller: AdsmanagerBundle:Ads:inboxList } 
+
+inboxOpenMessage:
+    pattern:  /app/ad/inboxOpenMessage/
+    defaults: { _controller: AdsmanagerBundle:Ads:inboxOpenMessage }
+
+inboxSent:
+    pattern:  /app/ad/inboxSent/
+    defaults: { _controller: AdsmanagerBundle:Ads:inboxSent }
+
+responseMessage:
+    pattern:  /app/ad/responseMessage/
+    defaults: { _controller: AdsmanagerBundle:Ads:responseMessage }    
+
+saveMessage:
+    pattern:  /app/ad/saveMessage/
+    defaults: { _controller: AdsmanagerBundle:Ads:saveMessage }     
+
+
+
