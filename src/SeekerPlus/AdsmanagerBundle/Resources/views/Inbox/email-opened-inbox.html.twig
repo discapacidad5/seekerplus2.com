@@ -1,0 +1,67 @@
+
+    
+    <h2 class="email-open-header">
+     Asunto:  {{ infoMessage.subjectInbox }}
+</h2>
+
+<div class="inbox-info-bar">
+    <div class="row">
+        <div class="col-sm-9">
+            <img src="{{ asset('images/male.png')}}" alt="me" class="away">
+            <strong>{{  originUser.Name }}</strong>
+            <span class="hidden-mobile">&lt;{{  originUser.Email }}&gt;to <strong>me</strong> on <i>{{ infoMessage.dateCreated|date("m/d/Y")  }}</i></span> 
+        </div>
+      <div class="col-sm-3 text-right">
+            
+                <button onclick="responseMessage('{{ originUser.id }}','{{ infoMessage.idAds.id }}')" class="btn btn-primary btn-sm replythis inbox-comp">
+                    <i class="fa fa-reply"></i> Responder 
+                </button>
+            </div>
+
+        </div>
+    
+</div>
+
+<div class="inbox-message">
+    <p>
+        Hey {{  userDestination.Name }},
+    </p>
+
+    <p>
+    {{ infoMessage.messajeInbox }}
+         <i class="fa fa-smile-o"></i> 
+    </p>
+    
+    <br>
+    <br>
+    Thanks,<br> 
+    <strong>{{  originUser.Name }}</strong>
+    <br>
+    <small>
+        <br> 
+        {{  originUser.Location }}
+        <br>
+        <!--<i class="fa fa-phone"> (313) 647 6471</i> 
+  -->
+    </small>
+    <br>    
+ 
+</div>
+</div>
+
+
+<script type="text/javascript">
+    function responseMessage(id,idAd){
+        
+        $.ajax({
+            type: "POST",
+            url: "{{  path('responseMessage') }}",
+            data: { id:id,
+                    idAd:idAd },
+                 }).done(function( msg )
+                  {
+            $('#inbox-content > .table-wrap').html(msg);
+              })
+    }
+</script>
+

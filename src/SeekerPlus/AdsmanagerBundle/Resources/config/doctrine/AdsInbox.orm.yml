@@ -1,6 +1,16 @@
 SeekerPlus\AdsmanagerBundle\Entity\AdsInbox:
     type: entity
     table: seeker_ad_inbox
+    indexes:
+        id_ads:
+            columns:
+                - id_ads
+        user1:
+            columns:
+                - id_user_origin
+        user2:
+            columns:
+                - id_user_destination
     id:
         id:
             type: integer
@@ -11,18 +21,6 @@ SeekerPlus\AdsmanagerBundle\Entity\AdsInbox:
             generator:
                 strategy: IDENTITY
     fields:
-        idUserOrigin:
-            type: integer
-            nullable: true
-            unsigned: false
-            comment: ''
-            column: id_user_origin
-        idUserDestination:
-            type: integer
-            nullable: true
-            unsigned: false
-            comment: ''
-            column: id_user_destination
         subjectInbox:
             type: text
             nullable: true
@@ -43,9 +41,55 @@ SeekerPlus\AdsmanagerBundle\Entity\AdsInbox:
             length: 45
             fixed: false
             comment: ''
+        state2:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            comment: ''
+        see1:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            comment: ''
+        see2:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            comment: ''    
         dateCreated:
-            type: date
+            type: datetime
             nullable: true
             comment: ''
             column: date_created
+    manyToOne:
+        idAds:
+            targetEntity: AdsmanagerAds
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_ads:
+                    referencedColumnName: id
+            orphanRemoval: false
+        idUserOrigin:
+            targetEntity: AdsUsers
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_user_origin:
+                    referencedColumnName: id
+            orphanRemoval: false
+        idUserDestination:
+            targetEntity: AdsUsers
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_user_destination:
+                    referencedColumnName: id
+            orphanRemoval: false
     lifecycleCallbacks: {  }

@@ -118,7 +118,7 @@ Mis Anuncios
                 </span>
                 
                 <span class="list-subtitle" style="float: right; padding-top: 1rem; padding-bottom: 2rem;">
-                 <a href="{{ path('edit_ads', {'id': field.id}) }}"class="button link"><span class="mif-mail"></span> Mensajes</a>
+                 <a href="{{ path('inboxemailAdsR',{'idA': field.id}) }}"class="button link"><span class="mif-mail"></span> Mensajes</a>
                  <a onclick="showMessageRenewDialog('p{{ field.id }}');" class="button primary">Renovar</a>
                  <a href="{{ path('edit_ads', {'id': field.id}) }}" class="button warning">Modificar</a>
                  <a onclick="showMessageDeleteDialog('{{ field.id }}');" class="button alert">Eliminar</a>

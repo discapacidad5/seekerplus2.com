@@ -287,20 +287,14 @@ function  pagination(range){
     <br>
     <div class="input-control text" style="width:50%">
 
-        <input type="text" id="asunto" placeholder="Asunto" class="sub-alt-header" value="Lorem ipsum dolor sit amet ">
+        <input type="text" id="asunto" placeholder="Asunto" class="sub-alt-header" value=" ">
     </div>
          <br>
     <label class="sub-alt-header">Mensaje</label>
 	<div class="textarea-div">
 	<div class="typearea">
-		<textarea placeholder="Escribe un Mensaje..." id="mensaje" class="custom-scroll sub-alt-header"
-		  >
-			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<textarea placeholder="Escribe un mensaje ..." id="mensaje" class="custom-scroll sub-alt-header">
+			
 		</textarea>
 	</div>
   
@@ -308,7 +302,7 @@ function  pagination(range){
      <br>
    
 </form>
- <button class="button primary" onclick="Messages($('#asunto').val(),$('#mensaje').val())"><span id="capa" class="mif-mail"></span> Enviar</button>
+ <button class="button primary" onclick="Messages($('#asunto').val(),$('#mensaje').val(),'{{ ad.id|e}}')"><span id="capa" class="mif-mail"></span> Enviar</button>
 
 		     </div>
 			   
@@ -317,14 +311,17 @@ function  pagination(range){
 </div>
 
 <script type="text/javascript">
-	function Messages(subject,message){
+ $("#mensaje").val("");
+ $("#asunto").val("");
+	function Messages(subject,message,idIda){
+		
    if(subject == '' && message == ''){
       alert("Introdusca el asunto o el mensaje");
    }else{
         $("#capa").removeClass("mif-mail");
 			$("#capa").addClass("mif-spinner mif-ani-spin");
 		setTimeout(function () {
-			$.post('{{ path('emailAds') }}',               
+			$.post('{{ path('message_emailAds') }}',               
 			         { Subject: JSON.stringify(subject) ,
 			           Message: JSON.stringify(message) ,
 			           idAd: {{ ad.id|e }},
@@ -336,11 +333,13 @@ function  pagination(range){
                 	         showDialog("#contact");
                 	            $("#capa").removeClass("mif-spinner mif-ani-spin");
 			                    $("#capa").addClass("mif-mail");
+                                $("#mensaje").val("");
+                                $("#asunto").val("");
                          
 				}, "json"); 
 			  
 			
-			 }, 1000);
+			 }, 200);
 
    }
 			
@@ -521,7 +520,7 @@ $(function(){
 			      $('#comments-list li:last').insertAfter('#comments-list li:first');
 
 			}, "json"); 
-	 }, 1000);
+	 }, 200);
 			}
 		}
 
@@ -601,31 +600,35 @@ $(function(){
    <a class="app-bar-element" style="margin-left: 12%">
 			<span id="toggle-tiles-dropdown3" class="mif-calendar mif-2x"  onclick="SearchBanners()"></span>
 			<div id='banners-container' class="banners-container">
-				<div id="conten" class="app-bar-drop-container" data-role="dropdown" data-toggle-element="#toggle-tiles-dropdown3" data-no-close="false" style="width: 324px; display: none;" >
-					<div id="banners" class="tile-container bg-white fg-black">
+				<div id="conten" class="app-bar-drop-container" data-role="dropdown" data-toggle-element="#toggle-tiles-dropdown3" data-no-close="false" style="display: none;" >
+					<div id="banners" class="tile-container bg-white fg-black" style="width: 17rem;">
 						
 					</div>
 				</div>
 			</div>
 		</a>
+				<a href="{{ path('inboxemailAds')}}" title="Buzón" class="app-bar-element" style="margin-left: 12%">
+	<span id="toggle-tiles-dropdown3" class="mif-mail mif-2x" ></span>
+	</a>
 <div style="display: none;" class="app-bar-pullbutton automatic"></div><div class="clearfix" style="width: 0;"></div><nav style="display: none;" class="app-bar-pullmenu hidden flexstyle-app-bar-menu"><ul class="app-bar-pullmenubar hidden app-bar-menu"></ul></nav></div>
 </footer>
 <script type="text/javascript" charset="utf-8" async defer>
-	function SearchBanners(){
-		var city = '';
-		{% if location.id is defined %}
-    		city = '{{ location.title }}';
-		{% endif %} 
-		$.ajax({
-			type: "POST",
-			url: "{{  path('show_banner_published') }}",
-			data: { city : city }
-		}).done(function( msg )
-		{
-			$("#banners").show();
-			$("#banners").html(msg);
-		})
-		
+function SearchBanners(){
+	if($("#conten").is(':hidden')){
+	var city = '';
+	{% if location.id is defined %}
+		city = '{{ location.title }}';
+	{% endif %} 
+	$.ajax({
+		type: "POST",
+		url: "{{  path('show_banner_published') }}",
+		data: { city : city }
+	}).done(function( msg )
+	{
+		$("#banners").show();
+		$("#banners").html(msg);
+	})
 	}
+}
 </script>
 {% endblock footer %}

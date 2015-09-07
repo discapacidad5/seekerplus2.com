@@ -69,44 +69,60 @@ delete_comment:
     defaults: { _controller: AdsmanagerBundle:Ads:deleteComment }
 
 date_comment:
-    pattern:  /app/ads/date_comment/
+    pattern:  /app/add/comment_date/
     defaults: { _controller: AdsmanagerBundle:Ads:dateComment }
 
 paginationAd:
     pattern:  /app/ad/paginationAd/
     defaults: { _controller: AdsmanagerBundle:Ads:paginationAd }
 
-emailAds:
-    pattern:  /app/ad/emailAds/
-    defaults: { _controller: AdsmanagerBundle:Ads:emailAds }
+message_emailAds:
+    pattern:  /app/message/messagemailAds/
+    defaults: { _controller: AdsmanagerBundle:AdsInbox:emailAds }
 
 inboxemailAds:
     pattern:  /app/ad/inboxEmailAds/
-    defaults: { _controller: AdsmanagerBundle:Ads:inboxEmailAds }
-
-inboxMessages:
-    pattern:  /app/ad/inboxMessages/
-    defaults: { _controller: AdsmanagerBundle:Ads:inboxMessages }    
+    defaults: { _controller: AdsmanagerBundle:AdsInbox:inboxEmailAds }
 
 inboxList:
     pattern:  /app/ad/inboxList/
-    defaults: { _controller: AdsmanagerBundle:Ads:inboxList } 
+    defaults: { _controller: AdsmanagerBundle:AdsInbox:inboxList } 
 
-inboxOpenMessage:
-    pattern:  /app/ad/inboxOpenMessage/
-    defaults: { _controller: AdsmanagerBundle:Ads:inboxOpenMessage }
+
+inboxOpenInboxMessage:
+    pattern:  /app/addasdas/inboxOpenInboxMessage/
+    defaults: { _controller: AdsmanagerBundle:AdsInbox:inboxOpenInboxMessage }
 
 inboxSent:
     pattern:  /app/ad/inboxSent/
-    defaults: { _controller: AdsmanagerBundle:Ads:inboxSent }
+    defaults: { _controller: AdsmanagerBundle:AdsInbox:inboxSent }
 
 responseMessage:
     pattern:  /app/ad/responseMessage/
-    defaults: { _controller: AdsmanagerBundle:Ads:responseMessage }    
+    defaults: { _controller: AdsmanagerBundle:AdsInbox:responseMessage }    
 
 saveMessage:
     pattern:  /app/ad/saveMessage/
-    defaults: { _controller: AdsmanagerBundle:Ads:saveMessage }     
+    defaults: { _controller: AdsmanagerBundle:AdsInbox:saveMessage }     
 
 
+inboxemailAdsR:
+    pattern:  /app/inbox/inboxemailAdsR/{idAd}
+    defaults: { _controller: AdsmanagerBundle:AdsInbox:inboxemailAdsR }
+
+Message_ListInbox:
+     pattern:  /app/inbox/Message_ListInbox/
+     defaults: { _controller: AdsmanagerBundle:AdsInbox:message_ListInbox }
+
+Message_SentInbox:
+     pattern:  /app/inbox/Message_SentInbox/
+     defaults: { _controller: AdsmanagerBundle:AdsInbox:message_SentInbox }
+
+messageOpenInboxAds:
+ pattern:  /app/inbox/messageOpenInboxAds/
+ defaults: { _controller: AdsmanagerBundle:AdsInbox:messageOpenInboxAds }
+
+Message_ResponseInbox:
+     pattern:  /app/inbox/Message_ResponseInbox/
+     defaults: { _controller: AdsmanagerBundle:AdsInbox:message_ResponseInbox } 
 
