@@ -1,0 +1,127 @@
+<h2 class="email-open-header">
+	Responder a {{ userDestination.Name }}
+
+</h2>
+
+<form enctype="multipart/form-data" action="dummy.php" method="POST" class="form-horizontal" id="email-compose-form">
+
+	<div class="inbox-info-bar no-padding">
+		<div class="row">
+			<div class="form-group">
+				<label class="control-label col-md-1"><strong>To</strong></label>
+					<div class="col-md-11">
+					<input class="form-control" value="{{ userDestination.Email }}"placeholder="To" type="text" readonly>
+                     
+				</div>
+			</div>
+		</div>	
+	</div>
+
+	<div class="inbox-info-bar no-padding">
+		<div class="row">
+			<div class="form-group">
+				<label class="control-label col-md-1"><strong>Subject</strong></label>
+				<div class="col-md-11">
+					<input class="form-control"  id="subject" value="" placeholder="Asunto" type="text">
+			
+				</div>
+			</div>
+		</div>	
+	</div>
+
+	<div class="inbox-info-bar no-padding hidden">
+		<div class="row">
+			<div class="form-group">
+				<label class="control-label col-md-1"><strong>Attachments</strong></label>
+				<div class="col-md-11">
+					<input class="form-control fileinput" type="file" multiple="multiple">
+				</div>
+			</div>
+		</div>	
+	</div>
+	
+	<div class="inbox-message no-padding">
+<textarea name="" id="message" cols="30" rows="10" style="width:99%; border:0px" placeholder="Escribe un mensaje">
+	
+
+</textarea>
+	</div>
+	
+	<div class="inbox-compose-footer">
+
+		
+	          <span id="logo"> <img style="width: 3.3rem; margin-right: 0.5rem; margin-bottom: 0.5rem"  src="{{ asset('images/logo.png') }}" alt="SmartAdmin"> </span>
+           
+
+
+	<button data-loading-text="&lt;i class='fa fa-refresh fa-spin'&gt;&lt;/i&gt; &nbsp; Sending..." class="btn btn-primary pull-right" type="button" id="send">
+		Enviar <i class="fa fa-arrow-circle-right fa-lg"></i>
+	</button>
+
+
+	</div>
+
+</form>
+
+
+<script type="text/javascript">
+	
+	// DO NOT REMOVE : GLOBAL FUNCTIONS!
+
+	runAllForms();
+
+	 // PAGE RELATED SCRIPTS
+
+	$(".table-wrap [rel=tooltip]").tooltip();
+$("#message").val("");
+$("#subject").val("");
+
+    $('#emailbody').summernote({
+        height: 250,
+        focus: false,
+        tabsize: 2
+    });
+
+
+	$(".show-next").click(function () {
+	    $this = $(this);
+	    $this.hide();
+	    $this.parent().parent().parent().parent().parent().next().removeClass("hidden");
+	})
+
+	 $("#send").click(function () {
+	   var id='{{ userDestination.id }}';
+	   var message=$("#message").val();
+	   var subject=$("#subject").val();
+	   if(message == '' && subject == '' ){
+	   $('#inbox-content > .table-wrap').html("<h1>"+"Ingrese un asunto o mensaje correctos"+"<h1>");
+	   }else{
+	   	  	 var $btn = $(this);
+	    $btn.button('loading');
+
+	    // wait for animation to finish and execute send script
+	   setTimeout(function () {
+
+
+     
+         	$.ajax({
+			type: "POST",
+			url: "{{  path('saveMessage') }}",
+			data: { id:id,
+				    subject:JSON.stringify(subject),
+			        message:JSON.stringify(message),
+			        idAd:{{ idAd }} ,
+			        idUser:{{ userDestination.id|e }},
+			        action:2 },
+		         }).done(function( msg )
+		          {
+  		$('#inbox-content > .table-wrap').html("<h1>"+msg.mes+"<h1>");
+		      })
+
+	    }, 200); // how long do you want the delay to be? 
+	   }
+	});
+	
+	
+	
+</script>
