@@ -62,7 +62,7 @@ class AdsmanagerAds
     
     private $catid;
     
-    private $rated;
+    private $rated=0;
     
     private $products=array();
     
