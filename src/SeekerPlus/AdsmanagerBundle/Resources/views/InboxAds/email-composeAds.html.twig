@@ -93,7 +93,7 @@ $("#subject").val("");
 	   var id='{{ userDestination.id }}';
 	   var message=$("#message").val();
 	   var subject=$("#subject").val();
-	   if(message == '' && subject == '' ){
+	   if(message == '' || subject == '' ){
 	   $('#inbox-content > .table-wrap').html("<h1>"+"Ingrese un asunto o mensaje correctos"+"<h1>");
 	   }else{
 	   	  	 var $btn = $(this);
@@ -102,8 +102,6 @@ $("#subject").val("");
 	    // wait for animation to finish and execute send script
 	   setTimeout(function () {
 
-
-     
          	$.ajax({
 			type: "POST",
 			url: "{{  path('saveMessage') }}",

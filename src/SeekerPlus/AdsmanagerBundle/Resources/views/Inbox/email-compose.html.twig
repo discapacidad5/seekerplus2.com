@@ -96,7 +96,7 @@ $("#message").val("");
 	    $btn.button('loading');
        var message=$("#message").val();
 	   var subject=$("#subject").val();
-	    if(message == '' && subject == '' ){
+	    if(message == '' || subject == '' ){
 	   $('#inbox-content > .table-wrap').html("<h1>"+"Ingrese un asunto o mensaje correctos"+"<h1>");
 	   }else{
 	    // wait for animation to finish and execute send script
