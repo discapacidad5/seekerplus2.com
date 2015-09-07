@@ -299,9 +299,9 @@ $results = $db->loadObjectList();
 foreach($results as $field)
 {
 	if($field->images=='noImages.jpg'){
-	 echo '<tr><td><br><h2>Imagen y Productos y/o Servicios</h2><br><span class="option_photo"><img style="width: 10rem;" src="http://localhost/SeekerPlusWeb/web/images/noImages.jpg"></span></td></tr>';
+	 echo '<tr><td><br><h2>Imagen y Productos y/o Servicios</h2><br><span class="option_photo"><img style="width: 10rem;" src="http://seekerplus.com//web/images/noImages.jpg"></span></td></tr>';
 	}else {
-	  echo '<tr><td><br><h2>Imagen</h2><br><span class="option_photo"><img src="http://localhost/SeekerPlusWeb/web/images/ids/'.$this->content->id.'/'.$field->images.'"></span></td></tr>';
+	  echo '<tr><td><br><h2>Imagen</h2><br><span class="option_photo"><img src="http://seekerplus.com//web/images/ids/'.$this->content->id.'/'.$field->images.'"></span></td></tr>';
     }
 }
 ?>
@@ -330,10 +330,10 @@ foreach($results as $field)
 	echo '<tr>';
 	echo '<td>'.$field->name.'</td>';
 	if($field->images=='noImages.jpg'){
-	 echo '<td><br><h2></h2><br><span class="option_photo"><img style="width: 5rem;" src="http://localhost/SeekerPlusWeb/web/images/noImages.jpg"></span></td>';
+	 echo '<td><br><h2></h2><br><span class="option_photo"><img style="width: 5rem;" src="http://seekerplus.com//web/images/noImages.jpg"></span></td>';
 	}else {
 	  echo '
-		<td><br><h2></h2><br><span class="option_photo"><img style="width: 5rem;" src="http://localhost/SeekerPlusWeb/web/images/ids/'.$this->content->id.'/'.$field->images.'"></span></td>
+		<td><br><h2></h2><br><span class="option_photo"><img style="width: 5rem;" src="http://seekerplus.com//web/images/ids/'.$this->content->id.'/'.$field->images.'"></span></td>
 	  ';
     }
     echo '<td>'.$field->description.'</td>';

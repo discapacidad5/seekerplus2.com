@@ -134,7 +134,7 @@ App SeekerPlus
 <script type="text/javascript" charset="utf-8">
 
 	function SearchBanners(){
-		
+		if($("#conten").is(':hidden')){
 		var city = '';
 		{% if location.id is defined %}
     		city = '{{ location.title }}';
@@ -148,7 +148,7 @@ App SeekerPlus
 			$("#banners").show();
 			$("#banners").html(msg);
 		})
-		
+		}
 	}
 
 </script>

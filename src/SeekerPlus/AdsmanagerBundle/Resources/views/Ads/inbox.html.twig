@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<!--<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">-->
 
-		<title> SmartAdmin </title>
+		<title> App SeekerPlus </title>
 		<meta name="description" content="">
 		<meta name="author" content="">
 			
@@ -204,7 +204,7 @@
 			<!-- RIBBON -->
 			<div id="ribbon">
 
-				<span class="ribbon-button-alignment"> 
+				<span class="ribbon-button-alignment hide"> 
 					<span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh"  rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true">
 						<i class="fa fa-refresh"></i>
 					</span> 
@@ -231,20 +231,20 @@
 
 				<div class="inbox-nav-bar no-content-padding">
 				
-					<h1 class="page-title txt-color-blueDark hidden-tablet"><i class="fa fa-fw fa-inbox"></i> Inbox &nbsp;
+					<h1 class="page-title txt-color-blueDark hidden-tablet"><i class="fa fa-fw fa-inbox"></i> Correo &nbsp;
 						
 					</h1>
 				
 					<div class="btn-group hidden-desktop visible-tablet">
 						<button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-							Inbox <i class="fa fa-caret-down"></i>
+							Correo <i class="fa fa-caret-down"></i>
 						</button>
 						<ul class="dropdown-menu pull-left">
 							<li>
-								<a href="javascript:void(0);" class="inbox-load">Inbox <i class="fa fa-check"></i></a>
+								<a href="javascript:void(0);" class="inbox-load">Bandeja de Entrada <i class="fa fa-check"></i></a>
 							</li>
 							<li>
-								<a class="inbox-sent" href="javascript:void(0);">Sent</a>
+								<a class="inbox-sent" href="javascript:void(0);">Enviados</a>
 							</li>
 							<!--
 							<li>
@@ -288,10 +288,10 @@
 				-->
 						<ul class="inbox-menu-lg">
 							<li class="active">
-								<a class="inbox-load" href="javascript:void(0);"> Inbox ( {{nMessage}} ) </a>
+								<a class="inbox-load" href="javascript:void(0);"> Bandeja de Entrada ( {{nMessage}} ) </a>
 							</li>
 							<li>
-								<a class="inbox-sent" href="javascript:void(0);">Sent ( {{ nMessageOrigin }} )</a>
+								<a class="inbox-sent" href="javascript:void(0);">Enviados ( {{ nMessageOrigin }} )</a>
 							</li>
 							
 							<!--<li>
