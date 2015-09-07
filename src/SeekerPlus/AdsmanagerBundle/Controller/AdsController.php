@@ -752,4 +752,20 @@ public function adCommentAction(Request $request){
     	$formData->updateData($this);
     	
     }
+
+
+
+      public function viewEmailAction()
+    {
+        if(!$this->container->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY') ){
+            return $this->redirectToRoute('fos_user_security_login');
+        }
+    
+    
+        return $this->render('AdsmanagerBundle:Inbox:email.html.twig',
+             array('Subject' =>  "asusnto" ,'Messaje' => "message","Name" => "nombre"
+             ,"nameOrigin" =>  "email origin" ,"emailOrigin" => "origin email"      
+                  ,"Company"=> "COmpany" ));
+    
+    }
 }
