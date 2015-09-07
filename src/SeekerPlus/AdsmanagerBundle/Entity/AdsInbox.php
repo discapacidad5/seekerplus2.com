@@ -15,16 +15,6 @@ class AdsInbox
     private $id;
 
     /**
-     * @var integer
-     */
-    private $idUserOrigin;
-
-    /**
-     * @var integer
-     */
-    private $idUserDestination;
-
-    /**
      * @var string
      */
     private $subjectInbox;
@@ -40,9 +30,39 @@ class AdsInbox
     private $state;
 
     /**
+     * @var string
+     */
+    private $state2;
+
+    /**
+     * @var string
+     */
+    private $see1;
+
+    /**
+     * @var string
+     */
+    private $see2;
+
+    /**
      * @var \DateTime
      */
     private $dateCreated;
+
+    /**
+     * @var \SeekerPlus\AdsmanagerBundle\Entity\AdsmanagerAds
+     */
+    private $idAds;
+
+    /**
+     * @var \SeekerPlus\AdsmanagerBundle\Entity\AdsUsers
+     */
+    private $idUserOrigin;
+
+    /**
+     * @var \SeekerPlus\AdsmanagerBundle\Entity\AdsUsers
+     */
+    private $idUserDestination;
 
 
     /**
@@ -53,52 +73,6 @@ class AdsInbox
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set idUserOrigin
-     *
-     * @param integer $idUserOrigin
-     * @return AdsInbox
-     */
-    public function setIdUserOrigin($idUserOrigin)
-    {
-        $this->idUserOrigin = $idUserOrigin;
-
-        return $this;
-    }
-
-    /**
-     * Get idUserOrigin
-     *
-     * @return integer 
-     */
-    public function getIdUserOrigin()
-    {
-        return $this->idUserOrigin;
-    }
-
-    /**
-     * Set idUserDestination
-     *
-     * @param integer $idUserDestination
-     * @return AdsInbox
-     */
-    public function setIdUserDestination($idUserDestination)
-    {
-        $this->idUserDestination = $idUserDestination;
-
-        return $this;
-    }
-
-    /**
-     * Get idUserDestination
-     *
-     * @return integer 
-     */
-    public function getIdUserDestination()
-    {
-        return $this->idUserDestination;
     }
 
     /**
@@ -171,6 +145,75 @@ class AdsInbox
     }
 
     /**
+     * Set state2
+     *
+     * @param string $state2
+     * @return AdsInbox
+     */
+    public function setState2($state2)
+    {
+        $this->state2 = $state2;
+
+        return $this;
+    }
+
+    /**
+     * Get state2
+     *
+     * @return string 
+     */
+    public function getState2()
+    {
+        return $this->state2;
+    }
+
+    /**
+     * Set see1
+     *
+     * @param string $see1
+     * @return AdsInbox
+     */
+    public function setSee1($see1)
+    {
+        $this->see1 = $see1;
+
+        return $this;
+    }
+
+    /**
+     * Get see1
+     *
+     * @return string 
+     */
+    public function getSee1()
+    {
+        return $this->see1;
+    }
+
+    /**
+     * Set see2
+     *
+     * @param string $see2
+     * @return AdsInbox
+     */
+    public function setSee2($see2)
+    {
+        $this->see2 = $see2;
+
+        return $this;
+    }
+
+    /**
+     * Get see2
+     *
+     * @return string 
+     */
+    public function getSee2()
+    {
+        return $this->see2;
+    }
+
+    /**
      * Set dateCreated
      *
      * @param \DateTime $dateCreated
@@ -191,5 +234,74 @@ class AdsInbox
     public function getDateCreated()
     {
         return $this->dateCreated;
+    }
+
+    /**
+     * Set idAds
+     *
+     * @param \SeekerPlus\AdsmanagerBundle\Entity\AdsmanagerAds $idAds
+     * @return AdsInbox
+     */
+    public function setIdAds(\SeekerPlus\AdsmanagerBundle\Entity\AdsmanagerAds $idAds = null)
+    {
+        $this->idAds = $idAds;
+
+        return $this;
+    }
+
+    /**
+     * Get idAds
+     *
+     * @return \SeekerPlus\AdsmanagerBundle\Entity\AdsmanagerAds 
+     */
+    public function getIdAds()
+    {
+        return $this->idAds;
+    }
+
+    /**
+     * Set idUserOrigin
+     *
+     * @param \SeekerPlus\AdsmanagerBundle\Entity\AdsUsers $idUserOrigin
+     * @return AdsInbox
+     */
+    public function setIdUserOrigin(\SeekerPlus\AdsmanagerBundle\Entity\AdsUsers $idUserOrigin = null)
+    {
+        $this->idUserOrigin = $idUserOrigin;
+
+        return $this;
+    }
+
+    /**
+     * Get idUserOrigin
+     *
+     * @return \SeekerPlus\AdsmanagerBundle\Entity\AdsUsers 
+     */
+    public function getIdUserOrigin()
+    {
+        return $this->idUserOrigin;
+    }
+
+    /**
+     * Set idUserDestination
+     *
+     * @param \SeekerPlus\AdsmanagerBundle\Entity\AdsUsers $idUserDestination
+     * @return AdsInbox
+     */
+    public function setIdUserDestination(\SeekerPlus\AdsmanagerBundle\Entity\AdsUsers $idUserDestination = null)
+    {
+        $this->idUserDestination = $idUserDestination;
+
+        return $this;
+    }
+
+    /**
+     * Get idUserDestination
+     *
+     * @return \SeekerPlus\AdsmanagerBundle\Entity\AdsUsers 
+     */
+    public function getIdUserDestination()
+    {
+        return $this->idUserDestination;
     }
 }

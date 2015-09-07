@@ -1,0 +1,211 @@
+SeekerPlus\AdsmanagerBundle\Entity\AdsUsers:
+    type: entity
+    table: seeker_users
+    indexes:
+        usertype:
+            columns:
+                - usertype
+        idx_name:
+            columns:
+                - name
+        idx_block:
+            columns:
+                - block
+        username:
+            columns:
+                - username
+        email:
+            columns:
+                - email
+    uniqueConstraints:
+        UNIQ_2CFFF857A0D96FBF:
+            columns:
+                - email_canonical
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        username:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            comment: ''
+        usernameCanonical:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            comment: ''
+            column: username_canonical
+        email:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            comment: ''
+        emailCanonical:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            comment: ''
+            column: email_canonical
+        enabled:
+            type: boolean
+            nullable: true
+            comment: ''
+        salt:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            comment: ''
+        password:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            comment: ''
+        lastLogin:
+            type: datetime
+            nullable: true
+            comment: ''
+            column: last_login
+        locked:
+            type: boolean
+            nullable: true
+            comment: ''
+        expired:
+            type: boolean
+            nullable: true
+            comment: ''
+        expiresAt:
+            type: datetime
+            nullable: true
+            comment: ''
+            column: expires_at
+        confirmationToken:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            comment: ''
+            column: confirmation_token
+        passwordRequestedAt:
+            type: datetime
+            nullable: true
+            comment: ''
+            column: password_requested_at
+        roles:
+            type: array
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+        credentialsExpired:
+            type: boolean
+            nullable: true
+            comment: ''
+            column: credentials_expired
+        credentialsExpireAt:
+            type: datetime
+            nullable: true
+            comment: ''
+            column: credentials_expire_at
+        name:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            comment: ''
+        usertype:
+            type: string
+            nullable: true
+            length: 25
+            fixed: false
+            comment: ''
+        block:
+            type: boolean
+            nullable: false
+            comment: ''
+        sendemail:
+            type: boolean
+            nullable: true
+            comment: ''
+            column: sendEmail
+        registerdate:
+            type: datetime
+            nullable: true
+            comment: ''
+            column: registerDate
+        lastvisitdate:
+            type: datetime
+            nullable: true
+            comment: ''
+            column: lastvisitDate
+        activation:
+            type: string
+            nullable: true
+            length: 100
+            fixed: false
+            comment: ''
+        params:
+            type: text
+            nullable: false
+            length: null
+            fixed: false
+            comment: ''
+        lastresettime:
+            type: datetime
+            nullable: true
+            comment: ''
+            column: lastResetTime
+        resetcount:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: ''
+            column: resetCount
+        firstname:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            comment: ''
+        lastname:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            comment: ''
+        facebookid:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            comment: ''
+            column: facebookId
+        birthday:
+            type: date
+            nullable: true
+            comment: ''
+        location:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            comment: ''
+        accounttype:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: ''
+            column: accountType
+    lifecycleCallbacks: {  }
