@@ -107,7 +107,7 @@ saveMessage:
 
 
 inboxemailAdsR:
-    pattern:  /app/inbox/inboxemailAdsR/{idA}
+    pattern:  /app/inbox/inboxemailAdsR/{idAd}
     defaults: { _controller: AdsmanagerBundle:AdsInbox:inboxemailAdsR }
 
 Message_ListInbox:
