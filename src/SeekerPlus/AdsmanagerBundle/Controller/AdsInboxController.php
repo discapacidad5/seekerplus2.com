@@ -71,9 +71,9 @@ public function emailAdsAction(Request $request){
 
 ///Message
              $message = \Swift_Message::newInstance()
-            ->setSubject('Mensaje privado')
-            ->setFrom('fernando.ricaurte@hotmail.com')
-            ->setTo('fernando.ricaurte@hotmail.com')
+            ->setSubject($Subject)
+            ->setFrom($emailUsuarioAds->getEmail())
+            ->setTo($emailUsuarioAds->getEmail())
             ->setBody(
              $this->renderView(
              'AdsmanagerBundle:Inbox:email.html.twig',
@@ -237,6 +237,7 @@ public function saveMessageAction(Request $request){
 
   $emUser = $this->getDoctrine()->getEntityManager();
   $usuario= $emUser->getRepository('UserBundle:User')->find($idUser);
+  $usuarioOrigin= $emUser->getRepository('UserBundle:User')->find($userId );
   $nameAds = $emUser->getRepository('AdsmanagerBundle:AdsmanagerAds')->find($idAd);
 
   $inInbox=new AdsInbox();  
@@ -263,11 +264,27 @@ public function saveMessageAction(Request $request){
   $inInbox->setIdAds($em->getReference('AdsmanagerBundle:AdsmanagerAds',$idAd));
   $em->persist($inInbox);
   $em->flush();
-  
+
+  $Messa = \Swift_Message::newInstance()
+            ->setSubject($subject)
+            ->setFrom($usuario->getEmail())
+            ->setTo($usuario->getEmail())
+            ->setBody(
+             $this->renderView(
+             'AdsmanagerBundle:Inbox:email.html.twig',
+             array('Subject' =>  $subject ,'Messaje' =>  $message,"Name" => $usuarioOrigin->getName()
+             ,"nameOrigin" =>  $usuarioOrigin->getName() ,"emailOrigin" => $usuarioOrigin->getEmail()      
+                  ,"Company"=>   $usuario->getName() )
+                    
+                )
+            ,'text / html');
+            $this->get('mailer')->send($Messa);
+
    $mes="<strong>"."Mensaje Enviado con Exito ! "."</strong>";
   
    $response = array("mes" => $mes);
         return new JsonResponse($response);
+   
 }
 
 
@@ -285,6 +302,7 @@ public function inboxemailAdsRAction($idA){
    if ($usuario->getUserid()== $userId) {
         return $this->render('AdsmanagerBundle:InboxAds:inbox-Ads.html.twig',
         array("idAd" => $idA ));
+
    }
 	return $this->redirectToRoute('my_ads');
       

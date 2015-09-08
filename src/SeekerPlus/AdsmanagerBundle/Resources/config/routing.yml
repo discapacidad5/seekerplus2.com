@@ -46,6 +46,14 @@ show_ad_map:
 adRate:
   pattern:    /app/ad-rate/
   defaults:   { _controller: AdsmanagerBundle:Ads:Rate }
+
+
+
+viewEmail:
+    pattern:    /app/viewEmail/
+    defaults:   { _controller: AdsmanagerBundle:Ads:viewEmail }
+
+
 search_ads:
     pattern:  /app/search/
     defaults: { _controller: AdsmanagerBundle:AdsSearch:search }

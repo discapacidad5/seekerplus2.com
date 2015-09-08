@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <!--<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">-->
 
-        <title> Seekerplus/Inbox/Personal </title>
+        <title> Seekerplus/Inbox/Anuncios </title>
         <meta name="description" content="">
         <meta name="author" content="">
             
@@ -150,13 +150,13 @@
 
                 <div class="inbox-nav-bar no-content-padding">
                 
-                    <h1 class="page-title txt-color-blueDark hidden-tablet"><i class="fa fa-fw fa-inbox"></i>Inbox &nbsp;
+                    <h1 class="page-title txt-color-blueDark hidden-tablet"><i class="fa fa-fw fa-inbox"></i>Seekerplus &nbsp;
                         
                     </h1>
                 
                     <div class="btn-group hidden-desktop visible-tablet">
                         <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="name">
-                            Inbox <i class="fa fa-caret-down"></i>
+                            Bandeja de Entrada <i class="fa fa-caret-down"></i>
                         </button>
                         <ul id="active" class="dropdown-menu pull-left">
                             <li>
@@ -167,12 +167,22 @@
                             </li>
                   
                         </ul>
-                
+                  
+
                     </div>
 
-
+    <div class="inbox-checkbox-triggered">
+                
+            <div class="btn-group">
+         <a href="javascript:void(0);" title="Leido"class="btn btn-default"><strong><i class="glyphicon glyphicon-check"></i> Leido</strong></a>
+         <a href="javascript:void(0);" title="Sin leer "class="btn btn-default"><strong><i class="glyphicon glyphicon-unchecked"></i>  Sin leer</strong></a>
+                           
+                        </div>
+                
+                    </div>
              
                 </div>
+
                 
             
 
@@ -220,7 +230,7 @@
         Note: These tiles are completely responsive,
         you can add as many as you like
         -->
-    
+      
         <!-- END SHORTCUT AREA -->
 
         <!--================================================== -->
@@ -369,14 +379,14 @@
                 $( "#active li:first-child " ).addClass("active");
                 $( "#active li:last-child  a i" ).removeClass("fa fa-check");
                 $( "#active li:last-child  " ).removeClass("active");
-                $("#name").html("Inbox");
+                $("#name").html("Bandeja de Entrada");
             })
 	   $("#active li:last-child  a").click(function() {
                 $( "#active li:last-child  a i" ).addClass("fa fa-check");
                 $( "#active li:last-child " ).addClass("active");
                 $( "#active li:first-child a i" ).removeClass("fa fa-check");
                 $( "#active li:first-child " ).removeClass("active");
-                $("#name").html("Sent");
+                $("#name").html("Enviados");
             })
 
 
