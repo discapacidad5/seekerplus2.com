@@ -273,20 +273,20 @@ public function saveMessageAction(Request $request){
 
 
 
-public function inboxemailAdsRAction($idAd){
+public function inboxemailAdsRAction($idA){
       if(!$this->container->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY') ){
             return $this->redirectToRoute('fos_user_security_login');
         }
    $userId = $this->get('security.context')->getToken()->getUser()->getId();
    $emUser = $this->getDoctrine()->getEntityManager();
 
-   $usuario = $emUser->getRepository('AdsmanagerBundle:AdsmanagerAds')->find($idAd);
+   $usuario = $emUser->getRepository('AdsmanagerBundle:AdsmanagerAds')->find($idA);
 
    if ($usuario->getUserid()== $userId) {
         return $this->render('AdsmanagerBundle:InboxAds:inbox-Ads.html.twig',
-        array("idAd" => $idAd ));
+        array("idAd" => $idA ));
    }
-
+	return $this->redirectToRoute('my_ads');
       
 }
 
