@@ -47,13 +47,6 @@ adRate:
   pattern:    /app/ad-rate/
   defaults:   { _controller: AdsmanagerBundle:Ads:Rate }
 
-
-
-viewEmail:
-    pattern:    /app/viewEmail/
-    defaults:   { _controller: AdsmanagerBundle:Ads:viewEmail }
-
-
 search_ads:
     pattern:  /app/search/
     defaults: { _controller: AdsmanagerBundle:AdsSearch:search }
@@ -85,7 +78,7 @@ paginationAd:
     defaults: { _controller: AdsmanagerBundle:Ads:paginationAd }
 
 message_emailAds:
-    pattern:  /app/message/messagemailAds/
+    pattern:  /app/ad/messagemailAds/
     defaults: { _controller: AdsmanagerBundle:AdsInbox:emailAds }
 
 inboxemailAds:
@@ -98,7 +91,7 @@ inboxList:
 
 
 inboxOpenInboxMessage:
-    pattern:  /app/addasdas/inboxOpenInboxMessage/
+    pattern:  /app/ad/inboxOpenInboxMessage/
     defaults: { _controller: AdsmanagerBundle:AdsInbox:inboxOpenInboxMessage }
 
 inboxSent:
