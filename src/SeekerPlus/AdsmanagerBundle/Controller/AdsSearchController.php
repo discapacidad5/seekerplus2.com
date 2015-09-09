@@ -49,8 +49,9 @@ class AdsSearchController extends Controller
         $quantity_result = $quantity_result - count($categories);
         
         $query = $repo->createQuery('
-               select a from AdsmanagerBundle:AdsmanagerAds a 
-               where (a.adKeywords LIKE :key or a.adHeadline LIKE :title) and a.adLocation = :city and a.published = 1 and a.expirationDate > :date')
+               select a from AdsmanagerBundle:AdsmanagerAds a, AdsmanagerBundle:AdsUsers u 
+               where (a.adKeywords LIKE :key or a.adHeadline LIKE :title) and a.adLocation = :city and a.published = 1 and a.expirationDate > :date 
+               and u.id = a.userid order by u.accounttype DESC')
                 ->setParameter('date', $date->format('Y-m-d'))
                 ->setParameter('key', '%'.$texto.'%')
                 ->setParameter('title', '%'.$texto.'%')
@@ -62,8 +63,9 @@ class AdsSearchController extends Controller
         $quantity_result = $quantity_result - count($ads);
         
         $query = $repo->createQuery('
-               select a.id, a.name, a.idAd, b.adHeadline from AdsmanagerBundle:AdsmanagerProduct a, AdsmanagerBundle:AdsmanagerAds b
-               where a.name LIKE :name and a.idAd = b.id and b.adLocation = :city and b.published = 1 and b.expirationDate > :date group by b.adHeadline')
+               select a.id, a.name, a.idAd, b.adHeadline from AdsmanagerBundle:AdsmanagerProduct a, AdsmanagerBundle:AdsmanagerAds b, AdsmanagerBundle:AdsUsers u
+               where a.name LIKE :name and a.idAd = b.id and b.adLocation = :city and b.published = 1 and b.expirationDate > :date 
+               and b.userid = u.id group by b.adHeadline order by u.accounttype DESC')
                 ->setParameter('name', '%'.$texto.'%')
                 ->setParameter('city', $city)
                 ->setParameter('date', $date->format('Y-m-d'))
@@ -131,13 +133,14 @@ class AdsSearchController extends Controller
                 'SELECT a,a.id
                     FROM AdsmanagerBundle:AdsmanagerAds a
                     INNER JOIN a.catid c
+                    INNER JOIN AdsmanagerBundle:AdsUsers u WITH u.id = a.userid
                     INNER JOIN AdsmanagerBundle:AdsmanagerCategories b
                     WHERE a.published = 1
                     AND a.expirationDate >= :date
                     AND a.adLocation = :location
                     AND b.id =:id
                     AND b.id = c.id
-                    ORDER BY a.adHeadline ASC
+                    ORDER BY u.accounttype DESC, a.adHeadline ASC
             ')->setParameter('date',new DateTime())->setParameter('location',$city->getTitle())->setParameter('id',$idCategory)->setMaxResults(10)->setFirstResult($range);
         
         $ads = $query->getResult();

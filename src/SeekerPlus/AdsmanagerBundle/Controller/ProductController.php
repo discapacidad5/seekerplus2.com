@@ -51,19 +51,46 @@ class ProductController extends Controller
     		return $this->render('AdsmanagerBundle:Product:newProductAds.html.twig',array("form"=>$form->createView()));
     		 
     	}
-    	$price=$request->request->get('price');
-    	$adProduct->setPrice(str_replace('.', '', $price));
-    	$adProduct->setIdAd($id);
-    	$formData->insertData($this,$adProduct);
-    	$message->setSuccessMessages("El Producto o servicio ha sido Ingresado Exitosamente.")->show($this);
-    	$this->setNameIdImages ( $formData,$adProduct, $image );
-    	 
-    	if($image){
-    		$formData->uploadImages($image,'images/ids/'.$id,$adProduct);
-    		$this->resizeImages($id,$adProduct->getImages());
-    	}
-    	 
+
+
+
+        $userId = $this->get('security.context')->getToken()->getUser()->getId();
+        $userType=$this->getDoctrine()->getRepository("AdsmanagerBundle:AdsUsers")->find($userId);
+        $numberAds = $this->getDoctrine()->getManager();
+        $query = $numberAds->createQuery('SELECT a.id FROM AdsmanagerBundle:AdsmanagerAds a 
+                                          Where a.userid= :idUser')->setParameter('idUser',$userId);
+        $result = $query->getResult();
+
+        $numberProducts=0;
+        foreach ($result as $row) {
+            $query = $numberAds->createQuery('SELECT COUNT(a.idAd) FROM AdsmanagerBundle:AdsmanagerProduct a 
+            Where a.idAd= :id')->setParameter('id',$row['id']);
+            $numberAdsResult = $query->getSingleScalarResult();
+            $numberProducts=$numberAdsResult + $numberProducts;
+        }
+
+   
+        $price=$request->request->get('price');
+        
+        if($userType->getAccounttype()==0 &&  $numberProducts <3)
+            {   
+
+             $this->setAddProduct($adProduct,$formData,$message,$price,$image,$id);
+            }
+        elseif($userType->getAccounttype()==1 &&  $numberProducts <10) 
+            {
+              $this->setAddProduct($adProduct,$formData,$message,$price,$image,$id);
+            }
+        elseif($userType->getAccounttype()==2 || $userType->getAccounttype()==3)
+            {
+               $this->setAddProduct($adProduct,$formData,$message,$price,$image,$id);
+            }
+        else{
+          $message->setErrorMessages("Tiene que actualizar su cuenta para publicar un nuevo anuncio.")->show($this);   
+        }
+        
     	return $this->redirectToRoute('my_ads');
+
     }
 
     public function editAdsProductAction($id,Request $request)
@@ -205,6 +232,23 @@ class ProductController extends Controller
     		return false;
     	}
     	return true;
+    }
+
+
+        private function setAddProduct($adProduct,$formData,$message,$price,$image,$id){
+      
+ 
+        $adProduct->setPrice(str_replace('.', '', $price));
+        $adProduct->setIdAd($id);
+        $formData->insertData($this,$adProduct);
+        $message->setSuccessMessages("El Producto o servicio ha sido Ingresado Exitosamente.")->show($this);
+        $this->setNameIdImages ( $formData,$adProduct, $image );
+         
+        if($image){
+            $formData->uploadImages($image,'images/ids/'.$id,$adProduct);
+            $this->resizeImages($id,$adProduct->getImages());
+        }
+
     }
     
 }

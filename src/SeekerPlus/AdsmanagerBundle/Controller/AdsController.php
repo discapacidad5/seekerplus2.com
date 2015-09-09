@@ -14,6 +14,7 @@ use SeekerPlus\AdsmanagerBundle\Entity\AdsmanagerAdsRate;
 use SeekerPlus\AdsmanagerBundle\Models\Formdata;
 use SeekerPlus\AdsmanagerBundle\Models\Message;
 use SeekerPlus\AdsmanagerBundle\Models\Document;
+use SeekerPlus\UserBundle\Entity\User;
 use \DateTime;
 use \DateInterval;
 use Symfony\Component\HttpFoundation\File\File;
@@ -208,6 +209,7 @@ public function adCommentAction(Request $request){
    }
 
 
+
     public function newAdsAction(Request $request)
     {
     	
@@ -218,6 +220,9 @@ public function adCommentAction(Request $request){
     	$formData=new Formdata();
     	$ad=new AdsmanagerAds();
     	$message=new Message();
+
+
+        
     	
     	$categories=$this->getDoctrine()
     	->getRepository("AdsmanagerBundle:AdsmanagerCategories");
@@ -252,24 +257,44 @@ public function adCommentAction(Request $request){
     		return $this->render('AdsmanagerBundle:Ads:newAds.html.twig',array("form"=>$form->createView(),"categories"=>$categories,"location"=>$locationCity));
      		
     	}
-    	$userId = $this->get('security.context')->getToken()->getUser()->getId();
-    	$ad->setUserid($userId);
-    	$date = new DateTime();
-    	$ad->setDateCreated($date);
-    	$createDate = new DateTime();
-    	$ad->setExpirationDate($createDate->add(new DateInterval('P1Y')));
     	
-    	$formData->insertData($this,$ad);
-    	$message->setSuccessMessages("El anuncio ha sido Ingresado Exitosamente.")->show($this);
-    	$this->setNameIdImages ( $formData, $ad, $image );
-    	
-    	if($image){
-    	$formData->uploadImages($image,'images/ids/'.$ad->getId(),$ad);
-    	$this->resizeImages($ad->getId(),$ad->getImages());
-    	}
+         $date = new DateTime();
+         $createDate = new DateTime();
+
+
+        $userId = $this->get('security.context')->getToken()->getUser()->getId();
+        $userType=$this->getDoctrine()->getRepository("AdsmanagerBundle:AdsUsers")->find($userId);
+        $numberAds = $this->getDoctrine()->getManager();
+        $query = $numberAds->createQuery('SELECT COUNT(a.userid) FROM AdsmanagerBundle:AdsmanagerAds a 
+                                          Where a.userid= :id')->setParameter('id',$userId);
+        $numberAdsResult = $query->getSingleScalarResult();
+
+
+        if($userType->getAccounttype()==0 && $numberAdsResult <1){
+
+                  $this->setAddAds($userId,$date,$formData,$ad,$image,$createDate,$message);
+                 
+        }elseif($userType->getAccounttype()==1 && $numberAdsResult <3) {
+                    
+                    $this->setAddAds($userId,$date,$formData,$ad,$image,$createDate,$message);
+                    
+        }elseif($userType->getAccounttype()==2 && $numberAdsResult <10){
+
+                $this->setAddAds($userId,$date,$formData,$ad,$image,$createDate,$message);
+                
+        }elseif($userType->getAccounttype()==3){
+
+                $this->setAddAds($userId,$date,$formData,$ad,$image,$createDate,$message);
+        }else{
+          $message->setErrorMessages("Tiene que actualizar su cuenta para publicar un nuevo anuncio.")->show($this);   
+        }
+        
+    
     	
     	return $this->redirectToRoute('my_ads');
     }
+
+    
 
     public function editAdsAction($id,Request $request)
     {
@@ -754,18 +779,20 @@ public function adCommentAction(Request $request){
     }
 
 
-
-      public function viewEmailAction()
-    {
-        if(!$this->container->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY') ){
-            return $this->redirectToRoute('fos_user_security_login');
+  
+        private function setAddAds($userId,$date,$formData,$ad,$image,$createDate,$message){
+      
+                    $ad->setUserid($userId);
+                    $ad->setDateCreated($date);
+                    $ad->setExpirationDate($createDate->add(new DateInterval('P1Y')));  
+                    $formData->insertData($this,$ad);
+                    $message->setSuccessMessages("El anuncio ha sido Ingresado Exitosamente.")->show($this);
+                    $this->setNameIdImages ( $formData, $ad, $image );
+                    if($image){
+                    $formData->uploadImages($image,'images/ids/'.$ad->getId(),$ad);
+                    $this->resizeImages($ad->getId(),$ad->getImages());
+                }
+    
         }
-    
-    
-        return $this->render('AdsmanagerBundle:Inbox:email.html.twig',
-             array('Subject' =>  "asusnto" ,'Messaje' => "message","Name" => "nombre"
-             ,"nameOrigin" =>  "email origin" ,"emailOrigin" => "origin email"      
-                  ,"Company"=> "COmpany" ));
-    
-    }
+
 }

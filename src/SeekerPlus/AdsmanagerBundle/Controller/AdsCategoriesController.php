@@ -194,22 +194,24 @@ class AdsCategoriesController extends Controller
 
 	 $em = $this->getDoctrine()->getManager();
 	 $query = $em->createQuery(
-	 		'SELECT a,a.id
+	 		'SELECT a, a.id
 				    FROM AdsmanagerBundle:AdsmanagerAds a
 				    INNER JOIN a.catid c
+				    INNER JOIN AdsmanagerBundle:AdsUsers u WITH u.id = a.userid
 				    INNER JOIN AdsmanagerBundle:AdsmanagerCategories b
 				    WHERE a.published = 1
     				AND a.expirationDate >= :date
     			    AND a.adLocation = :location
 				    AND b.parent =:parent
 				    AND b.id = c.id
-				    ORDER BY a.adHeadline ASC
+				    ORDER BY u.accounttype DESC, a.adHeadline ASC
 				 '
   
 	 )->setParameter('date',new DateTime())->setParameter('location',$city->getTitle())
 	 ->setParameter('parent',$idCategory)->setMaxResults(10)->setFirstResult($range);
 
 	 $ads = $query->getResult();
+
 	 return $ads;
 	}
 	
