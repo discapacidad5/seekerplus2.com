@@ -2,7 +2,7 @@
 	
 	<ul >
 		{% for item in products %}
-		    <li><a style='cursor: pointer;' onclick="SaveSearh('{{ item.name }}', '{{ path('show_ad',{ 'idAd' : item.idAd, 'idCity' : id_city }) }}')">{{ item.adHeadline }}</a></li>
+		    <li><a id="pro" style='cursor: pointer;' onclick="SaveSearh('{{ item.name }}', '{{ path('show_ad',{ 'idAd' : item.idAd, 'idCity' : id_city }) }}')">{{ item.adHeadline }}</a></li>
 		{% endfor %}
 		{% for item in categories %}
 		    <li><a style='cursor: pointer;' onclick="SaveSearh('{{ item.name }}','{{ path('search_ads_category',{'idCategory' : item.id, 'idCity' : id_city, 'range' : '0'}) }}')">{{ item.name }}</a></li>

@@ -3,7 +3,7 @@ parameters:
     database_driver: pdo_mysql
     database_host: 192.168.1.110
     database_port: null
-    database_name: seekerplusPrueba
+    database_name: seekerplusJokte
     database_user: root
     database_password: toor
     mailer_transport: gmail
