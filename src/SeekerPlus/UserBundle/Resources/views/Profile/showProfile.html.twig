@@ -12,29 +12,26 @@ Mi Perfil
 {% endblock %} 
 {% block content %}
 <div class="container page-content fg-dark">
-<h1><span class="mif-profile"></span> Mi Perfil</h1><br>
+<h1><span class="mif-profile"></span> Mi Cuenta</h1><br>
 <div style="margin-left: 2rem;" class="grid condensed ">
 	<div class="row cells3">
 		<div class="cell">
-		<a href="{{ path('fos_user_profile_edit') }}" 
-		   style="width: 16rem; height: 8rem;" class="shortcut-button bg-green bg-active-darkGreen fg-white">
-		    <span class="icon mif-profile"></span>
-		    <span class="title"> Actualizar Perfil</span>
-		</a>
+		<a style="width: 14rem; height: 7rem;" href="{{ path('fos_user_profile_edit') }}" class="shortcut-button bg-cyan bg-active-darkBlue fg-white">
+                    <span class="icon mif-profile"></span>
+                    <span class="title">Actualizar Perfil</span>
+        </a>
 		</div>
 		<div class="cell">
-		<a href="{{ path('fos_user_change_password') }}"
-			style="width: 16rem; height: 8rem;" class="shortcut-button bg-green bg-active-darkGreen fg-white">
-		    <span class="icon mif-lock"></span>
-		    <span class="title">Cambiar Contraseña</span>
-		</a>
+		<a style="width: 14rem; height: 7rem;" href="{{ path('fos_user_change_password') }}" class="shortcut-button bg-cyan bg-active-darkBlue fg-white">
+                    <span class="icon mif-lock"></span>
+                    <span class="title">Cambiar Contraseña</span>
+        </a>
 		</div>
 		<div class="cell">
-		<a href="{{ path('my_ads') }}"
-			style="width: 16rem; height: 8rem;" class="shortcut-button bg-green bg-active-darkGreen fg-white">
-		    <span class="icon mif-file-text"></span>
-		    <span class="title"> Mis Anuncios</span>
-		</a>
+		<a style="width: 14rem; height: 7rem;" href="{{ path('my_ads') }}" class="shortcut-button bg-cyan bg-active-darkBlue fg-white">
+                    <span class="icon mif-map2"></span>
+                    <span class="title">Mis Anuncios</span>
+        </a>
 		</div>
 
 	</div>
