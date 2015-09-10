@@ -26,7 +26,11 @@ Mis Anuncios
 	<span>Plus</span>
 	{% elseif userType==2 %}
 	<span>Premium</span>
+<<<<<<< HEAD
 	{% else %}
+=======
+	{% else%}
+>>>>>>> 9df963ee2e82d93855f7924fa180559a6a268b0f
 	<span>Unlimited</span>
 	{% endif %} )
 </h2>
@@ -37,6 +41,7 @@ Mis Anuncios
 	     <span class="icon mif-map2 bg-darkCobalt"></span>
 	    </button>
 	<div class="example">
+<<<<<<< HEAD
          {% if userType == 0 and numberAds == 1 or 
           userType == 1 and numberAds == 3 or
           userType == 2 and numberAds == 10 %}
@@ -50,6 +55,9 @@ Mis Anuncios
         {% endif %}
        
 
+=======
+       <a href="{{ path('new_ads') }}" class="button success"><span class="mif-plus"></span> Nuevo</a>
+>>>>>>> 9df963ee2e82d93855f7924fa180559a6a268b0f
 		{% for field in ads %}
 		<div class="treeview" data-role="treeview">
           <ul>
@@ -113,6 +121,7 @@ Mis Anuncios
                  <a onclick="showMessageDeleteDialog('{{ field.id }}');" class="button alert"><span class="mif-cancel"></span> Eliminar</a>
                 </span><br><br><br><br>
                 <span>
+<<<<<<< HEAD
 
 
                 {% if userType == 0 and numberProducts == 3 or  userType == 1 and numberProducts == 10 %}
@@ -131,6 +140,9 @@ Mis Anuncios
 
 
 
+=======
+                <a href="{{ path('new_ads_product', {'id': field.id}) }}"class="button success"><span class="mif-plus"></span> Agregar Producto</a>
+>>>>>>> 9df963ee2e82d93855f7924fa180559a6a268b0f
                 </span>
 	     		<div class="treeview" data-role="treeview">
                 <ul>

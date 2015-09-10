@@ -69,6 +69,7 @@ class AdsController extends Controller
 		}
 		$user=$this->getDoctrine()->getRepository("AdsmanagerBundle:AdsUsers")->find($userId);
 		$userType=$user->getAccounttype();
+<<<<<<< HEAD
 
         $numberAds = $this->getDoctrine()->getManager();
 
@@ -92,6 +93,11 @@ class AdsController extends Controller
 		
 		return $this->render('AdsmanagerBundle:Ads:myAds.html.twig',
 				array("ads"=>$ads,"banners"=>$banners,"userType"=>$userType,'numberAds' => $numberAdsResult,'numberProducts' =>$numberProducts));
+=======
+		
+		return $this->render('AdsmanagerBundle:Ads:myAds.html.twig',
+				array("ads"=>$ads,"banners"=>$banners,"userType"=>$userType));
+>>>>>>> 9df963ee2e82d93855f7924fa180559a6a268b0f
 
 	}
 
