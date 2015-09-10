@@ -86,7 +86,7 @@ class ProductController extends Controller
                $this->setAddProduct($adProduct,$formData,$message,$price,$image,$id);
             }
         else{
-          $message->setErrorMessages("Tiene que actualizar su cuenta para publicar un nuevo anuncio.")->show($this);   
+          $message->setErrorMessages("Tiene que actualizar su cuenta para publicar un nuevo producto.")->show($this);   
         }
         
     	return $this->redirectToRoute('my_ads');

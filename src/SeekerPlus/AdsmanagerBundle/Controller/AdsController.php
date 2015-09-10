@@ -73,6 +73,9 @@ class AdsController extends Controller
 
 	}
 
+    public function notificationAction(){
+
+   }
 public function adCommentAction(Request $request){
 
      if(!$this->container->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY') ){
