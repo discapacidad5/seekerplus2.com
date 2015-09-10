@@ -15,8 +15,21 @@ Mis Anuncios
 {% endblock %}
 {% block content %}
 {{ parent() }}
+
 <div class="container page-content fg-dark" style="padding: 0.5rem;">
-<h1><span class="mif-file-text"></span> Mis Anuncios</h1>
+<h2>
+	<span class="mif-profile"></span> 
+	Mi Cuenta (
+	{% if userType==0 %}
+	<span>Free</span>
+	{% elseif userType==1 %}
+	<span>Plus</span>
+	{% elseif userType==2 %}
+	<span>Premium</span>
+	{% else%}
+	<span>Unlimited</span>
+	{% endif %} )
+</h2>
 <div class="cell">
 	<div class="listview-outlook" data-role="listview">
 		<button class="image-button bg-cyan fg-white">

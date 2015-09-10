@@ -67,9 +67,11 @@ class AdsController extends Controller
 			$image=$obj->{'imageurl'};
 			$banner->setParams($image);
 		}
-	
+		$user=$this->getDoctrine()->getRepository("AdsmanagerBundle:AdsUsers")->find($userId);
+		$userType=$user->getAccounttype();
+		
 		return $this->render('AdsmanagerBundle:Ads:myAds.html.twig',
-				array("ads"=>$ads,"banners"=>$banners));
+				array("ads"=>$ads,"banners"=>$banners,"userType"=>$userType));
 
 	}
 
