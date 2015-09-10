@@ -67,9 +67,31 @@ class AdsController extends Controller
 			$image=$obj->{'imageurl'};
 			$banner->setParams($image);
 		}
-	
+		$user=$this->getDoctrine()->getRepository("AdsmanagerBundle:AdsUsers")->find($userId);
+		$userType=$user->getAccounttype();
+
+        $numberAds = $this->getDoctrine()->getManager();
+
+        $query = $numberAds->createQuery('SELECT COUNT(a.userid) FROM AdsmanagerBundle:AdsmanagerAds a 
+                                          Where a.userid= :id')->setParameter('id',$userId);
+        $numberAdsResult = $query->getSingleScalarResult();
+
+
+        $queryU = $numberAds->createQuery('SELECT a.id FROM AdsmanagerBundle:AdsmanagerAds a 
+                                          Where a.userid= :idUser')->setParameter('idUser',$userId);
+        $result = $queryU->getResult();
+
+        $numberProducts=0;
+        foreach ($result as $row) {
+            $queryn = $numberAds->createQuery('SELECT COUNT(a.idAd) FROM AdsmanagerBundle:AdsmanagerProduct a 
+            Where a.idAd= :id')->setParameter('id',$row['id']);
+            $numberProductResult = $queryn->getSingleScalarResult();
+            $numberProducts=$numberProductResult + $numberProducts;
+        }
+
+		
 		return $this->render('AdsmanagerBundle:Ads:myAds.html.twig',
-				array("ads"=>$ads,"banners"=>$banners));
+				array("ads"=>$ads,"banners"=>$banners,"userType"=>$userType,'numberAds' => $numberAdsResult,'numberProducts' =>$numberProducts));
 
 	}
 

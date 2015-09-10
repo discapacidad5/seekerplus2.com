@@ -302,10 +302,9 @@ public function inboxemailAdsRAction($idA){
    if ($usuario->getUserid()== $userId) {
         return $this->render('AdsmanagerBundle:InboxAds:inbox-Ads.html.twig',
         array("idAd" => $idA ));
-   }else{
-     return $this->redirectToRoute('my_ads');
-   }
 
+   }
+	return $this->redirectToRoute('my_ads');
       
 }
 

@@ -15,13 +15,41 @@ Mis Anuncios
 {% endblock %}
 {% block content %}
 {{ parent() }}
+
 <div class="container page-content fg-dark" style="padding: 0.5rem;">
-<h1><span class="mif-file-text"></span> Mis Anuncios</h1>
+<h2>
+	<span class="mif-profile"></span> 
+	Mi Cuenta (
+	{% if userType==0 %}
+	<span>Free</span>
+	{% elseif userType==1 %}
+	<span>Plus</span>
+	{% elseif userType==2 %}
+	<span>Premium</span>
+	{% else %}
+	<span>Unlimited</span>
+	{% endif %} )
+</h2>
 <div class="cell">
 	<div class="listview-outlook" data-role="listview">
-		<div class="list-group ">
-        	<span class="list-group-toggle">Anuncios</span>
-        	 <div class="list-group-content">
+		<button class="image-button bg-cyan fg-white">
+	    Anuncios
+	     <span class="icon mif-map2 bg-darkCobalt"></span>
+	    </button>
+	<div class="example">
+         {% if userType == 0 and numberAds == 1 or 
+          userType == 1 and numberAds == 3 or
+          userType == 2 and numberAds == 10 %}
+                  
+           <a href="{{ path('contactenos') }}" class="button  bg-darkMagenta fg-white padding10 text-shadow" ><span class="mif-thumbs-up mif-ani-bounce"></span> Actualizar Cuenta</a>
+
+		{% elseif userType == 3  %}
+		   <a href="{{ path('new_ads') }}" class="button success"><span class="mif-plus"></span> Nuevo</a>
+		{% else %}
+           <a href="{{ path('new_ads') }}" class="button success"><span class="mif-plus"></span> Nuevo</a>
+        {% endif %}
+       
+
 		{% for field in ads %}
 		<div class="treeview" data-role="treeview">
           <ul>
@@ -30,34 +58,80 @@ Mis Anuncios
                          <span class="node-toggle"></span>
             <ul>
             <li style="margin-bottom: 4rem;">
-                   	
 				<div class="list">
-                   <div class="list-content">
-                      <span class="list-title"><span class="mif-earth"></span> {{ field.adLocation|e }}</span>
-                      <span style="white-space: normal;max-width: 50%;padding-right: 2rem;" class="list-subtitle">{{ field.adText|e }}</span>
-                      <span class="place-right" style="float: right; margin-top: -6rem;">		    
-                      {% if field.images == 'noImages.jpg' %}
-					    	<img id="newImages" class="marginFrame" src="{{asset('images/noImages.jpg')}}">
-					  {% else %}
-					    	<img id="newImages" class="marginFrame" src="{{asset('images/ids/')}}{{ field.id }}/{{ field.images }}">
-					  {% endif %}</span>
-                      <span class="list-remark"><span class="mif-phone"></span> {{ field.adPhone|e }}</span>
-                      <span class="list-remark"><span class="mif-location"></span> {{ field.adAddress|e }}</span>
-                      <span class="list-remark">Creado el    : {{ field.dateCreated|date('Y-m-d') }}</span>
-                      <span class="list-remark">Valido Hasta : {{ field.expirationDate|date('Y-m-d') }}</span>
-                      <span class="list-remark">Ultima Modificacion : {{ field.dateModified|date('Y-m-d') }}</span>
-                      <br>
-     
-                      	<label class="switch">
-                      	{% if field.published == 1 %}
-                            Publicado <input checked="" type="checkbox">
-                        {% else %}
-                            Despublicado <input  type="checkbox">
-                        {% endif %}
-                            <span class="check"></span>
-                        </label>	
-                    </div>
-                 </div><br><br>
+					<div class="panel">
+		                <div class="content">
+		                <div class="grid demo-grid">
+			                <div class="row cells2">
+								<div class="cell">
+								{{ field.adText|e }}
+							  <br>
+							{% if field.adPhone is not empty %}
+								<span><span class="mif-phone"></span> {{ field.adPhone|e }}</span><br>	
+							{% endif %}
+							
+							{% if field.adAddress is not empty %}
+								<span><span class="mif-location"></span> {{ field.adAddress|e }}</span><br>	
+							{% endif %}
+
+								</div>
+								<div class="cell">
+								<span class="place-right">		    
+				                      {% if field.images == 'noImages.jpg' %}
+									    	<img id="newImages" class="marginFrame" src="{{asset('images/noImages.jpg')}}">
+									  {% else %}
+									    	<img id="newImages" class="marginFrame" src="{{asset('images/ids/')}}{{ field.id }}/{{ field.images }}">
+									  {% endif %}
+								  </span>
+								</div>
+							</div>
+							<div class="row cell2">
+							<div class="cell">
+		                      <span><span class="mif-alarm-on"> Creado el    : {{ field.dateCreated|date('Y-m-d') }}</span><br>
+		                      <span><span class="mif-event-available"> Valido Hasta : {{ field.expirationDate|date('Y-m-d') }}</span><br>
+		                      <span><span class="mif-alarm"> Ultima Modificacion : {{ field.dateModified|date('Y-m-d') }}</span><br><br>
+								<label class="switch">
+		                      	{% if field.published == 1 %}
+		                            Publicado <input checked="" type="checkbox">
+		                        {% else %}
+		                            Despublicado <input  type="checkbox">
+		                        {% endif %}
+		                            <span class="check"></span>
+		                        </label>
+							</div>
+							<div class="cell"></div>
+							</div>
+						</div>
+		                 </div>
+	                 </div>
+                 </div>
+                                 
+                <span class="list-subtitle" style="float: right; padding-top: 1rem; padding-bottom: 2rem;">
+                 <a href="{{ path('inboxemailAdsR',{'idA': field.id}) }}"class="button "><span class="mif-mail"></span> Mensajes</a>
+                 <a onclick="showMessageRenewDialog('p{{ field.id }}');" class="button primary"><span class="mif-history"></span> Renovar</a>
+                 <a href="{{ path('edit_ads', {'id': field.id}) }}" class="button warning"><span class="mif-pencil"></span> Modificar</a>
+                 <a onclick="showMessageDeleteDialog('{{ field.id }}');" class="button alert"><span class="mif-cancel"></span> Eliminar</a>
+                </span><br><br><br><br>
+                <span>
+
+
+                {% if userType == 0 and numberProducts == 3 or  userType == 1 and numberProducts == 10 %}
+                  
+                 <a href="{{ path('contactenos') }}" class="button  bg-darkMagenta fg-white padding10 text-shadow"><span class="mif-thumbs-up mif-ani-bounce"></span> Actualizar Cuenta</a>
+
+		        {% elseif userType == 2  or  userType == 3  %}
+		               <a href="{{ path('new_ads_product', {'id': field.id}) }}"class="button success"><span class="mif-plus"></span> Agregar Producto</a>
+		        {% else %}
+                       <a href="{{ path('new_ads_product', {'id': field.id}) }}"class="button success"><span class="mif-plus"></span> Agregar Producto</a>
+                {% endif %}
+
+
+
+              
+
+
+
+                </span>
 	     		<div class="treeview" data-role="treeview">
                 <ul>
                  <li class="node active collapsed">
@@ -65,36 +139,34 @@ Mis Anuncios
                          <span class="node-toggle"></span>
                    <ul>
                    	<li>
-			          <table class="table striped">
-			          <tbody>
-			          <thead>
-			          <th></th>
-			          <th></th>
-			          <th></th>
-			          </thead>
 			              {% for product in field.getProducts %}
-			                
-			                <tr>
-			                    <td style="width: 4rem ! important;">
-							          {% if product.images == 'noImages.jpg' %}
-									    	<img style="width: 5rem ! important; height: 5rem ! important;" class="marginFrame" src="{{asset('images/noImages.jpg')}}">
-									  {% else %}
-									    	<img style="width: 5rem ! important; height: 5rem ! important;" class="marginFrame" src="{{asset('images/ids/')}}{{ field.id }}/{{ product.images }}">
-									  {% endif %}</span>
-			                      	
-								</td>
-			                    <td>
-			                    <h4>{{ product.name }}</h4>
-			                    <span>{{ product.description }}</span>
-			                  	</td>
-			                  	<td style="width: 7rem;">
-			                  	  <p>$ {{ product.price|number_format(0) }}</p>
-			                  	</td>
-			                  					            <td>
-			                 <a href="{{ path('edit_product_ads', {'id': product.id}) }}"class="button warning"> Modificar</a>
- 							 <br><a onclick="showMessageProductDeleteDialog('{{ product.id }}');" class="button alert"> Eliminar </a>
-               				</td>
-			                </tr>
+			              <div class="panel">
+		                	<div class="content">
+						    <div class="grid demo-grid">          
+							    <div class="row cells4">
+				                    <div class="cell">
+				                    {% if product.images == 'noImages.jpg' %}
+										<img style="width: 5rem ! important; height: 5rem ! important;" class="marginFrame" src="{{asset('images/noImages.jpg')}}">
+									{% else %}
+									 	<img style="width: 5rem ! important; height: 5rem ! important;" class="marginFrame" src="{{asset('images/ids/')}}{{ field.id }}/{{ product.images }}">
+									{% endif %}</span>
+				                    </div>
+				                    <div class="cell">
+				                    <h4>{{ product.name }}</h4>
+				                    <p>{{ product.description }}</p>
+				                    </div>
+				                    <div class="cell">
+				                    <p>$ {{ product.price|number_format(0) }}</p>
+				                    </div>
+				                    <div class="cell">
+				                    <a href="{{ path('edit_product_ads', {'id': product.id}) }}"class="button warning"><span class="mif-pencil"></span> Modificar</a>
+ 							 		<br>
+ 							 		<a onclick="showMessageProductDeleteDialog('{{ product.id }}');" class="button alert"><span class="mif-cancel"></span> Eliminar&nbsp&nbsp</a>
+				                    </div>
+				                </div>
+			                </div>
+			                </div>
+			             </div>
 			   <div data-role="dialog" id="{{ product.id }}" data-close-button="true" data-type="alert" data-windows-style="true">
 					<div style="padding: 2rem;">
 					  <h1>Eliminar Producto</h1>
@@ -106,23 +178,11 @@ Mis Anuncios
 					</div>
 				</div>
 						 {% endfor %}        
-			         		</tbody>
-			         </table>
                    </li>
                   </ul>
                </li>
               </ul>
               </div>     
-                <span>
-                <a href="{{ path('new_ads_product', {'id': field.id}) }}"class="button success"><span class="mif-plus"></span> Agregar Producto</a>
-                </span>
-                
-                <span class="list-subtitle" style="float: right; padding-top: 1rem; padding-bottom: 2rem;">
-                 <a href="{{ path('inboxemailAdsR',{'idA': field.id}) }}"class="button link"><span class="mif-mail"></span> Mensajes</a>
-                 <a onclick="showMessageRenewDialog('p{{ field.id }}');" class="button primary">Renovar</a>
-                 <a href="{{ path('edit_ads', {'id': field.id}) }}" class="button warning">Modificar</a>
-                 <a onclick="showMessageDeleteDialog('{{ field.id }}');" class="button alert">Eliminar</a>
-                </span><br><br><br><br>
                 <div data-role="dialog" id="{{ field.id }}" data-close-button="true" data-type="alert" data-windows-style="true">
 					<div style="padding: 2rem;">
 					  <h1>Eliminar Anuncio</h1>
@@ -148,47 +208,62 @@ Mis Anuncios
             	</li>
          	</ul>
          </div> 
-		{% endfor %}
+ 		{% endfor %}
 		    <br><br>
-		    <a href="{{ path('new_ads') }}" class="button success"><span class="mif-plus"></span> Nuevo</a>
-         	</div><br>
-    	</div>
-
-		<div class="list-group collapsed">
-	    	<span class="list-group-toggle">Banners</span>
-	        <div class="list-group-content">
-	        	{% for field in banners %}
-	        	<div class="list">
-	            	<div class="list-content">
-	                	<span class="list-title"><span class="place-right icon-flag-2 fg-red smaller"></span>{{ field.name }}</span>
-	                    <span>
-	                    <img id="newImages" class="marginFrame" src="{{ url('index') }}../../{{ field.params }}" style="width: 30rem ! important;"> 
-	                    </span><br>
-	                    <span style="white-space: normal;margin-top: 1rem;" 
-	                    class="list-subtitle">{{ field.description  }}</span><br><br>
-	                    <label class="switch">
-                      	{% if field.state == 1 %}
-                            Publicado <input checked="" type="checkbox">
-                        {% else %}
-                            Expirado <input  type="checkbox">
-                        {% endif %}
-                            <span class="check"></span>
-                        </label>
-                        <span class="list-remark">
-                        	<span class="mif-event-available"></span> Inicio   : {{ field.publishUp|date('Y-m-d') }}</span>
-                        <span class="list-remark">
-                        	<span class="mif-event-busy"></span> Finaliza : {{ field.publishDown|date('Y-m-d') }}</span>
-	                    <span class="list-remark">Impresiones</span>{{ field.impmade  }}
-	                    <span class="list-remark">Clicks</span>{{ field.clicks }}<br>
-	                </div>
-	            </div>
-	            <a href="{{ path('show_banner', {'id': field.id}) }}" class="button primary"><span class="mif-eye"></span> Ver</a>
-	            <br><br>
-                {% endfor %}
+		</div>
+		<br>
+		<button class="image-button bg-orange fg-white">
+	        Banners
+	       <span class="icon mif-chart-bars bg-darkCobalt"></span>
+       </button>
+		<div class="example">
+	    {% for field in banners %}
+	     <div class="treeview" data-role="treeview">
+	          <ul>
+	           <li class="node active collapsed">
+	           	<span class="leaf"><span class="mif-tag"></span> {{ field.name }}</span>
+	            <span class="node-toggle"></span>
+	            <ul>
+		            <li style="margin-bottom: 4rem;">
+		            <div class="panel">
+		                <div class="content">
+		                <div class="grid demo-grid">
+			                <div class="row cells1">
+								<div class="cell">
+			                    <span>
+			                    <img id="newImages" class="marginFrame" src="{{ url('index') }}../../{{ field.params }}" style="width: 30rem ! important;"> 
+			                    </span><br><br>
+			                    <span >{{ field.description  }}</span><br><br>
+		                        <span><span class="mif-event-available"></span> 
+		                        Inicio   : {{ field.publishUp|date('Y-m-d') }}</span><br>
+		                        <span><span class="mif-hour-glass"></span>
+		                        Finaliza : {{ field.publishDown|date('Y-m-d') }}</span><br><br>
+		                        <label class="switch">
+		                      	{% if field.state == 1 %}
+		                            Publicado <input checked="" type="checkbox">
+		                        {% else %}
+		                            Expirado <input  type="checkbox">
+		                        {% endif %}
+		                            <span class="check"></span>
+		                        </label><br><br>
+			                    <span><span class="mif-eye"> Impresiones ({{ field.impmade  }})</span><br>
+			                    <span><span class="mif-enter"> Clicks ({{ field.clicks }})</span><br><br>
+					            <a href="{{ path('show_banner', {'id': field.id}) }}" class="button primary"><span class="mif-eye"></span> Ver</a>
+					            <br><br>
+								</div>
+							</div>
+							</div>
+		                 </div>
+	                 </div>
+					</li>
+	                  </ul>
+	            	</li>
+         		</ul>
+         	</div> 
+            {% endfor %}
 	        </div>
 	    </div>
-	</div>
-</div>
+	    </div>
 <script type="text/javascript">
 function showMessageDeleteDialog(id){
     var dialog = $("#"+id).data('dialog');
